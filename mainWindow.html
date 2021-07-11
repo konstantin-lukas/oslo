@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr" translate="no">
+    <head>
+        <meta charset="utf-8">
+        <title>Spectrum</title>
+        <link rel="stylesheet" href="node_modules/@simonwep/pickr/dist/themes/monolith.min.css"/>
+        <script src="node_modules/date-time-picker/dist/date-picker.min.js"></script>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/header.css">
+        <link rel="stylesheet" href="css/add_expense.css">
+        <link rel="stylesheet" href="css/table.css">
+        <link rel="stylesheet" href="css/custom_select.css">
+        <link rel="stylesheet" href="css/account_balance.css">
+        <link rel="stylesheet" href="css/account_settings.css">
+        <link rel="stylesheet" href="css/global_settings.css">
+        <link rel="stylesheet" href="css/standing_orders.css">
+        <link rel="stylesheet" href="css/light_mode.css">
+        <script src="mainWindow.js" defer></script>
+        <link rel="shortcut icon" href="img/favicon.svg">
+        <style id="master_style"></style>
+    </head>
+    <body class="maximized">
+        <header>
+            <div id="tab-group">
+                <div class="tab current_tab" data-target="0"><span>My First Account</span></div>
+                <button type="button" name="add_tab"></button>
+            </div>
+            <div class="window_nav" id="config-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span class="window_nav" id="min-btn"></span>
+            <span class="window_nav" id="max-btn"></span>
+            <span class="window_nav" id="close-btn"></span>
+        </header>
+        <main>
+            <div class="wrapper">
+                <div id="main_header">
+                    <h1>My First Account</h1>
+                    <div id="time_span">
+                        <span id="from_date" data-date="2021-04-01">2021/04/01</span><span id="until_date" data-date="2021-04-14">2021/04/14</span>
+                    </div>
+                </div>
+                <div id="account_balance">
+                    <canvas id="balance_chart"></canvas>
+                </div>
+                <div id="account">
+                    <table class="balanceChangeTable"></table>
+                    <aside>
+                        <div id="addExpense">
+                            <h2>Transaktion</h2>
+                            <label><span id="amount">Betrag</span>
+                                <input type="text" class="amount" name="amount" autocomplete="off">
+                            </label>
+                            <label><span id="title">Verwendungszweck</span>
+                                <input type="text" class="title" name="title" autocomplete="off">
+                            </label>
+                            <input type="hidden" value="0">
+                            <button id="confirm" type="button" class="theme_background">Bestätigen</button>
+                        </div>
+                        <div id="account_settings">
+                            <h2>Einstellungen</h2>
+                            <div id="options">
+                                <svg id="calendar_btn" viewBox="0 0 283.5 283.5">
+                                    <path class="theme_fill" d="M211,28.3v47.9h-45V28.3h-48.6v47.9h-45V28.3H0v247.2h283.5V28.3H211z M258.5,250.5H25v-160h233.5V250.5z"/>
+                                    <g>
+                                        <rect x="82.4" class="theme_fill" width="25" height="67"/>
+                                        <rect x="176" class="theme_fill" width="25" height="67"/>
+                                    </g>
+                                    <g>
+                                        <path class="theme_fill" d="M153.3,193.2c0,6.6-1.1,12.8-3.3,18.4c-2.9,7.9-7.9,14-14.8,18.4c-6.9,4.4-15.1,6.6-24.6,6.6
+                                            c-9.3,0-17.5-2.3-24.6-7c-7.1-4.7-12.1-11-15.2-19c-1.7-4.8-2.7-10-2.9-15.5c0-1.5,0.7-2.2,2.2-2.2h21.7c1.5,0,2.2,0.7,2.2,2.2
+                                            c0.5,4.1,1.2,7.1,2,9c1.1,3.2,2.9,5.7,5.4,7.5c2.5,1.8,5.5,2.7,8.9,2.7c6.9,0,11.6-3,14.2-9c1.7-3.7,2.6-8,2.6-12.9
+                                            c0-5.8-0.9-10.5-2.8-14.2c-2.8-5.8-7.6-8.7-14.2-8.7c-1.4,0-2.8,0.4-4.2,1.2c-1.5,0.8-3.3,1.9-5.3,3.4c-0.5,0.4-1,0.6-1.5,0.6
+                                            c-0.7,0-1.3-0.4-1.7-1.1l-10.9-15.3c-0.2-0.4-0.4-0.8-0.4-1.3c0-0.7,0.2-1.4,0.7-1.8l29.3-25.6c0.2-0.2,0.3-0.5,0.3-0.7
+                                            c-0.1-0.2-0.3-0.4-0.6-0.4H72.6c-0.6,0-1.1-0.2-1.6-0.6c-0.4-0.4-0.6-1-0.6-1.6v-17.9c0-0.6,0.2-1.1,0.6-1.6c0.4-0.4,1-0.6,1.6-0.6
+                                            h76.9c0.6,0,1.1,0.2,1.6,0.6c0.4,0.4,0.6,1,0.6,1.6v20.3c0,1-0.4,1.9-1.3,2.8l-24.1,22.1c-0.2,0.2-0.3,0.5-0.3,0.7
+                                            c0.1,0.2,0.3,0.4,0.8,0.4c10.7,2.1,18.3,8.4,22.9,19C152.1,179.3,153.3,185.8,153.3,193.2z"/>
+                                        <path class="theme_fill" d="M191.1,106.2h22.3c0.6,0,1.1,0.2,1.6,0.6c0.4,0.4,0.6,1,0.6,1.6V233c0,0.6-0.2,1.1-0.6,1.6
+                                            c-0.4,0.4-1,0.6-1.6,0.6h-21.6c-0.6,0-1.1-0.2-1.6-0.6c-0.4-0.4-0.6-1-0.6-1.6V132c0-0.2-0.1-0.5-0.4-0.7c-0.2-0.2-0.5-0.3-0.7-0.2
+                                            l-18.2,5l-0.7,0.2c-1.1,0-1.7-0.7-1.7-2l-0.6-15.9c0-1.2,0.6-2.1,1.7-2.6l19.4-9C189,106.4,189.9,106.2,191.1,106.2z"/>
+                                    </g>
+                                </svg>
+                                <svg id="delete_button" viewBox="0 0 283.5 283.5">
+                                	<path class="theme_fill" d="M45.2,65.4l27.7,218h137.7l27.7-218H45.2z M114.9,266.6H90L74.2,96.2h32.5L114.9,266.6z M154.2,266.6h-24.9
+                                		l-3.8-170.4H158L154.2,266.6z M193.5,266.6h-24.9l8.2-170.4h32.5L193.5,266.6z"/>
+                                	<rect class="theme_fill" x="32.6" y="16" class="st0" width="218.4" height="31.9"/>
+                                	<rect class="theme_fill" x="114.9" class="st0" width="53.7" height="31.9"/>
+                                </svg>
+                            </div>
+                            <label><span id="name">Kontoname</span>
+                                <input type="text" class="name" name="name" autocomplete="off">
+                            </label>
+                            <label><span id="interest_rate">Zinssatz</span>
+                                <input type="text" class="name" name="interest_rate" autocomplete="off">
+                            </label>
+                            <div class="contain_two">
+                                <label><span id="color_span">Themenfarbe</span>
+                                    <span id="color_picker" class="theme_background"></span>
+                                </label>
+                                <label class="container"><span id="negative_span">Überziehen erlauben</span>
+                                    <input type="checkbox" name="negative_values">
+                                    <span class="toggle_checkbox"></span>
+                                </label>
+                            </div>
+                            <button id="save_acc_set" type="button" class="theme_background">Speichern</button>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
+
+        <div id="standing_orders">
+            <svg viewBox="0 0 283.5 283.5" id="back_btn">
+                <polygon class="st0" points="178.9,141.7 271.7,234.5 234.5,271.7 141.7,178.9 48.900000000000006,271.7 11.799999999999997,234.5 104.6,141.7 11.8,48.900000000000006 48.9,11.800000000000011 141.7,104.6 234.5,11.799999999999997 271.7,48.900000000000006 "></polygon>
+            </svg>
+            <div id="order_wrapper">
+                <div id="add_order" class="theme_background">
+                    <h2>Dauerauftrag erstellen</h2>
+                    <input type="hidden">
+                    <label class="export_label" id="name_label"><span class="label_name"></span>
+                        <input type="text" autocomplete="off">
+                    </label>
+                    <label class="export_label" id="amount_label"><span class="label_name"></span>
+                        <input type="text" autocomplete="off">
+                    </label>
+                    <label class="export_label" id="exec_date_label"><span class="label_name"></span>
+                        <div id="exec_date"></div>
+                    </label>
+                    <label class="export_label" id="interval_select"><span class="label_name"></span></label>
+                    <label class="export_label" id="exec_on_last"><span class="label_name"></span></label>
+                    <button type="button" class="theme_background" id="create_order"></button>
+                </div>
+                <div id="manage_orders" class="theme_background">
+                    <h2>Daueraufträge verwalten</h2>
+                </div>
+            </div>
+        </div>
+        <div id="global_settings">
+            <label class="container export_label"><span id="export_label_span">Kontosammlung exportieren</span>
+                <button type="button" name="export" class="theme_background">Exportieren</button>
+            </label>
+            <label class="container import_label"><span id="import_label_span">Kontosammlung importieren</span>
+                <button type="button" name="import" class="theme_background">Importieren</button>
+            </label>
+            <label class="container">
+                <span id="dark_span">Dunkles Thema</span>
+                <input type="checkbox" name="dark_mode" checked="checked">
+                <span class="toggle_checkbox"></span>
+            </label>
+            <label>
+                <span id="lang_span">Sprache</span>
+                <span class="custom-select-container">
+                    <span class="selected">Deutsch</span>
+                    <span class="custom-select">
+                        <span class="option" data-value="de">Deutsch</span>
+                        <span class="option" data-value="en">Englisch</span>
+                        <span class="option" data-value="fr">Französisch</span>
+                        <span class="option" data-value="ja">Japanisch</span>
+                        <span class="option" data-value="es">Spanish</span>
+                        <select>
+                            <option class="option" value="de">Deutsch</option>
+                            <option class="option" value="en">Englisch</option>
+                            <option class="option" value="fr">Französisch</option>
+                            <option class="option" value="ja">Japanisch</option>
+                            <option class="option" value="es">Spanisch</option>
+                        </select>
+                    </span>
+                </span>
+            </label>
+            <button type="button" name="save_global_settings" class="theme_background">Speichern</button>
+        </div>
+
+        <div id="custom_alert">
+            <span id="custom_message"></span>
+            <div id="custom_html"></div>
+            <div id="buttons">
+                <button type="button" name="confirm" class="light_mode theme_background"></button>
+                <button type="button" name="cancel" class="light_mode theme_background"></button>
+            </div>
+        </div>
+    </body>
+</html>

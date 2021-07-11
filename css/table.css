@@ -1,0 +1,118 @@
+
+.balanceChangeTable {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 75%;
+    background: #333;
+    border-radius: 4px;
+}
+
+.proceed td:first-of-type {
+    color: green;
+}
+
+.proceed td:first-of-type::first-letter, .expense td:first-of-type::first-letter {
+    margin-right: .1em;
+    margin-left: .1em;
+}
+
+.expense td:first-of-type {
+    color: red;
+}
+
+td:first-of-type span {
+    transform: translateX(-.53em);
+    display: block;
+}
+
+td {
+    font-size: .6em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: #fff;
+    border-top: 1px #444 solid;
+    border-bottom: 1px #444 solid;
+    padding: .5em 1em .6em 1em;
+}
+
+html[lang=ja] td {
+    padding: .5em 1em;
+}
+
+tr.headingRow td {
+    border-top: none;
+    padding-top: 0;
+    padding-bottom: .75em;
+}
+
+tr:last-of-type td {
+    border-bottom: none;
+}
+
+.balance_row {
+    border-bottom: none;
+    border-top: none;
+    padding-top: .75em;
+}
+
+.balance_row span {
+    display: inline !important;
+    font-weight: 500;
+}
+
+.delRow {
+    position: relative;
+    overflow: visible;
+}
+
+button.del {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    right: 1em;
+    width: 20px;
+    height: 20px;
+    transition: background-color .2s ease-in-out;
+}
+
+button.del::before, button.del::after {
+    content:"";
+    height: 60%;
+    width: 1px;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(45deg);
+    transition: background-color .2s ease-in-out;
+}
+
+button.del::after {
+    transform: translate(-50%,-50%) rotate(-45deg);
+}
+
+@media only screen and (max-width: 1600px) {
+    .balanceChangeTable {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 1350px) {
+    .balanceChangeTable {
+        width: 65%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .balanceChangeTable {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .balanceChangeTable {
+        width: 100%;
+    }
+}
