@@ -1,0 +1,2 @@
+# spectrum-savings-accounts
+Spectrum is a program that helps you manage your savings by letting you create virtual savings accounts. Spectrum also allows you to set up standing orders, change it's appearance, import/export accounts and many other things. Keep in mind that Spectrum is not a banking app. It is simply a way for you to keep track of your savings. Your account data is saved locally in a JSON file, so don't use Spectrum for any sensitive information. At the moment it is available in these languages: English, German, French, Spanish and Japanese.
