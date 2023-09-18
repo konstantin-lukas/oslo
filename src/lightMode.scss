@@ -1,0 +1,104 @@
+@import "./vars";
+
+.light_mode{
+  background: $accentWhite;
+  color: $dark0;
+  .current_tab {
+    background: $accentWhite;
+    color: $dark0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $light3;
+    border-radius: 30px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: $light3;
+    border-radius: 0;
+  }
+  #account_balance, #addExpense, #account_settings, .balanceChangeTable, #custom_alert, #add_order, #manage_orders > * {
+    background: $light6;
+  }
+  h1, h2, h3, label, input, td, #from_date, #until_date, #custom_alert, .selected, .option, #add_order h2, #manage_orders h2 {
+    color: $light4;
+  }
+
+  #options svg:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  input, .toggle_checkbox, #from_date, #until_date, .selected, #exec_date, .limited_height .custom-select {
+    background: $light4;
+  }
+
+  .tab::after {
+    background: linear-gradient(90deg, rgba(221,221,221,0) 0%, rgba(221,221,221,1) 65%);
+  }
+
+  .current_tab.tab::after {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 65%);
+  }
+
+  .tab:not(.current_tab):hover::after {
+    background: linear-gradient(90deg, rgba(238,238,238,0) 0%, rgba(238,238,238,1) 65%);
+  }
+
+  header, #global_settings {
+    background: $light3;
+  }
+
+  #global_settings::before {
+    border-color: transparent transparent #ddd transparent;
+  }
+
+  .tab:hover, #close-btn:hover::before, #close-btn:hover::after {
+    background: $accentWhite;
+  }
+
+  .tab:not(.current_tab):hover, button[name=add_tab]:hover, header > .window_nav:hover, button[name=add_tab]:hover {
+    background: $light5;
+  }
+
+  #from_date:hover, #until_date:hover, .option {
+    background-color: $light2;
+  }
+
+  #max-btn::before {
+    border-color: $dark0;
+  }
+
+  #close-btn::before, #close-btn::after, #min-btn::before, #config-btn span, #config-btn span::after, button[name=add_tab]::before, button[name=add_tab]::after {
+    background: $dark0;
+  }
+
+  .custom-select-container::after {
+    border-top: 7px solid $dark0;
+  }
+
+  .custom-select-container.limited_height .custom-select::before {
+    background: linear-gradient(180deg, rgba(228,228,228,1) 0%, rgba(228,228,228,1) 50%, rgba(228,228,228,0) 100%);
+  }
+
+  .custom-select-container.limited_height .custom-select::after {
+    background: linear-gradient(0deg, rgba(228,228,228,1) 0%, rgba(228,228,228,1) 50%, rgba(228,228,228,0) 100%);
+  }
+
+  #back_btn .st0 {
+    fill: $dark0;
+  }
+
+  #global_settings .selected, .option:hover, #global_settings .toggle_checkbox {
+    background: $light1;
+  }
+
+  .tab::before {
+    background: $light0;
+  }
+}
+
+
+
+
+
+
