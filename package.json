@@ -5,7 +5,7 @@
   "description": "Create and manage virtual bank accounts to keep track of your savings",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "DEV_MODE=1 electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
