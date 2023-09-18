@@ -1,4 +1,3 @@
-
 header {
   width: 100%;
   background: #1a1a1a;
@@ -8,16 +7,16 @@ header {
   box-sizing: border-box;
   -webkit-user-select: none;
   height: 41px;
+  > .window_nav {
+    height: 41px;
+    width: 41px;
+    display: block;
+    -webkit-app-region: no-drag;
+    position: relative;
+    flex-shrink: 0;
+  }
 }
 
-header > .window_nav {
-  height: 41px;
-  width: 41px;
-  display: block;
-  -webkit-app-region: no-drag;
-  position: relative;
-  flex-shrink: 0;
-}
 
 header > .window_nav:hover, button[name=add_tab]:hover {
   background: #262626;
@@ -106,8 +105,6 @@ header > .window_nav:hover, button[name=add_tab]:hover {
 }
 
 button[name=add_tab] {
-  width: 1em;
-  height: 1em;
   display: block;
   position: relative;
   -webkit-app-region: no-drag;

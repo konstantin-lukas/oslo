@@ -1,9 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Header.scss';
 
 export default function Header() {
+    const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
+    api.on('maximize', function(){
+        setIsWindowMaximized(true);
+    });
+
+    api.on('unmaximize', function(){
+        setIsWindowMaximized(false);
+    });
+
     return (
-        <header>
+        <header className={isWindowMaximized ? 'maximized' : ''}>
             <div id="tab-group">
                 <div className="tab current_tab" data-target="0"><span>My First Account</span></div>
                 <button type="button" name="add_tab"></button>

@@ -29,7 +29,7 @@ export const rules: Required<ModuleOptions>['rules'] = [
     },
   },
   {
-    test: /\.s[ac]ss$/i,
+    test: /(\.s[ac]ss|css)$/i,
     use: [
       "style-loader",
       "css-loader",

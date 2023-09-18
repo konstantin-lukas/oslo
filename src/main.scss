@@ -1,4 +1,4 @@
-@import url("./fonts/barlow_condensed/barlow_condensed.css");
+@import "./fonts/barlow_condensed/barlow_condensed.css";
 
 // TODO
 //@import url("../node_modules/date-time-picker/dist/date-time-picker.min.css");
@@ -144,8 +144,7 @@ aside {
 
 main button, #standing_orders button, #global_settings button, #custom_alert button {
   border-radius: 50px;
-  padding: .4em;
-  padding-bottom: .45em;
+  padding: .4em .4em .45em;
   cursor: pointer;
   position: relative;
   font-size: .6em;
@@ -198,9 +197,7 @@ html[lang=ja] input {
 
 .wrapper {
   width: 75%;
-  margin: auto;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin: 100px auto;
 }
 
 #main_header {
