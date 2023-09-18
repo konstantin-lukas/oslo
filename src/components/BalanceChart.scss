@@ -1,0 +1,16 @@
+@import "../vars";
+
+#account_balance {
+  width: 100%;
+  height: 350px;
+  background: $dark3;
+  border-radius: 4px;
+  margin-top: .6em;
+  padding: 1.5em 2em;
+  box-sizing: border-box;
+}
+
+#balance_chart {
+  width: 100%;
+  height: 100%;
+}

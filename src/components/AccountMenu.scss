@@ -1,0 +1,11 @@
+aside {
+  margin-left: .6em;
+  flex: 1 1 0;
+}
+
+@media only screen and (max-width: 1000px) {
+  aside {
+    flex-grow: 0;
+    margin-left: 0;
+  }
+}

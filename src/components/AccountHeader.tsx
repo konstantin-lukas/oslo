@@ -1,5 +1,5 @@
 import React from "react";
-
+import './AccountHeader.scss';
 export default function AccountHeader() {
     return (
         <div id="main_header">

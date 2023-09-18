@@ -1,4 +1,5 @@
 import React from "react";
+import './Alert.scss';
 export default function Alert() {
     return (
         <div id="custom_alert">

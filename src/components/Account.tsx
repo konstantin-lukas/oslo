@@ -1,16 +1,19 @@
 import React from "react";
 import AccountHeader from "./AccountHeader";
 import BalanceChart from "./BalanceChart";
-import AccountBody from "./AccountBody";
-import Alert from "./Alert";
-export default function Main() {
+import './Account.scss';
+import AccountTable from "./AccountTable";
+import AccountMenu from "./AccountMenu";
+export default function Account() {
     return (
         <main>
             <div className="wrapper">
                 <AccountHeader/>
                 <BalanceChart/>
-                <AccountBody/>
-                <Alert/>
+                <div id="account">
+                    <AccountTable/>
+                    <AccountMenu/>
+                </div>
             </div>
         </main>
     );

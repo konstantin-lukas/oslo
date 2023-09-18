@@ -1,6 +1,5 @@
 @import "./fonts/barlow_condensed/barlow_condensed.css";
-
-// TODO
+@import "./vars";
 //@import url("../node_modules/date-time-picker/dist/date-time-picker.min.css");
 
 * {
@@ -36,14 +35,14 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #444;
+  background: $dark4;
   border-radius: 30px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: $dark4;
   border-radius: 0;
 }
 
@@ -61,85 +60,7 @@ button {
 }
 
 #root {
-  background: #292929;
-}
-
-main {
-  width: 100%;
-  height: calc(100vh - 41px);
-  //TODO: TEST FOR CORRECTNESS; PREVIOUSLY overlay
-  overflow-y: scroll;
-  transition: transform .3s linear, visibility .3s linear;
-}
-
-#custom_alert {
-  font-size: 21px;
-  max-width: 450px;
-  background: #333;
-  border-radius: 4px;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-100%);
-  z-index: 10;
-  text-align: center;
-  padding: 1em;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: all .2s ease-out;
-  pointer-events: none;
-}
-
-#custom_alert.open_alert, .open_alert {
-  pointer-events: all;
-  opacity: 1;
-  transform: translate(-50%,-50%);
-}
-
-#custom_alert #buttons {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.5em;
-}
-
-#custom_alert #buttons button {
-  padding-left: 1em;
-  padding-right: 1em;
-  margin-top: .5em;
-}
-
-#custom_alert #buttons button:first-of-type {
-  margin-right: 1em;
-}
-
-#custom_message {
-  margin-bottom: .5em;
-}
-
-#custom_html {
-  z-index: 2;
-  width: 100%;
-}
-
-#account {
-  width: 100%;
-  margin-top: .6em;
-  font-size: 32px;
-  position: relative;
-  background: transparent;
-  color: white;
-  display: flex;
-}
-
-aside {
-  margin-left: .6em;
-  flex: 1 1 0;
+  background: $dark2;
 }
 
 main button, #standing_orders button, #global_settings button, #custom_alert button {
@@ -179,15 +100,15 @@ main button:not(.del):hover::after, #standing_orders button:not(.del):hover::aft
 }
 
 label {
-  color: white;
+  color: $accentWhite;
 }
 
 input, select {
   margin: .4em 0;
   border-radius: 50px;
   font-size: 1em;
-  color: white;
-  background: #444;
+  color: $accentWhite;
+  background: $dark4;
   padding: .4em .8em .45em .8em;
 }
 
@@ -195,18 +116,8 @@ html[lang=ja] input {
   padding: .4em .8em;
 }
 
-.wrapper {
-  width: 75%;
-  margin: 100px auto;
-}
-
-#main_header {
-  display: flex;
-  justify-content: space-between;
-}
-
 h1 {
-  color: #fff;
+  color: $accentWhite;
   font-size: 3em;
   text-transform: uppercase;
   overflow: hidden;
@@ -221,62 +132,6 @@ h2 {
   text-transform: uppercase;
 }
 
-.contain_two {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.contain_two > * {
-  width: 45%;
-}
-
-@media only screen and (max-width: 1000px) {
-  #account {
-    flex-direction: column-reverse;
-  }
-  aside {
-    flex-grow: 0;
-    margin-left: 0;
-  }
-}
-
-#time_span {
-  transform: translateY(31%);
-}
-
-#from_date, #until_date {
-  color: white;
-  background: #444;
-  padding: .4em .8em .5em .8em;
-  font-size: 1.1em;
-  border-radius: 1em;
-  transition: background-color .2s ease-out;
-}
-
-html[lang=ja] #from_date, html[lang=ja] #until_date {
-  padding: .4em .8em;
-}
-
-#until_date {
-  position: relative;
-  margin-left: 2em;
-}
-
-#until_date::before {
-  content: "";
-  height: 1px;
-  width: .75em;
-  position: absolute;
-  top: 50%;
-  left: -1em;
-  transform: translateX(-50%);
-  background: #666;
-}
-
-#from_date:hover, #until_date:hover {
-  background-color: #666;
-}
 
 .pcr-save, .pcr-cancel {
   padding: .37em .5em .53em .5em !important;

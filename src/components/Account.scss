@@ -1,0 +1,30 @@
+@import "../vars";
+
+main {
+  width: 100%;
+  height: calc(100vh - 41px);
+  //TODO: TEST FOR CORRECTNESS; PREVIOUSLY overlay
+  overflow-y: scroll;
+  transition: transform .3s linear, visibility .3s linear;
+}
+
+.wrapper {
+  width: 75%;
+  margin: 100px auto;
+}
+
+#account {
+  width: 100%;
+  margin-top: .6em;
+  font-size: 32px;
+  position: relative;
+  background: transparent;
+  color: $accentWhite;
+  display: flex;
+}
+
+@media only screen and (max-width: 1000px) {
+  #account {
+    flex-direction: column-reverse;
+  }
+}

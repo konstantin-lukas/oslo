@@ -1,6 +1,8 @@
+@import "../vars";
+
 header {
   width: 100%;
-  background: #1a1a1a;
+  background: $dark0;
   -webkit-app-region: drag;
   display: flex;
   justify-content: flex-end;
@@ -19,12 +21,12 @@ header {
 
 
 header > .window_nav:hover, button[name=add_tab]:hover {
-  background: #262626;
+  background: $dark1;
 }
 
 #config-btn > span {
   position: absolute;
-  background: #fff;
+  background: $accentWhite;
   width: 13px;
   left: 14px;
   height: 1px;
@@ -49,7 +51,7 @@ header > .window_nav:hover, button[name=add_tab]:hover {
   content: "";
   width: 1px;
   height: 3px;
-  background: #fff;
+  background: $accentWhite;
   position: absolute;
   top: -1px;
 }
@@ -66,7 +68,7 @@ header > .window_nav:hover, button[name=add_tab]:hover {
   content: "";
   width: 12px;
   height: 1px;
-  background: white;
+  background: $accentWhite;
   position: absolute;
   bottom: 15px;
   left: 50%;
@@ -77,7 +79,7 @@ header > .window_nav:hover, button[name=add_tab]:hover {
   content: "";
   width: 12px;
   height: 12px;
-  border: white 1px solid;
+  border: $accentWhite 1px solid;
   box-sizing: border-box;
   position: absolute;
   top: 50%;
@@ -89,7 +91,7 @@ header > .window_nav:hover, button[name=add_tab]:hover {
   content: "";
   width: 16px;
   height: 1px;
-  background: white;
+  background: $accentWhite;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -101,7 +103,7 @@ header > .window_nav:hover, button[name=add_tab]:hover {
 }
 
 #close-btn:hover {
-  background: rgba(255, 0, 0, 0.75);
+  background: $close;
 }
 
 button[name=add_tab] {
@@ -158,7 +160,7 @@ button[name=add_tab]::after {
 
 .tab {
   border-radius: 4px 4px 0 0;
-  color: #fff;
+  color: $accentWhite;
   font-size: 16px;
   height: 31px;
   line-height: 31px;
@@ -193,12 +195,12 @@ button[name=add_tab]::after {
   left: 0;
   transform: translateY(-50%);
   height: 50%;
-  background: #fff;
+  background: $accentWhite;
   width: 1px;
 }
 
 .tab:hover {
-  background-color: #262626;
+  background-color: $dark1;
 }
 
 .tab:hover::after {
@@ -225,11 +227,11 @@ button[name=add_tab]::after {
 }
 
 .current_tab.tab:hover {
-  background-color: #292929;
+  background-color: $dark2;
 }
 
 .current_tab {
-  background: #292929;
+  background: $dark2;
 }
 
 .current_tab.tab::before, .current_tab + .tab::before {

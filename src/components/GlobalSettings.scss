@@ -1,0 +1,64 @@
+@import "../vars";
+
+#global_settings {
+  position: fixed;
+  background: $dark0;
+  font-size: 19.2px;
+  top: 51px;
+  right: 41px;
+  margin-top: 20px;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity .2s ease-out;
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+#global_settings::before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 2px;
+  right: 0;
+  transform: translate(-88px,-100%);
+  border-style: solid;
+  border-width: 0 15px 15px 15px;
+  border-color: transparent transparent $dark0 transparent;
+}
+
+#global_settings.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#global_settings label {
+  display: flex;
+  flex-direction: column;
+  margin-top: .8em;
+  font-size: 1em;
+}
+
+#global_settings label:first-of-type {
+  margin-top: 0;
+}
+
+#global_settings button {
+  margin-top: .4em;
+  font-size: 1em;
+}
+
+#global_settings button span {
+  font-size: 1em;
+}
+
+#global_settings .custom-select-container {
+  z-index: 11;
+}
+
+#global_settings button[name=save_global_settings] {
+  margin-top: .8em;
+}

@@ -1,0 +1,42 @@
+@import "../vars";
+
+#time_span {
+  transform: translateY(31%);
+}
+
+#from_date, #until_date {
+  color: $accentWhite;
+  background: $dark4;
+  padding: .4em .8em .5em .8em;
+  font-size: 1.1em;
+  border-radius: 1em;
+  transition: background-color .2s ease-out;
+}
+
+html[lang=ja] #from_date, html[lang=ja] #until_date {
+  padding: .4em .8em;
+}
+
+#until_date {
+  position: relative;
+  margin-left: 2em;
+}
+
+#until_date::before {
+  content: "";
+  height: 1px;
+  width: .75em;
+  position: absolute;
+  top: 50%;
+  left: -1em;
+  transform: translateX(-50%);
+  background: $dark5;
+}
+
+#from_date:hover, #until_date:hover {
+  background-color: $dark5;
+}
+#main_header {
+  display: flex;
+  justify-content: space-between;
+}
