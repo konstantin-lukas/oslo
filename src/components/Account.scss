@@ -21,6 +21,7 @@ main {
   background: transparent;
   color: $accentWhite;
   display: flex;
+  align-items: start;
 }
 
 @media only screen and (max-width: 1000px) {
