@@ -1,4 +1,6 @@
 @import "../vars";
+@import 'react-datepicker/dist/react-datepicker.min.css';
+@use 'sass:color';
 
 #time_span {
   transform: translateY(31%);
@@ -40,3 +42,65 @@ html[lang=ja] #from_date, html[lang=ja] #until_date {
   display: flex;
   justify-content: space-between;
 }
+
+#dateTimePickerContainer {
+  background: rgba($dark0, .5);
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-datepicker {
+  font-family: inherit;
+  background-color: $dark3;
+  color: $accentWhite;
+  border: none;
+  font-weight: 400;
+  font-size: 1rem;
+  * {
+    color: inherit;
+    font-weight: inherit;
+    border: inherit;
+    font-size: inherit;
+  }
+
+  .react-datepicker__header {
+    background: $accentPink;
+    text-transform: uppercase;
+    .react-datepicker__current-month {
+      font-size: 1.5em;
+    }
+  }
+
+  .react-datepicker__day:hover {
+    background: $accentWhite;
+    color: $accentPink;
+  }
+
+  .react-datepicker__day--selected {
+    background: $accentPink;
+  }
+
+  .react-datepicker__navigation-icon::before {
+    border-color: $accentWhite;
+  }
+
+  .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+    border-color: $accentWhite;
+  }
+
+  .react-datepicker__navigation {
+    top: -0.8rem;
+  }
+
+  .react-datepicker__day--keyboard-selected {
+    background: transparent;
+  }
+}
+

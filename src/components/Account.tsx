@@ -4,9 +4,14 @@ import BalanceChart from "./BalanceChart";
 import './Account.scss';
 import AccountTable from "./AccountTable";
 import AccountMenu from "./AccountMenu";
+import { sub } from 'date-fns'
 export default function Account() {
     const [accountData, setAccountData] = useState<AccountData | null>();
-
+    const [date, setDate] =
+        useState<{from: Date, until: Date}>({
+            from: sub(new Date(), {months: 1}),
+            until: new Date()
+        });
     useEffect(() => {
         setAccountData(api.getAccountById(1));
     }, []);
@@ -15,7 +20,7 @@ export default function Account() {
         return (
             <main>
                 <div className="wrapper">
-                    <AccountHeader heading={accountData.name}/>
+                    <AccountHeader heading={accountData.name} date={date} setDate={setDate}/>
                     <BalanceChart/>
                     <div id="account">
                         <AccountTable transactions={accountData.transactions}/>
@@ -25,10 +30,11 @@ export default function Account() {
             </main>
         );
     } else {
+        // TODO: LOADING ANIMATION
         return (
             <main>
                 <div className="wrapper">
-                    <AccountHeader heading={""}/>
+                    <AccountHeader heading={""} date={date} setDate={setDate}/>
                     <BalanceChart/>
                     <div id="account">
                         <AccountTable transactions={[]}/>
