@@ -16,7 +16,7 @@ export default function AccountHeader({heading, date, setDate}: {
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
         {
-            from: true,
+            from: false,
             until: false
         }
     );

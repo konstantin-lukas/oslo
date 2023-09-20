@@ -12,6 +12,7 @@ export default function Account() {
             from: sub(new Date(), {months: 1}),
             until: new Date()
         });
+
     useEffect(() => {
         setAccountData(api.getAccountById(1));
     }, []);
