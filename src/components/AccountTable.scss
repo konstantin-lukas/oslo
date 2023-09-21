@@ -76,6 +76,8 @@ button.del {
   width: 20px;
   height: 20px;
   transition: background-color .2s ease-in-out;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 button.del::before, button.del::after {

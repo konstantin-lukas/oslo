@@ -1,21 +1,24 @@
-import React from "react";
+import React, {useContext} from "react";
 import './GlobalSettings.scss';
+import {TextContext} from "./misc/Contexts";
+
 export default function GlobalSettings() {
+    const text = useContext(TextContext);
     return (
         <div id="global_settings">
-            <label className="container export_label"><span id="export_label_span">Kontosammlung exportieren</span>
-                <button type="button" name="export" className="theme_background">Exportieren</button>
+            <label className="container export_label"><span id="export_label_span">{text?.export_data}</span>
+                <button type="button" name="export" className="theme_background">{text?.export}</button>
             </label>
-            <label className="container import_label"><span id="import_label_span">Kontosammlung importieren</span>
-                <button type="button" name="import" className="theme_background">Importieren</button>
+            <label className="container import_label"><span id="import_label_span">{text?.import_data}</span>
+                <button type="button" name="import" className="theme_background">{text?.import}</button>
             </label>
             <label className="container">
-                <span id="dark_span">Dunkles Thema</span>
+                <span id="dark_span">{text?.dark_theme}</span>
                 <input type="checkbox" name="dark_mode" defaultChecked={true}/>
                     <span className="toggle_checkbox"></span>
             </label>
             <label>
-                <span id="lang_span">Sprache</span>
+                <span id="lang_span">{text?.language}</span>
                 <span className="custom-select-container">
                     <span className="selected">Deutsch</span>
                     <span className="custom-select">

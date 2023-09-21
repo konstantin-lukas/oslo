@@ -1,10 +1,14 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import './AddExpense.scss';
 import IntlCurrencyInput from "intl-currency-input";
 import {DisplayOrder} from "moneydew";
+import {TextContext} from "./misc/Contexts";
+import Button from "./Button";
+
 export default function AddExpense() {
     const currencyInputElement = useRef<HTMLInputElement | null>(null);
     const [currencyInput, setCurrencyInput] = useState<IntlCurrencyInput | null>(null);
+    const text = useContext(TextContext)
     useEffect(() => {
         const input = currencyInputElement.current;
         if (input) {
@@ -25,15 +29,15 @@ export default function AddExpense() {
     }, [currencyInputElement]);
     return (
         <div id="addExpense">
-            <h2>Transaktion</h2>
-            <label><span id="amount">Betrag</span>
+            <h2>{text?.transaction}</h2>
+            <label><span id="amount">{text?.amount}</span>
                 <input type="text" ref={currencyInputElement} className="amount" name="amount" autoComplete="off"/>
             </label>
-            <label><span id="title">Verwendungszweck</span>
+            <label><span id="title">{text?.reference}</span>
                 <input type="text" className="title" name="title" autoComplete="off"/>
             </label>
             <input type="hidden" value="0"/>
-            <button id="confirm" type="button" className="theme_background">Bestätigen</button>
+            <Button onClick={() => alert(2)}>{text?.confirm}</Button>
         </div>
     );
 }

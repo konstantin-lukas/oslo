@@ -46,7 +46,7 @@ declare type TextContent = {
     dark_theme: string,
     allow_overdrawing: string,
     vertical_layout: string,
-    save: string,
+    save_: string,
     cancel: string,
     new_account: string,
     confirm: string,
