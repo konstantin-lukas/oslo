@@ -1,12 +1,13 @@
-import {ipcRenderer} from "electron";
+import getTextContent from "./ipcRenderer/getTextContent";
+import {maximizeApp, maximizeCallback, minimizeApp, unmaximizeCallback, closeApp} from "./ipcRenderer/window";
 
 export default {
-    send: (channel: string) => {
-        ipcRenderer.send(channel);
-    },
-    on: (channel: string, fn: (event: Electron.IpcRendererEvent, ...args: any[]) => void) => {
-        ipcRenderer.on(channel, fn);
-    },
+    minimizeApp,
+    maximizeApp,
+    closeApp,
+    maximizeCallback,
+    unmaximizeCallback,
+    getTextContent,
     getAccountById: (id: number): AccountData => {
         return (
             {
@@ -48,5 +49,5 @@ export default {
                 ]
             }
         );
-    }
+    },
 }

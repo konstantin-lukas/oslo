@@ -1,11 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "./components/Header";
 import Account from "./components/Account";
 import Alert from "./components/Alert";
 import StandingOrders from "./components/StandingOrders";
 import GlobalSettings from "./components/GlobalSettings";
+import {ipcRenderer} from "electron";
 
 export default function App() {
+
+    useEffect(() => {
+        api.getTextContent('ru').then(result => {
+            console.log(result)
+        })
+    }, []);
+
+
+
     const color: Color = {r: 0xff, g: 0x33, b: 0xa3};
     const contrast = (function () {
         const brightness = Math.round(((color.r * 299) + (color.g * 587) + (color.b * 114)) / 1000);

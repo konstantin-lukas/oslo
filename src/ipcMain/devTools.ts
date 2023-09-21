@@ -1,6 +1,6 @@
 import {app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem} from "electron";
 
-export default function devTools(mainWindow: BrowserWindow) {
+export default function registerDevTools(mainWindow: BrowserWindow) {
     let p = {
         x: 0,
         y: 0

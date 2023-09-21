@@ -3,13 +3,8 @@ import './Header.scss';
 
 export default function Header() {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
-    api.on('maximize', function(){
-        setIsWindowMaximized(true);
-    });
-
-    api.on('unmaximize', function(){
-        setIsWindowMaximized(false);
-    });
+    api.maximizeCallback(() => setIsWindowMaximized(true));
+    api.unmaximizeCallback(() => setIsWindowMaximized(false));
 
     return (
         <header className={isWindowMaximized ? 'maximized' : ''}>
@@ -22,9 +17,9 @@ export default function Header() {
                 <span></span>
                 <span></span>
             </div>
-            <span className="window_nav" id="min-btn" onClick={() => api.send('min')}></span>
-            <span className="window_nav" id="max-btn" onClick={() => api.send('max')}></span>
-            <span className="window_nav" id="close-btn" onClick={() => api.send('close')}></span>
+            <span className="window_nav" id="min-btn" onClick={api.minimizeApp}></span>
+            <span className="window_nav" id="max-btn" onClick={api.maximizeApp}></span>
+            <span className="window_nav" id="close-btn" onClick={api.closeApp}></span>
         </header>
     )
 }
