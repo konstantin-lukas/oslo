@@ -1,14 +1,19 @@
-import getTextContent from "./ipcRenderer/getTextContent";
+import textContent from "./ipcRenderer/textContent";
 import {maximizeApp, maximizeCallback, minimizeApp, unmaximizeCallback, closeApp} from "./ipcRenderer/window";
+import {deleteTransaction, getAccounts, getBalance, getTransactions} from "./ipcRenderer/database";
 
 export default {
+    getAccounts,
     minimizeApp,
     maximizeApp,
     closeApp,
     maximizeCallback,
     unmaximizeCallback,
-    getTextContent,
-    getAccountById: (id: number): AccountData => {
+    textContent,
+    getBalance,
+    getTransactions,
+    deleteTransaction,
+    getAccountById: (id: number) => {
         return (
             {
                 "id": 1,

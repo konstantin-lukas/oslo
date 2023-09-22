@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import {promises as fs} from "fs";
 
-export default function registerLanguage() {
+export default function registerTextContent() {
     ipcMain.handle('language', async (_, lang): Promise<TextContent | null> => {
         let json: TextContent | null;
         try {

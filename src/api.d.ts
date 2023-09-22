@@ -10,7 +10,7 @@ declare type Transaction = {
     id: number
     title: string,
     sum: string,
-    date: string,
+    timestamp: string,
     time: string
 }
 
@@ -30,17 +30,10 @@ declare type AccountData = {
     interest_rate: number,
     creation_date: string,
     last_interest: number,
-    theme_color: Color,
-    transactions: Transaction[],
-    standing_orders: StandingOrder[]
+    theme_color: Color
 }
 
 declare type TextContent = {
-    de: string,
-    en: string,
-    fr: string,
-    ja: string,
-    es: string,
     language: string,
     theme_color: string,
     dark_theme: string,

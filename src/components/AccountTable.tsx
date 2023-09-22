@@ -1,42 +1,34 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './AccountTable.scss';
 import { TextContext } from "./misc/Contexts";
-import styled from "styled-components";
+import AccountTableRow from "./AccountTableRow";
 
-const StyledButton = styled.button`
-  background: rgb(${props => props.theme.theme_color.r},${props => props.theme.theme_color.g},${props => props.theme.theme_color.b});
-  &.del:hover {
-    background: ${props => props.theme.neutral_color};
-  }
-  &.del::after, &.del::before {
-    background: ${props => props.theme.neutral_color};
-  }
-  &.del:hover::after, &.del:hover::before {
-    background: ${props => props.theme.neutral_opposite};
-  }
-`;
-
-export default function AccountTable({ transactions }: { transactions: Transaction[] }) {
+export default function AccountTable({ transactions, openAccount, triggerFetch }: {
+    transactions: Transaction[],
+    openAccount: AccountData,
+    triggerFetch: () => void;
+}) {
     const text = useContext(TextContext);
+    const [balance, setBalance] = useState<string>('0.00');
+
+    useEffect(() => {
+        api.getBalance(openAccount?.id).then(sum => {
+            setBalance(sum || '0.00');
+        });
+    }, [openAccount, transactions]);
 
     const rows = transactions.map(transaction => {
-        const className = "balanceChange" + (transaction.sum[0] === '-' ? " expense" : "proceed");
-
         return (
-            <tr className={className} key={transaction.id}>
-                <td colSpan={5}>
-                    <span>{transaction.sum}</span>
-                </td>
-                <td colSpan={10}>{transaction.title}</td>
-                <td colSpan={5}>{transaction.date}</td>
-                <td colSpan={1} className="delRow">
-                    <StyledButton type="button" value={transaction.id} className="del"></StyledButton>
-                </td>
-            </tr>
+            <AccountTableRow
+                key={transaction.id}
+                id={transaction.id}
+                sum={transaction.sum}
+                title={transaction.title}
+                timestamp={transaction.timestamp}
+                triggerFetch={triggerFetch}
+            />
         );
     });
-
-    // TODO: Marquee
 
     return (
         <table className="balanceChangeTable">
@@ -46,8 +38,8 @@ export default function AccountTable({ transactions }: { transactions: Transacti
                     {text?.balance}:
                     <span style={{
                         marginRight: '.25em',
-                        color: true ? 'green' : 'red' // TODO
-                    }}> -EUR 573.42 </span>
+                        color: balance[0] === '-' ? 'red' : 'green'
+                    }}> {balance}</span>
                     (<span title="Selected time span" style={{
                     color: true ? 'green' : 'red' // TODO
                 }}>-EUR 28.87</span>)

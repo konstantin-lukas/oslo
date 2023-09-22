@@ -4,12 +4,15 @@ import Account from "./components/Account";
 import Alert from "./components/Alert";
 import StandingOrders from "./components/StandingOrders";
 import GlobalSettings from "./components/GlobalSettings";
-import {TextContext} from "./components/misc/Contexts";
+import {LanguageContext, TextContext} from "./components/misc/Contexts";
 import availableLanguages from './lang.json';
 import {ThemeProvider} from "styled-components";
 
 
 export default function App() {
+    const [language, setLanguage] = useState<string>(null);
+    const [accounts, setAccounts] = useState(null);
+    const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(null);
     const [themeColor, setThemeColor] = useState({
         theme_color: {
@@ -23,9 +26,15 @@ export default function App() {
     });
 
     useEffect(() => {
-        api.getTextContent(availableLanguages[3].code).then(result => {
-            setTextContent(result);
-        });
+        if (!localStorage.getItem("language"))
+            localStorage.setItem("language", "en");
+        setLanguage(localStorage.getItem("language"));
+
+
+        // DATA
+        api.textContent(availableLanguages[3].code).then(result => setTextContent(result));
+
+        // COLOR
         const color = {r: 0xff, g: 0x33, b: 0xa3};
         const contrast = (function () {
             const brightness = Math.round(((color.r * 299) + (color.g * 587) + (color.b * 114)) / 1000);
@@ -41,6 +50,17 @@ export default function App() {
         });
     }, []);
 
+    useEffect(() => {
+        api.getAccounts().then(data => {
+            if (data && !localStorage.getItem("last_tab"))
+                localStorage.setItem("last_tab", data[0].id);
+            const last_tab = parseInt(localStorage.getItem("last_tab"));
+            setOpenAccount(data.find((acc: {id: number})=> acc.id === last_tab));
+            setAccounts(data);
+        });
+    }, [language]);
+
+    // TODO
 /*    const StyledDiv = styled.div`
       & *::selection {
         color: ${colors.neutral_color};
@@ -49,39 +69,24 @@ export default function App() {
     `;*/
 
 
-    // TODO: REPLACE WITH CONTEXT
-        /*
-        .theme_fill {
-            fill: rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b}) !important;
-        }
-        .theme_background:not(#color_picker):not(button):not(#add_order):not(#manage_orders), input:checked + .toggle_checkbox, .pcr-save, .pcr-cancel {
-            color: ${colors.neutral_color} !important;
-            background: rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b}) !important;
-        }
-        .theme_background::after, .theme_background::before, button.del.theme_background:hover, .picker-content, .picker-foot, .custom-color-picker {
-            background: ${colors.neutral_color} !important;
-        }
-        ${(colors.neutral_color == '#1a1a1a') ? '.picker-content, .picker-foot { background: #262626 !important }' : ''}
-        input:not(:checked) .toggle_checkbox, input:checked + .toggle_checkbox::after {
-            background: ${colors.other_opposite} !important;
-        }
-        ${(colors.other_opposite == '#444') ? '.light_mode input:checked + .toggle_checkbox::after { background: #e4e4e4 !important }' : ''}
-        .toggle_checkbox::after, button.del.theme_background, .picker-head, .picker-active::before {
-            background: rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b}) !important;
-        }
-        #global_settings button.theme_background:not(.del)::after {
-            background: linear-gradient(0deg, ${colors.other_opposite}, ${colors.other_opposite} 50%, rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b}) 50%) !important;
-        }*/
     return (
         <div>
             <TextContext.Provider value={textContent}>
-                <ThemeProvider theme={themeColor}>
-                    <Header/>
-                    <Account/>
-                    <StandingOrders/>
-                    <GlobalSettings/>
-                    <Alert/>
-                </ThemeProvider>
+                <LanguageContext.Provider value={language}>
+                    <ThemeProvider theme={themeColor}>
+                        <Header
+                            tabs={accounts || []}
+                            openId={openAccount?.id}
+                            setOpenAccount={setOpenAccount}
+                        />
+                        <Account
+                            openAccount={openAccount}
+                        />
+                        <StandingOrders/>
+                        <GlobalSettings/>
+                        <Alert/>
+                    </ThemeProvider>
+                </LanguageContext.Provider>
             </TextContext.Provider>
         </div>
     )

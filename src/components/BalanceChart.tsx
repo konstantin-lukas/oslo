@@ -1,22 +1,49 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './BalanceChart.scss';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineController, PointElement, LineElement} from 'chart.js';
 import { Chart } from "react-chartjs-2";
+import { add } from "date-fns";
+import {LanguageContext} from "./misc/Contexts";
+
 ChartJS.register(CategoryScale, LinearScale, LineController, PointElement, LineElement);
-export default function BalanceChart() {
+export default function BalanceChart({transactions, from, until}: {
+    transactions: Transaction[],
+    from: Date,
+    until: Date
+}) {
+    const [labels, setLabels] = useState([]);
+    const [data, setData] = useState([])
+    const language = useContext(LanguageContext);
+    useEffect(() => {
+        let indexDate = structuredClone(from);
+        let labelArray: string[] = [];
+        let dataArray: number[] = [];
+        while(indexDate <= until) {
+            labelArray.push(indexDate.toLocaleDateString(language || 'en', {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric"
+            }))
+            dataArray.push(0);
+            indexDate = add(indexDate, {
+                days: 1
+            });
+        }
+        setLabels(labelArray);
+        setData(dataArray);
+    }, [transactions, from, until]);
     ChartJS.defaults.font.size = 16;
     ChartJS.defaults.font.family = 'Barlow Condensed';
     ChartJS.defaults.color = '#ffffff';
-    
 
     return (
         <div id="account_balance">
             <Chart
                 type="line"
                 data={{
-                    labels: [],
+                    labels: labels,
                     datasets: [{
-                        data: [],
+                        data: data,
                         borderColor: `rgb(${0xff},${0x33},${0xa3})`,
                         borderWidth: 1
                     }]
@@ -94,7 +121,6 @@ export default function BalanceChart() {
                     locale: 'de-DE'
                 }}
             />
-            {/*<canvas id="balance_chart" ref={canvasElement}></canvas>*/}
         </div>
     );
 }

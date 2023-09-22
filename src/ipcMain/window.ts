@@ -1,6 +1,6 @@
 import {BrowserWindow, ipcMain} from "electron";
 
-export default function registerToolbar(mainWindow: BrowserWindow) {
+export default function registerWindow(mainWindow: BrowserWindow) {
     ipcMain.on('close', function(){
         mainWindow.close();
     });

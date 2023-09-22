@@ -99,5 +99,9 @@ html[lang=ja] #from_date, html[lang=ja] #until_date {
   .react-datepicker__day--keyboard-selected {
     background: transparent;
   }
+
+  .react-datepicker__day--disabled {
+    visibility: hidden;
+  }
 }
 

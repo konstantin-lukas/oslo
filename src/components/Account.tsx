@@ -5,44 +5,44 @@ import './Account.scss';
 import AccountTable from "./AccountTable";
 import AccountMenu from "./AccountMenu";
 import { sub } from 'date-fns'
-export default function Account() {
-    const [accountData, setAccountData] = useState<AccountData | null>();
+export default function Account({openAccount}: {openAccount: AccountData}) {
     const [date, setDate] =
         useState<{from: Date, until: Date}>({
             from: sub(new Date(), {months: 1}),
             until: new Date()
         });
 
-    useEffect(() => {
-        setAccountData(api.getAccountById(1));
-    }, []);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
 
-    if (accountData) {
-        return (
-            <main>
-                <div className="wrapper">
-                    <AccountHeader heading={accountData.name} date={date} setDate={setDate}/>
-                    <BalanceChart/>
-                    <div id="account">
-                        <AccountTable transactions={accountData.transactions}/>
-                        <AccountMenu/>
-                    </div>
+    useEffect(() => {
+        api.getTransactions(
+            openAccount?.id,
+            date.from.toISOString().split('T')[0],
+            date.until.toISOString().split('T')[0]
+        ).then(trans => {
+            setTransactions(trans);
+        });
+    }, [date, openAccount, triggerFetchFlag]);
+
+    return (
+        <main>
+            <div className="wrapper">
+                <AccountHeader heading={openAccount?.name} date={date} setDate={setDate}/>
+                <BalanceChart
+                    transactions={transactions}
+                    from={date.from}
+                    until={date.until}
+                />
+                <div id="account">
+                    <AccountTable
+                        transactions={transactions}
+                        openAccount={openAccount}
+                        triggerFetch={() => setTriggerFetchFlag(!triggerFetchFlag)}
+                    />
+                    <AccountMenu/>
                 </div>
-            </main>
-        );
-    } else {
-        // TODO: LOADING ANIMATION
-        return (
-            <main>
-                <div className="wrapper">
-                    <AccountHeader heading={""} date={date} setDate={setDate}/>
-                    <BalanceChart/>
-                    <div id="account">
-                        <AccountTable transactions={[]}/>
-                        <AccountMenu/>
-                    </div>
-                </div>
-            </main>
-        );
-    }
+            </div>
+        </main>
+    );
 }

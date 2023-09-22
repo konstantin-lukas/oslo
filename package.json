@@ -56,8 +56,6 @@
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.2",
-    "@types/better-sqlite3": "^7.6.5",
-    "better-sqlite3": "^8.6.0",
     "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "electron-squirrel-startup": "^1.0.0",
@@ -67,6 +65,8 @@
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.18.0",
     "react-dom": "^18.2.0",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
     "styled-components": "^6.0.8"
   }
 }

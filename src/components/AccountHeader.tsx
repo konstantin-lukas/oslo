@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import './AccountHeader.scss';
 import DatePicker, {registerLocale} from 'react-datepicker';
 import { add, sub } from 'date-fns';
 import es from 'date-fns/locale/es';
+import {LanguageContext} from "./misc/Contexts";
 registerLocale('es', es);
 
 
@@ -13,6 +14,7 @@ export default function AccountHeader({heading, date, setDate}: {
     setDate: (date: {from: Date, until: Date}) => void
 }) {
 
+    const language = useContext(LanguageContext);
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
         {
@@ -36,8 +38,7 @@ export default function AccountHeader({heading, date, setDate}: {
             datePicker = (
                 <div id="dateTimePickerContainer">
                     <DatePicker
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         onSelect={(pickedDate) => {
                             setDate({
                                 ...date,
@@ -46,7 +47,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             closeDatePicker();
                         }}
                         onClickOutside={closeDatePicker}
-                        locale="es"
+                        locale={language}
                         maxDate={sub(new Date(date.until), {days: 1})}
                         selected={date.from}
                         inline/>
@@ -56,8 +57,7 @@ export default function AccountHeader({heading, date, setDate}: {
             datePicker = (
                 <div id="dateTimePickerContainer">
                     <DatePicker
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         onSelect={(pickedDate) => {
                             setDate({
                                 ...date,
@@ -66,7 +66,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             closeDatePicker();
                         }}
                         onClickOutside={closeDatePicker}
-                        locale="es"
+                        locale={language}
                         minDate={add(new Date(date.from), {days: 1})}
                         selected={date.until}
                         inline/>
@@ -77,7 +77,7 @@ export default function AccountHeader({heading, date, setDate}: {
         }
         return (
             <div id="main_header">
-                <h1>{heading}</h1>
+                <h1 title={heading}>{heading}</h1>
                 {datePicker}
                 <div id="time_span">
                     <span
@@ -86,7 +86,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: true, until: false});
                         }}
                     >
-                        {date.from.toLocaleDateString('de', localeOptions)}
+                        {date.from.toLocaleDateString(language, localeOptions)}
                     </span>
                     <span
                         id="until_date"
@@ -94,7 +94,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: false, until: true});
                         }}
                     >
-                        {date.until.toLocaleDateString('de', localeOptions)}
+                        {date.until.toLocaleDateString(language, localeOptions)}
                     </span>
                 </div>
             </div>

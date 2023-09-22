@@ -1,15 +1,34 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Header.scss';
 
-export default function Header() {
+export default function Header({tabs, openId, setOpenAccount}: {
+    tabs: Account[],
+    openId: number,
+    setOpenAccount: (account: Account) => void
+}) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
-    api.maximizeCallback(() => setIsWindowMaximized(true));
-    api.unmaximizeCallback(() => setIsWindowMaximized(false));
+    useEffect(() => {
+        api.maximizeCallback(() => setIsWindowMaximized(true));
+        api.unmaximizeCallback(() => setIsWindowMaximized(false));
+    }, []);
+
+
+    const tabElements = tabs.map(tab => {
+        return (
+            <div
+                key={tab.id}
+                className={'tab' + (tab.id === openId ? ' current_tab' : '')}
+                onClick={() => setOpenAccount(tab)}
+            >
+                <span>{tab.name}</span>
+            </div>
+        );
+    });
 
     return (
         <header className={isWindowMaximized ? 'maximized' : ''}>
             <div id="tab-group">
-                <div className="tab current_tab" data-target="0"><span>My First Account</span></div>
+                {tabElements}
                 <button type="button" name="add_tab"></button>
             </div>
             <div className="window_nav" id="config-btn">
