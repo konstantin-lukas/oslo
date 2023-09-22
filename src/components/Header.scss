@@ -8,7 +8,7 @@ header {
   justify-content: flex-end;
   box-sizing: border-box;
   -webkit-user-select: none;
-  height: 41px;
+  height: $headerHeight;
   > .window_nav {
     height: 41px;
     width: 41px;

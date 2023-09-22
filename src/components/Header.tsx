@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './Header.scss';
 
-export default function Header({tabs, openId, setOpenAccount}: {
-    tabs: Account[],
+export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
+    tabs: AccountData[],
     openId: number,
-    setOpenAccount: (account: Account) => void
+    setOpenAccount: (account: AccountData) => void,
+    triggerFetch: () => void
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
@@ -20,7 +21,9 @@ export default function Header({tabs, openId, setOpenAccount}: {
                 className={'tab' + (tab.id === openId ? ' current_tab' : '')}
                 onClick={() => setOpenAccount(tab)}
             >
-                <span>{tab.name}</span>
+                <span style={{
+                    color: '#' + tab.theme_color
+                }}>{tab.name}</span>
             </div>
         );
     });
@@ -29,7 +32,14 @@ export default function Header({tabs, openId, setOpenAccount}: {
         <header className={isWindowMaximized ? 'maximized' : ''}>
             <div id="tab-group">
                 {tabElements}
-                <button type="button" name="add_tab"></button>
+                <button
+                    type="button"
+                    name="add_tab"
+                    onClick={() => {
+                        api.postAccount("new account", "USD", true, "ffffff", 2022)
+                            .then(() => triggerFetch());
+                    }}
+                ></button>
             </div>
             <div className="window_nav" id="config-btn">
                 <span></span>

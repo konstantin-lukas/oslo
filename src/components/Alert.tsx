@@ -1,13 +1,30 @@
-import React from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import './Alert.scss';
-export default function Alert() {
+import Button from "./Button";
+import {TextContext} from "./misc/Contexts";
+export default function Alert({message, confirmAction} : {
+    message: string,
+    confirmAction: () => void
+}) {
+    const text = useContext(TextContext);
+    const alertBox = useRef(null);
+    useEffect(() => {
+        if (message && confirmAction)
+            alertBox?.current?.classList.add("open_alert");
+    }, [message, confirmAction]);
     return (
-        <div id="custom_alert">
-            <span id="custom_message"></span>
+        <div id="custom_alert" ref={alertBox}>
+            <span id="custom_message">{message}</span>
             <div id="custom_html"></div>
             <div id="buttons">
-                <button type="button" name="confirm" className="light_mode theme_background"></button>
-                <button type="button" name="cancel" className="light_mode theme_background"></button>
+                <Button onClick={() => {
+                    if (confirmAction)
+                        confirmAction();
+                    alertBox?.current?.classList.remove("open_alert");
+                }}>{text?.confirm_}</Button>
+                <Button onClick={() => {
+                    alertBox?.current?.classList.remove("open_alert");
+                }}>{text?.cancel_}</Button>
             </div>
         </div>
     );

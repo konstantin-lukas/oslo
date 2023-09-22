@@ -6,19 +6,19 @@ export default function GlobalSettings() {
     const text = useContext(TextContext);
     return (
         <div id="global_settings">
-            <label className="container export_label"><span id="export_label_span">{text?.export_data}</span>
-                <button type="button" name="export" className="theme_background">{text?.export}</button>
+            <label className="container export_label"><span id="export_label_span">{text?.export_data_}</span>
+                <button type="button" name="export" className="theme_background">{text?.export_}</button>
             </label>
-            <label className="container import_label"><span id="import_label_span">{text?.import_data}</span>
-                <button type="button" name="import" className="theme_background">{text?.import}</button>
+            <label className="container import_label"><span id="import_label_span">{text?.import_data_}</span>
+                <button type="button" name="import" className="theme_background">{text?.import_}</button>
             </label>
             <label className="container">
-                <span id="dark_span">{text?.dark_theme}</span>
+                <span id="dark_span">{text?.dark_theme_}</span>
                 <input type="checkbox" name="dark_mode" defaultChecked={true}/>
                     <span className="toggle_checkbox"></span>
             </label>
             <label>
-                <span id="lang_span">{text?.language}</span>
+                <span id="lang_span">{text?.language_}</span>
                 <span className="custom-select-container">
                     <span className="selected">Deutsch</span>
                     <span className="custom-select">

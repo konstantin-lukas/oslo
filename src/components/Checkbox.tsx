@@ -22,7 +22,7 @@ export default function Checkbox() {
     const text = useContext(TextContext);
 
     return (
-        <label className="container"><span id="negative_span">{text?.allow_overdrawing}</span>
+        <label className="container"><span id="negative_span">{text?.allow_overdrawing_}</span>
             <input type="checkbox" name="negative_values"/>
             <StyledSpan className="toggle_checkbox"></StyledSpan>
         </label>

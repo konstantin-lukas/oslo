@@ -1,6 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open } from 'sqlite'
 import {ipcMain} from "electron";
+import {MoneyCalculator, Money} from "moneydew";
 import * as process from "process";
 
 if (process.env.DEV_MODE)
@@ -26,9 +27,16 @@ export default function registerDatabase() {
     ipcMain.handle('getBalance', async (_, id) => {
         try {
             const db = await openDB();
-            const result = await db.get('SELECT SUM(sum) AS "balance" FROM "transaction" WHERE "account" = ?', id);
+            // DO NOT USE SQLITE'S SUM HERE; IT SUFFERS FROM FLOATING POINT PRECISION PROBLEMS; USE MONEYDEW INSTEAD
+
+
+            const result = await db.all('SELECT "sum" FROM "transaction" WHERE "account" = ?;', id);
+            // TODO: FORMAT
+            const sum: Money = result.reduce((previousValue, currentValue) => {
+                return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
+            }, new Money('0.00'));
             await db.close();
-            return result?.["balance"]?.toString() || null;
+            return sum.value;
         } catch (_) {
             return null;
         }
@@ -50,11 +58,57 @@ export default function registerDatabase() {
     ipcMain.handle('deleteTransaction', async (_, id) => {
         try {
             const db = await openDB();
-            await db.run('DELETE FROM "transaction" WHERE id = ?', id);
+            await db.run('DELETE FROM "transaction" WHERE id = ?;', id);
             await db.close();
             return;
         } catch (_) {
             return;
         }
     });
+    ipcMain.handle('postTransaction', async (_, title, sum, id) => {
+        try {
+            const db = await openDB();
+            await db.run('INSERT INTO "transaction" ("title", "sum", "account") VALUES (?, ?, ?);', title, sum, id);
+            await db.close();
+            return;
+        } catch (_) {
+            return;
+        }
+    });
+    ipcMain.handle('deleteAccount', async (_, id) => {
+        try {
+            const db = await openDB();
+            await db.exec('PRAGMA foreign_keys = ON;');
+            await db.run('DELETE FROM "account" WHERE id = ?;', id);
+            await db.close();
+            return;
+        } catch (_) {
+            return;
+        }
+    });
+    ipcMain.handle('postAccount', async (
+            _,
+            name,
+            currency,
+            allow_overdrawing,
+            theme_color,
+            last_interest
+        ) => {
+        try {
+            const db = await openDB();
+            await db.run(
+                'INSERT INTO "account" ("name", "currency", "allow_overdrawing", "theme_color", "last_interest") VALUES (?, ?, ?, ?, ?);',
+                name,
+                currency,
+                allow_overdrawing,
+                theme_color,
+                last_interest
+            );
+            await db.close();
+            return;
+        } catch (_) {
+            return;
+        }
+    });
+
 }

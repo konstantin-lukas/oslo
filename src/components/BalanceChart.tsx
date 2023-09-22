@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, LineController, PointElem
 import { Chart } from "react-chartjs-2";
 import { add } from "date-fns";
 import {LanguageContext} from "./misc/Contexts";
+import {useTheme} from "styled-components";
 
 ChartJS.register(CategoryScale, LinearScale, LineController, PointElement, LineElement);
 export default function BalanceChart({transactions, from, until}: {
@@ -11,6 +12,7 @@ export default function BalanceChart({transactions, from, until}: {
     from: Date,
     until: Date
 }) {
+    const theme = useTheme();
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([])
     const language = useContext(LanguageContext);
@@ -44,7 +46,7 @@ export default function BalanceChart({transactions, from, until}: {
                     labels: labels,
                     datasets: [{
                         data: data,
-                        borderColor: `rgb(${0xff},${0x33},${0xa3})`,
+                        borderColor: `rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b})`,
                         borderWidth: 1
                     }]
                 }}

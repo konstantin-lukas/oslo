@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import styled from "styled-components";
-import {LanguageContext} from "./misc/Contexts";
+import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
+import './AccountTableRow.scss';
 
 const StyledButton = styled.button`
   background: rgb(${props => props.theme.theme_color.r},${props => props.theme.theme_color.g},${props => props.theme.theme_color.b});
@@ -14,14 +15,16 @@ const StyledButton = styled.button`
     background: ${props => props.theme.neutral_opposite};
   }
 `;
-export default function AccountTableRow({id, sum, title, timestamp, triggerFetch}: {
+export default function AccountTableRow({id, sum, title, timestamp, fetchTransactions}: {
     id: number,
     sum: string,
     title: string,
     timestamp: string,
-    triggerFetch: () => void
+    fetchTransactions: () => void
 }) {
     const language = useContext(LanguageContext);
+    const alert = useContext(AlertContext);
+    const text = useContext(TextContext);
 
     const className = "balanceChange" + (sum[0] === '-' ? " expense" : " proceed");
     const date = new Date(timestamp).toLocaleDateString(language);
@@ -37,7 +40,12 @@ export default function AccountTableRow({id, sum, title, timestamp, triggerFetch
                 <StyledButton
                     type="button"
                     className="del"
-                    onClick={() => api.deleteTransaction(id).then(() => triggerFetch())}
+                    onClick={() => {
+                        alert(
+                            text.confirm_transaction_delete_,
+                            () => {api.deleteTransaction(id).then(() => fetchTransactions())}
+                        );
+                    }}
                 ></StyledButton>
             </td>
         </tr>

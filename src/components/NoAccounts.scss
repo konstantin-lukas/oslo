@@ -1,0 +1,16 @@
+@import "../vars";
+
+#no_accounts {
+  background: $dark2;
+  height: calc(100vh - #{$headerHeight});
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#no_accounts span {
+  font-size: 2rem;
+  max-width: 50%;
+  text-align: center;
+  color: $accentWhite;
+}

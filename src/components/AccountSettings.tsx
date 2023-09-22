@@ -1,16 +1,21 @@
 import React, {useContext} from "react";
 import './AccountSettings.scss';
-import {TextContext} from "./misc/Contexts";
+import {AlertContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import {useTheme} from "styled-components";
 
-export default function AccountSettings() {
+export default function AccountSettings({openAccount, fetchAccounts}: {
+    openAccount: AccountData,
+    fetchTransactions: () => void,
+    fetchAccounts: () => void
+}) {
     const text = useContext(TextContext);
+    const alert = useContext(AlertContext);
     const colors = useTheme();
     return (
         <div id="account_settings">
-            <h2>{text?.settings}</h2>
+            <h2>{text?.settings_}</h2>
             <div id="options">
                 <svg id="calendar_btn" viewBox="0 0 283.5 283.5">
                     <path style={{
@@ -42,7 +47,15 @@ export default function AccountSettings() {
                                             l-18.2,5l-0.7,0.2c-1.1,0-1.7-0.7-1.7-2l-0.6-15.9c0-1.2,0.6-2.1,1.7-2.6l19.4-9C189,106.4,189.9,106.2,191.1,106.2z"/>
                     </g>
                 </svg>
-                <svg id="delete_button" viewBox="0 0 283.5 283.5">
+                <svg
+                    id="delete_button"
+                    viewBox="0 0 283.5 283.5"
+                    onClick={() => {
+                        alert(text.confirm_delete_, () => {
+                            api.deleteAccount(openAccount.id).then(() => fetchAccounts());
+                        });
+                    }}
+                >
                     <path style={{
                         fill: `rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b})`
                     }} d="M45.2,65.4l27.7,218h137.7l27.7-218H45.2z M114.9,266.6H90L74.2,96.2h32.5L114.9,266.6z M154.2,266.6h-24.9
@@ -55,14 +68,14 @@ export default function AccountSettings() {
                     }} x="114.9" width="53.7" height="31.9"/>
                 </svg>
             </div>
-            <label><span id="name">{text?.account_name}</span>
+            <label><span id="name">{text?.account_name_}</span>
                 <input type="text" className="name" name="name" autoComplete="off"/>
             </label>
-            <label><span id="interest_rate">{text?.interest_rate}</span>
+            <label><span id="interest_rate">{text?.interest_rate_}</span>
                 <input type="text" className="name" name="interest_rate" autoComplete="off"/>
             </label>
             <div className="contain_two">
-                <label><span id="color_span">{text?.theme_color}</span>
+                <label><span id="color_span">{text?.theme_color_}</span>
                     <span id="color_picker" style={{
                         background: `rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b})`
                     }}></span>
