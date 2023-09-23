@@ -45,7 +45,7 @@
   "last_day_of_month_": "Last day of the month",
   "balance_": "Balance",
   "settings_": "Settings",
-  "pick_name_and_currency_": "Please choose a name and currency for the new account. Caution! Currency cannot be changed later.",
+  "pick_name_and_currency_": "Please choose a name and currency for the new account. Caution: the currency cannot be changed later.",
   "confirm_delete_": "Are you sure you want to delete this account? This action cannot be undone!",
   "cannot_delete_last_account_": "You cannot delete all accounts.",
   "invalid_values_": "The entered values are invalid.",

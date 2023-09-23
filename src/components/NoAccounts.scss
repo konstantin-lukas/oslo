@@ -28,7 +28,7 @@
     }
   }
   .message {
-    max-width: 100%;
+    max-width: 80%;
     text-align: center;
     display: block;
     margin-bottom: 2em;
@@ -37,6 +37,10 @@
   #accountName {
     width: 100%;
     box-sizing: border-box;
+  }
+  button {
+    width: 100%;
+    font-size: inherit;
   }
 }
 

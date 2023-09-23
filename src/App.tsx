@@ -73,12 +73,12 @@ export default function App() {
             neutral_opposite: contrast_opposite,
             other_opposite: alt_opp
         });
-        const open_tab = openAccount?.id?.toString();
+        const open_tab = openAccount?.id;
         if (open_tab)
-            localStorage.setItem("last_tab", open_tab);
+            api.settings.setLastTab(open_tab);
     }, [openAccount]);
 
-    if (!accounts || accounts.length === 0)
+    if (!openAccount)
         return (
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
@@ -88,16 +88,16 @@ export default function App() {
                             g: 0xff,
                             b: 0xff
                         },
-                        neutral_color: '#1a1a1a'
+                        neutral_color: '#1a1a1a',
+                        neutral_opposite: '#ffffff'
                     }}>
                         <div>
                             <Header
                                 tabs={accounts || []}
                                 openId={openAccount?.id}
                                 setOpenAccount={setOpenAccount}
-                                triggerFetch={() => setTriggerFetchFlag(!triggerFetchFlag)}
                             />
-                            <NoAccounts/>
+                            <NoAccounts fetchAccounts={() => setTriggerFetchFlag(!triggerFetchFlag)}/>
                         </div>
                     </ThemeProvider>
                 </LanguageContext.Provider>
@@ -124,7 +124,6 @@ export default function App() {
                                 tabs={accounts || []}
                                 openId={openAccount?.id}
                                 setOpenAccount={setOpenAccount}
-                                triggerFetch={() => setTriggerFetchFlag(!triggerFetchFlag)}
                             />
                             <Account
                                 openAccount={openAccount}

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import './Alert.scss';
 import Button from "./Button";
 import {TextContext} from "./misc/Contexts";
@@ -8,11 +8,17 @@ export default function Alert({message, confirmAction} : {
 }) {
     const text = useContext(TextContext);
     const alertBox = useRef(null);
+    const [initialRender, setInitialRender] = useState(true);
     useEffect(() => {
-        if (message && confirmAction) {
-            alertBox?.current?.classList.add("open_alert");
-            alertBox?.current?.classList.add("visible_alert");
+        if (!initialRender) {
+            if (message && confirmAction) {
+                alertBox?.current?.classList.add("open_alert");
+                alertBox?.current?.classList.add("visible_alert");
+            }
+        } else {
+            setInitialRender(false);
         }
+
     }, [message, confirmAction]);
     return (
         <div id="custom_alert_bg" ref={alertBox} onClick={(e) => {

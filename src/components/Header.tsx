@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './Header.scss';
 
-export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
+export default function Header({tabs, openId, setOpenAccount}: {
     tabs: AccountData[],
     openId: number,
-    setOpenAccount: (account: AccountData) => void,
-    triggerFetch: () => void
+    setOpenAccount: (account: AccountData) => void
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
@@ -35,9 +34,9 @@ export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
                 <button
                     type="button"
                     name="add_tab"
+                    className={openId ? "" : "current_tab"}
                     onClick={() => {
-                        api.db.postAccount("new account", "USD", true, "ffffff", 2022)
-                            .then(() => triggerFetch());
+                        setOpenAccount(null);
                     }}
                 ></button>
             </div>

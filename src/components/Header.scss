@@ -226,7 +226,7 @@ button[name=add_tab]::after {
   background: linear-gradient(90deg, rgba(41,41,41,0) 0%, rgba(41,41,41,1) 65%);
 }
 
-.current_tab.tab:hover {
+.current_tab.tab:hover, button.current_tab:hover {
   background-color: $dark2;
 }
 
