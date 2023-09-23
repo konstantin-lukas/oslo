@@ -4,6 +4,7 @@ import IntlCurrencyInput from "intl-currency-input";
 import {DisplayOrder} from "moneydew";
 import {TextContext} from "./misc/Contexts";
 import Button from "./Button";
+import Input from "./Input";
 
 export default function AddExpense({openAccount, fetchTransactions}: {
     openAccount: AccountData,
@@ -35,18 +36,11 @@ export default function AddExpense({openAccount, fetchTransactions}: {
         <div id="addExpense">
             <h2>{text?.transaction_}</h2>
             <label><span id="amount">{text?.amount_}</span>
-                <input type="text" ref={currencyInputElement} className="amount" name="amount" autoComplete="off"/>
+                <Input ref={currencyInputElement} className="amount" name="amount"/>
             </label>
             <label><span id="title">{text?.reference_}</span>
-                <input
-                    type="text"
-                    className="title"
-                    name="title"
-                    autoComplete="off"
-                    ref={titleInput}
-                />
+                <Input ref={titleInput} className="title" name="title"/>
             </label>
-            <input type="hidden" value="0"/>
             <Button onClick={() => {
                 const sum = currencyInput?.getValue();
                 const title = titleInput?.current?.value;

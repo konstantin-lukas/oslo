@@ -6,11 +6,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  font-size: 1.5rem;
+  .container {
+    width: 30%;
+    max-width: 600px;
+  }
+  @media only screen and (max-width: 1200px) {
+    .container {
+      width: 50%;
+    }
+  }
+  @media only screen and (max-width: 1000px) {
+    .container {
+      width: 60%;
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    .container {
+      width: 80%;
+    }
+  }
+  .message {
+    max-width: 100%;
+    text-align: center;
+    display: block;
+    margin-bottom: 2em;
+    color: $accentWhite;
+  }
+  #accountName {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
-#no_accounts span {
-  font-size: 2rem;
-  max-width: 50%;
-  text-align: center;
-  color: $accentWhite;
-}

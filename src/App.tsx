@@ -78,25 +78,30 @@ export default function App() {
             localStorage.setItem("last_tab", open_tab);
     }, [openAccount]);
 
-    // TODO
-/*    const StyledDiv = styled.div`
-      & *::selection {
-        color: ${colors.neutral_color};
-        background: rgba(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b},0.99);
-      }
-    `;*/
-
     if (!accounts || accounts.length === 0)
         return (
-            <div>
-                <Header
-                    tabs={accounts || []}
-                    openId={openAccount?.id}
-                    setOpenAccount={setOpenAccount}
-                    triggerFetch={() => setTriggerFetchFlag(!triggerFetchFlag)}
-                />
-                <NoAccounts/>
-            </div>
+            <TextContext.Provider value={textContent}>
+                <LanguageContext.Provider value={language}>
+                    <ThemeProvider theme={{
+                        theme_color: {
+                            r: 0xff,
+                            g: 0xff,
+                            b: 0xff
+                        },
+                        neutral_color: '#1a1a1a'
+                    }}>
+                        <div>
+                            <Header
+                                tabs={accounts || []}
+                                openId={openAccount?.id}
+                                setOpenAccount={setOpenAccount}
+                                triggerFetch={() => setTriggerFetchFlag(!triggerFetchFlag)}
+                            />
+                            <NoAccounts/>
+                        </div>
+                    </ThemeProvider>
+                </LanguageContext.Provider>
+            </TextContext.Provider>
         )
 
     return (

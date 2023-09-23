@@ -6,9 +6,6 @@ import {LanguageContext} from "./misc/Contexts";
 import registerLocales from './misc/Locales';
 registerLocales();
 
-
-
-// TODO: LOCALE BASED ON LANGUAGE
 export default function AccountHeader({heading, date, setDate}: {
     heading: string,
     date: {from: Date, until: Date},
@@ -103,11 +100,6 @@ export default function AccountHeader({heading, date, setDate}: {
             </div>
         );
     } else {
-        //TODO: LOADING SYMBOL
-        return (
-            <div id="main_header">
-                <h1>Loading</h1>
-            </div>
-        );
+        return <></>;
     }
 }

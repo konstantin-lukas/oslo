@@ -10,6 +10,11 @@
   position: relative;
 }
 
+#color_span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #account_settings label {
   font-size: .6em;
   display: flex;

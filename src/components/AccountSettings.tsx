@@ -4,6 +4,7 @@ import {AlertContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import {useTheme} from "styled-components";
+import Input from "./Input";
 
 export default function AccountSettings({openAccount, fetchAccounts}: {
     openAccount: AccountData,
@@ -69,10 +70,10 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                 </svg>
             </div>
             <label><span id="name">{text?.account_name_}</span>
-                <input type="text" className="name" name="name" autoComplete="off"/>
+                <Input className="name" name="name"/>
             </label>
             <label><span id="interest_rate">{text?.interest_rate_}</span>
-                <input type="text" className="name" name="interest_rate" autoComplete="off"/>
+                <Input className="name" name="interest_rate"/>
             </label>
             <div className="contain_two">
                 <label><span id="color_span">{text?.theme_color_}</span>
