@@ -50,7 +50,7 @@ export default function AddExpense({openAccount, fetchTransactions}: {
             <Button onClick={() => {
                 const sum = currencyInput?.getValue();
                 const title = titleInput?.current?.value;
-                api.postTransaction(title, sum, openAccount?.id).then(() => {
+                api.db.postTransaction(title, sum, openAccount?.id).then(() => {
                     currencyInput.setValue('0.00');
                     titleInput.current.value = '';
                     fetchTransactions();

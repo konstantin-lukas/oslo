@@ -1,5 +1,26 @@
 @import "../vars";
 
+#custom_alert_bg {
+  background: rgba($dark0, .5);
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: opacity .2s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#custom_alert_bg.open_alert {
+  opacity: 1;
+}
+
+#custom_alert_bg.visible_alert {
+  visibility: visible;
+}
+
 #custom_alert {
   font-size: 21px;
   max-width: 450px;
@@ -24,7 +45,7 @@
   pointer-events: none;
 }
 
-#custom_alert.open_alert, .open_alert {
+.open_alert #custom_alert {
   pointer-events: all;
   opacity: 1;
   transform: translate(-50%,-50%);

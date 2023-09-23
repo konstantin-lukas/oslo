@@ -14,7 +14,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
     const [timeSpanBalance, setTimeSpanBalance] = useState<string>('0.00');
 
     useEffect(() => {
-        api.getBalance(openAccount?.id).then(sum => {
+        api.db.getBalance(openAccount?.id).then(sum => {
             setBalance(sum || '0.00');
         });
 

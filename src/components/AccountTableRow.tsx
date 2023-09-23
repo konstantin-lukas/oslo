@@ -43,7 +43,7 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
                     onClick={() => {
                         alert(
                             text.confirm_transaction_delete_,
-                            () => {api.deleteTransaction(id).then(() => fetchTransactions())}
+                            () => {api.db.deleteTransaction(id).then(() => fetchTransactions())}
                         );
                     }}
                 ></StyledButton>

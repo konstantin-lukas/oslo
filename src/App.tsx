@@ -5,7 +5,6 @@ import Alert from "./components/Alert";
 import StandingOrders from "./components/StandingOrders";
 import GlobalSettings from "./components/GlobalSettings";
 import {AlertContext, LanguageContext, TextContext} from "./components/misc/Contexts";
-import availableLanguages from './lang.json';
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 
@@ -13,7 +12,7 @@ import NoAccounts from "./components/NoAccounts";
 export default function App() {
     const [alert, setAlert] = useState(null);
     const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
-    const [language, setLanguage] = useState<string>(null);
+    const [language, setLanguage] = useState<string>('en');
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(null);
@@ -29,21 +28,32 @@ export default function App() {
     });
 
     useEffect(() => {
-        if (!localStorage.getItem("language"))
-            localStorage.setItem("language", "en");
-        setLanguage(localStorage.getItem("language"));
-        api.getAccounts().then(data => {
-            if (data && !localStorage.getItem("last_tab"))
-                localStorage.setItem("last_tab", data[0].id);
-            const last_tab = parseInt(localStorage.getItem("last_tab"));
-            const openAccount = data.find((acc: {id: number})=> acc.id === last_tab);
-            setOpenAccount(openAccount || data[0]);
-            setAccounts(data);
+        api.settings.getLanguage().then(lang => {
+            if (!lang) {
+                api.settings.setLanguage("bg").then(() => {
+                    setLanguage("bg");
+                });
+            } else {
+                setLanguage(lang);
+            }
         });
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const acc = await api.db.getAccounts();
+            let last_tab = await api.settings.getLastTab();
+            if (acc && !last_tab)
+                await api.settings.setLastTab(acc[0].id);
+            last_tab = parseInt(await api.settings.getLastTab());
+            const openAccount = acc.find((acc: {id: number})=> acc.id === last_tab);
+            setOpenAccount(openAccount || acc[0]);
+            setAccounts(acc);
+        })();
     }, [triggerFetchFlag]);
 
     useEffect(() => {
-        api.textContent(availableLanguages[3].code).then(result => setTextContent(result));
+        api.textContent(language).then(result => setTextContent(result));
     }, [language]);
 
     useEffect(() => {

@@ -9,8 +9,8 @@ export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
-        api.maximizeCallback(() => setIsWindowMaximized(true));
-        api.unmaximizeCallback(() => setIsWindowMaximized(false));
+        api.window.maximizeCallback(() => setIsWindowMaximized(true));
+        api.window.unmaximizeCallback(() => setIsWindowMaximized(false));
     }, []);
 
 
@@ -36,7 +36,7 @@ export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
                     type="button"
                     name="add_tab"
                     onClick={() => {
-                        api.postAccount("new account", "USD", true, "ffffff", 2022)
+                        api.db.postAccount("new account", "USD", true, "ffffff", 2022)
                             .then(() => triggerFetch());
                     }}
                 ></button>
@@ -46,9 +46,9 @@ export default function Header({tabs, openId, setOpenAccount, triggerFetch}: {
                 <span></span>
                 <span></span>
             </div>
-            <span className="window_nav" id="min-btn" onClick={api.minimizeApp}></span>
-            <span className="window_nav" id="max-btn" onClick={api.maximizeApp}></span>
-            <span className="window_nav" id="close-btn" onClick={api.closeApp}></span>
+            <span className="window_nav" id="min-btn" onClick={api.window.minimizeApp}></span>
+            <span className="window_nav" id="max-btn" onClick={api.window.maximizeApp}></span>
+            <span className="window_nav" id="close-btn" onClick={api.window.closeApp}></span>
         </header>
     )
 }

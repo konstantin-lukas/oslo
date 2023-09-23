@@ -1,10 +1,11 @@
 import React, {useContext, useState} from "react";
 import './AccountHeader.scss';
-import DatePicker, {registerLocale} from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import { add, sub } from 'date-fns';
-import es from 'date-fns/locale/es';
 import {LanguageContext} from "./misc/Contexts";
-registerLocale('es', es);
+import registerLocales from './misc/Locales';
+registerLocales();
+
 
 
 // TODO: LOCALE BASED ON LANGUAGE
@@ -26,6 +27,8 @@ export default function AccountHeader({heading, date, setDate}: {
     const closeDatePicker = () => {
         setDatePickerOpen({from: false, until: false});
     }
+
+
 
     if (heading && date && setDate) {
         const localeOptions: Intl.DateTimeFormatOptions = {

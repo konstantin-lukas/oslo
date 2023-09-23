@@ -19,7 +19,7 @@ export default function Account({openAccount, fetchAccounts}: {
     const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
 
     useEffect(() => {
-        api.getTransactions(
+        api.db.getTransactions(
             openAccount?.id,
             date.from.toISOString().split('T')[0],
             date.until.toISOString().split('T')[0]

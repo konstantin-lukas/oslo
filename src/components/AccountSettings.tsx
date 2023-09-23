@@ -52,7 +52,7 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                     viewBox="0 0 283.5 283.5"
                     onClick={() => {
                         alert(text.confirm_delete_, () => {
-                            api.deleteAccount(openAccount.id).then(() => fetchAccounts());
+                            api.db.deleteAccount(openAccount.id).then(() => fetchAccounts());
                         });
                     }}
                 >
