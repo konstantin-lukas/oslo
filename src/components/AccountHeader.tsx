@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import { add, sub } from 'date-fns';
 import {LanguageContext} from "./misc/Contexts";
 import registerLocales from './misc/Locales';
+import {useTheme} from "styled-components";
 registerLocales();
 
 export default function AccountHeader({heading, date, setDate}: {
@@ -12,6 +13,7 @@ export default function AccountHeader({heading, date, setDate}: {
     setDate: (date: {from: Date, until: Date}) => void
 }) {
 
+    const theme = useTheme();
     const language = useContext(LanguageContext);
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
@@ -33,10 +35,29 @@ export default function AccountHeader({heading, date, setDate}: {
             day: "2-digit",
             year: "numeric"
         }
+
+        const datePickerStyle = (
+            <style>
+                {`
+                    .react-datepicker__header, .react-datepicker__day--selected {
+                        background: rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b});
+                        color: ${theme.neutral_color};
+                    }
+                    .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before, .react-datepicker__navigation-icon::before {
+                        border-color: ${theme.neutral_color};
+                    }
+                    .react-datepicker__day:hover {
+                        background: ${theme.neutral_color};
+                        color: rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b});
+                    }
+                `}
+            </style>
+        );
         let datePicker;
         if (datePickerOpen.from && !datePickerOpen.until) {
             datePicker = (
                 <div id="dateTimePickerContainer">
+                    {datePickerStyle}
                     <DatePicker
                         onChange={() => {}}
                         onSelect={(pickedDate) => {
@@ -56,6 +77,7 @@ export default function AccountHeader({heading, date, setDate}: {
         } else if (!datePickerOpen.from && datePickerOpen.until) {
             datePicker = (
                 <div id="dateTimePickerContainer">
+                    {datePickerStyle}
                     <DatePicker
                         onChange={() => {}}
                         onSelect={(pickedDate) => {

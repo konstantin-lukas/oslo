@@ -1,10 +1,11 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import './AccountSettings.scss';
 import {AlertContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import {useTheme} from "styled-components";
 import Input from "./Input";
+import ColorPicker from "./ColorPicker";
 
 export default function AccountSettings({openAccount, fetchAccounts}: {
     openAccount: AccountData,
@@ -14,6 +15,7 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
     const text = useContext(TextContext);
     const alert = useContext(AlertContext);
     const colors = useTheme();
+    const [interestRate, setInterestRate] = useState(openAccount.interest_rate);
     return (
         <div id="account_settings">
             <h2>{text?.settings_}</h2>
@@ -70,20 +72,44 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                 </svg>
             </div>
             <label><span id="name">{text?.account_name_}</span>
-                <Input className="name" name="name"/>
+                <Input className="name" name="name" defaultValue={openAccount.name}/>
             </label>
             <label><span id="interest_rate">{text?.interest_rate_}</span>
-                <Input className="name" name="interest_rate"/>
+                <Input
+                    className="name"
+                    name="interest_rate"
+                    defaultValue={openAccount.interest_rate.toString()}
+                    onInput={(e) => {
+                        if (!/^(0?|[1-9][0-9]*)$/.test((e.target as HTMLInputElement).value)) {
+                            (e.target as HTMLInputElement).value = interestRate.toString();
+                        } else {
+                            setInterestRate(parseInt((e.target as HTMLInputElement).value));
+                        }
+                    }}
+                />
             </label>
             <div className="contain_two">
                 <label><span id="color_span">{text?.theme_color_}</span>
-                    <span id="color_picker" style={{
-                        background: `rgb(${colors.theme_color.r},${colors.theme_color.g},${colors.theme_color.b})`
-                    }}></span>
+                    <ColorPicker
+                        defaultColor={(() => {
+                            let red = (colors.theme_color.r as number).toString(16);
+                            let green = (colors.theme_color.g as number).toString(16);
+                            let blue = (colors.theme_color.b as number).toString(16);
+                            if (red.length < 2)
+                                red = '0' + red;
+                            if (blue.length < 2)
+                                blue = '0' + blue;
+                            if (green.length < 2)
+                                green = '0' + green;
+                            return "#" + red + green + blue;
+                        })()}
+                    />
                 </label>
                 <Checkbox/>
             </div>
-            <Button onClick={() => alert(3)}>{text?.save_}</Button>
+            <Button onClick={() => {
+                api.db.patchAccountColor(openAccount?.id, 'ff33a3').then(fetchAccounts);
+            }}>{text?.save_}</Button>
         </div>
     );
 }

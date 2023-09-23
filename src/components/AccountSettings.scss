@@ -35,21 +35,6 @@ html[lang=ja] button {
   padding-bottom: .4em;
 }
 
-
-#color_picker {
-  margin-top: .4em;
-  width: 240px;
-  height: 48px;
-  border-radius: 50px;
-  background: $accentPink;
-  transition: background-color .2s ease-out;
-  cursor: pointer;
-  display: flex;
-  padding-left: 1em;
-  box-sizing: border-box;
-  align-items: center;
-}
-
 .config_path {
   fill: $accentPink;
 }
@@ -79,19 +64,6 @@ html[lang=ja] button {
 
 #options svg:hover {
   background: rgba(255, 255, 255, 0.2);
-}
-
-#color_picker {
-  width: 100%;
-  font-size: 19.2px;
-  height: 2em;
-  padding-bottom: .1em;
-  box-sizing: border-box;
-}
-
-html[lang=ja] #color_picker {
-  height: 2.4em;
-  padding-top: .1em;
 }
 
 #account_settings h2 {

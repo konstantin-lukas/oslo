@@ -130,5 +130,17 @@ export default function registerDatabase() {
             return null;
         }
     });
+    ipcMain.handle('patchAccountColor', async (_, id, color) => {
+        try {
+            const db = await openDB();
+            await db.run(
+                'UPDATE "account" SET "theme_color" = ? WHERE "id" = ?;', color, id
+            );
+            await db.close();
+            return
+        } catch (_) {
+            return;
+        }
+    });
 
 }

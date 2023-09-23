@@ -72,28 +72,10 @@ html[lang=ja] #from_date, html[lang=ja] #until_date {
   }
 
   .react-datepicker__header {
-    background: $accentPink;
     text-transform: uppercase;
     .react-datepicker__current-month {
       font-size: 1.5em;
     }
-  }
-
-  .react-datepicker__day:hover {
-    background: $accentWhite;
-    color: $accentPink;
-  }
-
-  .react-datepicker__day--selected {
-    background: $accentPink;
-  }
-
-  .react-datepicker__navigation-icon::before {
-    border-color: $accentWhite;
-  }
-
-  .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
-    border-color: $accentWhite;
   }
 
   .react-datepicker__day--keyboard-selected {

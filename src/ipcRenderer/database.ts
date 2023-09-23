@@ -37,6 +37,9 @@ const database = {
     },
     getBalanceUntilExcluding: async (id: number, date: string) => {
         return await ipcRenderer.invoke('getBalanceUntilExcluding', id, date);
+    },
+    patchAccountColor: async (id: number, color: string) => {
+        return await ipcRenderer.invoke('patchAccountColor', id, color);
     }
 };
 
