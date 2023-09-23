@@ -7,7 +7,13 @@ const window = {
     maximizeCallback: (fn: (event: Electron.IpcRendererEvent, ...args: any[]) => void) =>
         ipcRenderer.on('maximize', fn),
     unmaximizeCallback: (fn: (event: Electron.IpcRendererEvent, ...args: any[]) => void) =>
-        ipcRenderer.on('unmaximize', fn)
+        ipcRenderer.on('unmaximize', fn),
+    unsubscribeMaximizeAll: () => {
+        ipcRenderer.removeAllListeners('maximize');
+    },
+    unsubscribeUnmaximizeAll: () => {
+        ipcRenderer.removeAllListeners('unmaximize');
+    }
 };
 
 export default window;

@@ -8,6 +8,8 @@ export default function Header({tabs, openId, setOpenAccount}: {
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
+        api.window.unsubscribeMaximizeAll();
+        api.window.unsubscribeUnmaximizeAll();
         api.window.maximizeCallback(() => setIsWindowMaximized(true));
         api.window.unmaximizeCallback(() => setIsWindowMaximized(false));
     }, []);

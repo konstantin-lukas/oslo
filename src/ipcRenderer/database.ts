@@ -34,6 +34,9 @@ const database = {
             theme_color,
             last_interest
         );
+    },
+    getBalanceUntilExcluding: async (id: number, date: string) => {
+        return await ipcRenderer.invoke('getBalanceUntilExcluding', id, date);
     }
 };
 

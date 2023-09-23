@@ -110,5 +110,25 @@ export default function registerDatabase() {
             return;
         }
     });
+    ipcMain.handle('getBalanceUntilExcluding', async (_, id, date) => {
+        try {
+            const db = await openDB();
+            const until_stamp = date + " 00:00:00";
+            // DO NOT USE SQLITE'S SUM HERE; IT SUFFERS FROM FLOATING POINT PRECISION PROBLEMS; USE MONEYDEW INSTEAD
+            const result = await db.all(
+                'SELECT "sum" FROM "transaction" WHERE "account" = ? AND "timestamp" < ?;',
+                id,
+                until_stamp
+            );
+            // TODO: FORMAT
+            const sum: Money = result.reduce((previousValue, currentValue) => {
+                return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
+            }, new Money('0.00'));
+            await db.close();
+            return sum.value;
+        } catch (_) {
+            return null;
+        }
+    });
 
 }

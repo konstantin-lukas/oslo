@@ -33,6 +33,7 @@ export default function Account({openAccount, fetchAccounts}: {
             <div className="wrapper">
                 <AccountHeader heading={openAccount?.name} date={date} setDate={setDate}/>
                 <BalanceChart
+                    openAccountId={openAccount?.id}
                     transactions={transactions}
                     from={date.from}
                     until={date.until}

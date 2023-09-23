@@ -4,7 +4,7 @@ import Account from "./components/Account";
 import Alert from "./components/Alert";
 import StandingOrders from "./components/StandingOrders";
 import GlobalSettings from "./components/GlobalSettings";
-import {AlertContext, LanguageContext, TextContext} from "./components/misc/Contexts";
+import {AlertContext, CurrencyContext, LanguageContext, TextContext} from "./components/misc/Contexts";
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 
@@ -16,6 +16,10 @@ export default function App() {
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(null);
+    const [currency, setCurrency] = useState({
+        name: 'USD',
+        decimalPlaces: 2
+    });
     const [themeColor, setThemeColor] = useState({
         theme_color: {
             r: 0xff,
@@ -74,8 +78,13 @@ export default function App() {
             other_opposite: alt_opp
         });
         const open_tab = openAccount?.id;
-        if (open_tab)
+        if (open_tab) {
             api.settings.setLastTab(open_tab);
+            setCurrency({
+                name: openAccount.currency,
+                decimalPlaces: 2
+            });
+        }
     }, [openAccount]);
 
     if (!openAccount)
@@ -108,35 +117,37 @@ export default function App() {
         <div>
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
-                    <ThemeProvider theme={themeColor}>
-                        <AlertContext.Provider value={(
-                            message: string,
-                            confirmAction: () => void,
-                            cancelAction: () => void
-                        ) => {
-                            setAlert({
-                                message,
-                                confirmAction,
-                                cancelAction
-                            });
-                        }}>
-                            <Header
-                                tabs={accounts || []}
-                                openId={openAccount?.id}
-                                setOpenAccount={setOpenAccount}
+                    <CurrencyContext.Provider value={currency}>
+                        <ThemeProvider theme={themeColor}>
+                            <AlertContext.Provider value={(
+                                message: string,
+                                confirmAction: () => void,
+                                cancelAction: () => void
+                            ) => {
+                                setAlert({
+                                    message,
+                                    confirmAction,
+                                    cancelAction
+                                });
+                            }}>
+                                <Header
+                                    tabs={accounts || []}
+                                    openId={openAccount?.id}
+                                    setOpenAccount={setOpenAccount}
+                                />
+                                <Account
+                                    openAccount={openAccount}
+                                    fetchAccounts={() => setTriggerFetchFlag(!triggerFetchFlag)}
+                                />
+                                <StandingOrders/>
+                                <GlobalSettings/>
+                            </AlertContext.Provider>
+                            <Alert
+                                message={alert?.message}
+                                confirmAction={alert?.confirmAction}
                             />
-                            <Account
-                                openAccount={openAccount}
-                                fetchAccounts={() => setTriggerFetchFlag(!triggerFetchFlag)}
-                            />
-                            <StandingOrders/>
-                            <GlobalSettings/>
-                        </AlertContext.Provider>
-                        <Alert
-                            message={alert?.message}
-                            confirmAction={alert?.confirmAction}
-                        />
-                    </ThemeProvider>
+                        </ThemeProvider>
+                    </CurrencyContext.Provider>
                 </LanguageContext.Provider>
             </TextContext.Provider>
         </div>
