@@ -15,24 +15,26 @@
   flex-direction: column;
   border-radius: 4px;
   pointer-events: none;
-}
-
-#global_settings::before {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: 2px;
-  right: 0;
-  transform: translate(-88px,-100%);
-  border-style: solid;
-  border-width: 0 15px 15px 15px;
-  border-color: transparent transparent $dark0 transparent;
-}
-
-#global_settings.open {
-  opacity: 1;
-  pointer-events: all;
+  width: 170px;
+  &::before {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 2px;
+    right: 0;
+    transform: translate(-88px,-100%);
+    border-style: solid;
+    border-width: 0 15px 15px 15px;
+    border-color: transparent transparent $dark0 transparent;
+  }
+  &.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .custom-select-container * {
+    font-size: 1.2rem;
+  }
 }
 
 #global_settings label {

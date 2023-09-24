@@ -13,7 +13,8 @@ const window = {
     },
     unsubscribeUnmaximizeAll: () => {
         ipcRenderer.removeAllListeners('unmaximize');
-    }
+    },
+    export: () => ipcRenderer.send('export')
 };
 
 export default window;

@@ -157,6 +157,7 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                     onChange={() => {
                         updateSettings({type: 'allow_overdrawing', payload: !settings.allow_overdrawing})
                     }}
+                    label={text.allow_overdrawing_}
                 />
             </div>
             <Button onClick={() => {

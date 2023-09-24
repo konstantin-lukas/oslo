@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import './Header.scss';
+import GlobalSettings from "./GlobalSettings";
 
-export default function Header({tabs, openId, setOpenAccount}: {
+export default function Header({tabs, openId, setOpenAccount, setLanguage, setLightMode, lightMode}: {
     tabs: AccountData[],
     openId: number,
-    setOpenAccount: (account: AccountData) => void
+    setOpenAccount: (account: AccountData) => void,
+    setLanguage: (lang: string) => void,
+    setLightMode: (yes: boolean) => void,
+    lightMode: boolean
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
@@ -13,9 +17,10 @@ export default function Header({tabs, openId, setOpenAccount}: {
         api.window.maximizeCallback(() => setIsWindowMaximized(true));
         api.window.unmaximizeCallback(() => setIsWindowMaximized(false));
     }, []);
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
 
-    const tabElements = tabs.map(tab => {
+    const tabElements = useMemo(() => tabs.map(tab => {
         return (
             <div
                 key={tab.id}
@@ -27,7 +32,7 @@ export default function Header({tabs, openId, setOpenAccount}: {
                 }}>{tab.name}</span>
             </div>
         );
-    });
+    }), [tabs, openId])
 
     return (
         <header className={isWindowMaximized ? 'maximized' : ''}>
@@ -42,7 +47,7 @@ export default function Header({tabs, openId, setOpenAccount}: {
                     }}
                 ></button>
             </div>
-            <div className="window_nav" id="config-btn">
+            <div className="window_nav" id="config-btn" onClick={() => setSettingsOpen(!settingsOpen)}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -50,6 +55,12 @@ export default function Header({tabs, openId, setOpenAccount}: {
             <span className="window_nav" id="min-btn" onClick={api.window.minimizeApp}></span>
             <span className="window_nav" id="max-btn" onClick={api.window.maximizeApp}></span>
             <span className="window_nav" id="close-btn" onClick={api.window.closeApp}></span>
+            <GlobalSettings
+                open={settingsOpen}
+                setLanguage={setLanguage}
+                setLightMode={setLightMode}
+                lightMode={lightMode}
+            />
         </header>
     )
 }

@@ -1,6 +1,7 @@
 import React, {FormEventHandler} from "react";
 import styled from "styled-components";
 import { forwardRef } from 'react';
+import './Input.scss';
 const StyledInput = styled.input`
     &::selection {
       color: ${props => props.theme.neutral_color};

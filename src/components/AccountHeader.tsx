@@ -40,7 +40,7 @@ export default function AccountHeader({heading, date, setDate}: {
             <style>
                 {`
                     .react-datepicker__header, .react-datepicker__day--selected {
-                        background: rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b});
+                        background: ${theme.theme_color};
                         color: ${theme.neutral_color};
                     }
                     .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before, .react-datepicker__navigation-icon::before {
@@ -48,11 +48,13 @@ export default function AccountHeader({heading, date, setDate}: {
                     }
                     .react-datepicker__day:hover {
                         background: ${theme.neutral_color};
-                        color: rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b});
+                        color: ${theme.theme_color};
                     }
                 `}
             </style>
         );
+
+        // TODO: FADE PICKER IN OR OUT WITH HELP OF POINTER EVENTS
         let datePicker;
         if (datePickerOpen.from && !datePickerOpen.until) {
             datePicker = (

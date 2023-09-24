@@ -12,6 +12,12 @@ const settings = {
     },
     setLastTab: async (id: number) => {
         return ipcRenderer.invoke('settings.setLastTab', id);
+    },
+    getLightMode: async () => {
+        return ipcRenderer.invoke('settings.getLightMode');
+    },
+    setLightMode: async (yes: boolean) => {
+        return ipcRenderer.invoke('settings.setLightMode', yes);
     }
 }
 

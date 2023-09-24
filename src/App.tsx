@@ -3,7 +3,6 @@ import Header from "./components/Header";
 import Account from "./components/Account";
 import Alert from "./components/Alert";
 import StandingOrders from "./components/StandingOrders";
-import GlobalSettings from "./components/GlobalSettings";
 import {AlertContext, CurrencyContext, LanguageContext, TextContext} from "./components/misc/Contexts";
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
@@ -12,6 +11,7 @@ export default function App() {
     const [alert, setAlert] = useState(null);
     const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
     const [language, setLanguage] = useState<string>('en');
+    const [lightMode, setLightMode] = useState<boolean>(false);
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(require("./lang.sample.json"));
@@ -27,15 +27,14 @@ export default function App() {
     });
 
     useEffect(() => {
-        api.settings.getLanguage().then(lang => {
-            if (!lang) {
-                api.settings.setLanguage("en").then(() => {
-                    setLanguage("en");
-                });
-            } else {
-                setLanguage(lang);
-            }
-        });
+        (async () => {
+            if (!await api.settings.getLanguage())
+                await api.settings.setLanguage("en");
+            setLanguage(await api.settings.getLanguage());
+            if (typeof await api.settings.getLightMode() === 'undefined')
+                await api.settings.setLightMode(false);
+            setLightMode(await api.settings.getLightMode());
+        })();
     }, []);
 
     useEffect(() => {
@@ -53,7 +52,12 @@ export default function App() {
 
     useEffect(() => {
         api.textContent(language).then(result => setTextContent(result));
+        api.settings.setLanguage(language);
     }, [language]);
+
+    useEffect(() => {
+        api.settings.setLightMode(lightMode);
+    }, [lightMode]);
 
     useEffect(() => {
         const red = Number('0x' + openAccount?.theme_color[0] + openAccount?.theme_color[1]);
@@ -88,15 +92,19 @@ export default function App() {
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <ThemeProvider theme={{
-                        theme_color: '#ffffff',
+                        theme_color: '#ff33a3',
                         neutral_color: '#1a1a1a',
-                        neutral_opposite: '#ffffff'
+                        neutral_opposite: '#ffffff',
+                        other_opposite: '#444444'
                     }}>
-                        <div>
+                        <div className={lightMode ? 'light_mode' : ''}>
                             <Header
                                 tabs={accounts || []}
                                 openId={openAccount?.id}
                                 setOpenAccount={setOpenAccount}
+                                setLanguage={setLanguage}
+                                setLightMode={setLightMode}
+                                lightMode={lightMode}
                             />
                             <NoAccounts fetchAccounts={() => setTriggerFetchFlag(!triggerFetchFlag)}/>
                         </div>
@@ -106,7 +114,7 @@ export default function App() {
         )
 
     return (
-        <div>
+        <div className={lightMode ? 'light_mode' : ''}>
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <CurrencyContext.Provider value={currency}>
@@ -126,13 +134,15 @@ export default function App() {
                                     tabs={accounts || []}
                                     openId={openAccount?.id}
                                     setOpenAccount={setOpenAccount}
+                                    setLanguage={setLanguage}
+                                    setLightMode={setLightMode}
+                                    lightMode={lightMode}
                                 />
                                 <Account
                                     openAccount={openAccount}
                                     fetchAccounts={() => setTriggerFetchFlag(!triggerFetchFlag)}
                                 />
                                 <StandingOrders/>
-                                <GlobalSettings/>
                             </AlertContext.Provider>
                             <Alert
                                 message={alert?.message}

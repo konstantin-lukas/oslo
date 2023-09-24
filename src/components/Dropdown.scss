@@ -107,6 +107,12 @@
     font-size: 1em;
   }
 
+  &.limited_height.compact .custom-select {
+    background: transparent;
+    padding: 0;
+    margin: 1rem 0 0 0;
+  }
+
   &.limited_height .custom-select .scroll-anchor {
     max-height: 30vh;
     overflow-y: auto;
@@ -115,7 +121,12 @@
     margin-top: 3px;
   }
 
-  &.limited_height .custom-select::before {
+  &.limited_height.compact .custom-select .scroll-anchor {
+    margin: 0;
+    padding: 0;
+  }
+
+  &.limited_height:not(.compact) .custom-select::before {
     content: "";
     width: 100%;
     height: 1.3em;
@@ -127,7 +138,7 @@
     pointer-events: none;
   }
 
-  &.limited_height .custom-select::after {
+  &.limited_height:not(.compact) .custom-select::after {
     content: "";
     width: 100%;
     height: 1.3em;

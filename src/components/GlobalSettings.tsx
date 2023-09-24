@@ -1,43 +1,42 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './GlobalSettings.scss';
-import {TextContext} from "./misc/Contexts";
+import {LanguageContext, TextContext} from "./misc/Contexts";
+import Dropdown from "./Dropdown";
+import Button from "./Button";
+import Checkbox from "./Checkbox";
+import availableLanguages from '../lang.avail.json';
 
-export default function GlobalSettings() {
+export default function GlobalSettings({open, setLanguage, setLightMode, lightMode}: {
+    open: boolean,
+    setLanguage: (lang: string) => void,
+    setLightMode: (yes: boolean) => void,
+    lightMode: boolean
+}) {
     const text = useContext(TextContext);
-    return (
-        <div id="global_settings">
-            <label className="container export_label"><span id="export_label_span">{text?.export_data_}</span>
-                <button type="button" name="export" className="theme_background">{text?.export_}</button>
+    const lang = useContext(LanguageContext);
+    return (                                                                                                                                                                                                                                                        
+        <div id="global_settings" className={open ? 'open' : ''}>
+            <label className="container"><span>{text?.export_data_}</span>
+                <Button altColors={true} onClick={() => {
+                    api.window.export();
+                }}>{text.export_}</Button>
             </label>
-            <label className="container import_label"><span id="import_label_span">{text?.import_data_}</span>
-                <button type="button" name="import" className="theme_background">{text?.import_}</button>
+            <label className="container"><span>{text?.import_data_}</span>
+                <Button altColors={true} onClick={() => alert("IMPORT")}>{text.import_}</Button>
             </label>
-            <label className="container">
-                <span id="dark_span">{text?.dark_theme_}</span>
-                <input type="checkbox" name="dark_mode" defaultChecked={true}/>
-                    <span className="toggle_checkbox"></span>
-            </label>
+            <Checkbox label={text.dark_theme_} checked={!lightMode} onChange={() => {
+                setLightMode(!lightMode);
+            }}/>
             <label>
                 <span id="lang_span">{text?.language_}</span>
-                <span className="custom-select-container">
-                    <span className="selected">Deutsch</span>
-                    <span className="custom-select">
-                        <span className="option" data-value="de">Deutsch</span>
-                        <span className="option" data-value="en">Englisch</span>
-                        <span className="option" data-value="fr">Französisch</span>
-                        <span className="option" data-value="ja">Japanisch</span>
-                        <span className="option" data-value="es">Spanish</span>
-                        <select>
-                            <option className="option" value="de">Deutsch</option>
-                            <option className="option" value="en">Englisch</option>
-                            <option className="option" value="fr">Französisch</option>
-                            <option className="option" value="ja">Japanisch</option>
-                            <option className="option" value="es">Spanisch</option>
-                        </select>
-                    </span>
-                </span>
+                <Dropdown
+                    labels={availableLanguages.map(lang => lang.name)}
+                    values={availableLanguages.map(lang => lang.code)}
+                    defaultSelected={lang}
+                    returnValue={(newLang) => setLanguage(newLang)}
+                    compact={true}
+                />
             </label>
-            <button type="button" name="save_global_settings" className="theme_background">Speichern</button>
         </div>
     );
 }
