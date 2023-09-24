@@ -26,7 +26,7 @@ declare type AccountData = {
     id: number
     name: string,
     currency: string,
-    allow_negative_values: boolean,
+    allow_overdrawing: boolean,
     interest_rate: number,
     creation_date: string,
     last_interest: number,

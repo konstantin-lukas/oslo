@@ -1,8 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import Pickr from "@simonwep/pickr";
 import './ColorPicker.scss';
+import {useTheme} from "styled-components";
 
-export default function ColorPicker({defaultColor} : {defaultColor : string}) {
+export default function ColorPicker({onInput, accountId} : {onInput: (color: string) => void, accountId: number}) {
+    const theme = useTheme();
+    const [defaultColor, setDefaultColor] = useState<string>(theme.theme_color || 'ffffff');
     const pickerElement = useRef(null);
     const [picker, setPicker] = useState(null);
     const [selectedColor, setSelectedColor] = useState(defaultColor);
@@ -55,10 +58,17 @@ export default function ColorPicker({defaultColor} : {defaultColor : string}) {
     }, []);
 
     useEffect(() => {
+        setDefaultColor(theme.theme_color);
         setSelectedColor(defaultColor);
         if (picker)
-            picker.setColor(defaultColor);
-    }, [defaultColor]);
+            picker.setColor(theme.theme_color);
+    }, [accountId, theme]);
+
+    useEffect(() => {
+        if (onInput)
+            onInput(selectedColor);
+    }, [selectedColor]);
+
     return (
         <span
             id="color_picker"

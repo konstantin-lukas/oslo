@@ -8,24 +8,19 @@ import {AlertContext, CurrencyContext, LanguageContext, TextContext} from "./com
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 
-
 export default function App() {
     const [alert, setAlert] = useState(null);
     const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
     const [language, setLanguage] = useState<string>('en');
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
-    const [textContent, setTextContent] = useState(null);
+    const [textContent, setTextContent] = useState(require("./lang.sample.json"));
     const [currency, setCurrency] = useState({
         name: 'USD',
         decimalPlaces: 2
     });
     const [themeColor, setThemeColor] = useState({
-        theme_color: {
-            r: 0xff,
-            g: 0x33,
-            b: 0xa3
-        },
+        theme_color: '#ff33a3',
         neutral_color: '#1a1a1a',
         neutral_opposite: '#ffffff',
         other_opposite: '#444444'
@@ -34,8 +29,8 @@ export default function App() {
     useEffect(() => {
         api.settings.getLanguage().then(lang => {
             if (!lang) {
-                api.settings.setLanguage("bg").then(() => {
-                    setLanguage("bg");
+                api.settings.setLanguage("en").then(() => {
+                    setLanguage("en");
                 });
             } else {
                 setLanguage(lang);
@@ -71,8 +66,9 @@ export default function App() {
         })();
         const contrast_opposite = (contrast == '#fff') ? '#1a1a1a' : '#fff';
         const alt_opp = (contrast == '#1a1a1a') ? '#444' : '#fff';
+
         setThemeColor({
-            theme_color: color,
+            theme_color: '#' + (openAccount?.theme_color || 'ff33a3'),
             neutral_color: contrast,
             neutral_opposite: contrast_opposite,
             other_opposite: alt_opp
@@ -92,11 +88,7 @@ export default function App() {
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <ThemeProvider theme={{
-                        theme_color: {
-                            r: 0xff,
-                            g: 0xff,
-                            b: 0xff
-                        },
+                        theme_color: '#ffffff',
                         neutral_color: '#1a1a1a',
                         neutral_opposite: '#ffffff'
                     }}>

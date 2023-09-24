@@ -67,7 +67,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                     labels: labels,
                     datasets: [{
                         data: data,
-                        borderColor: `rgb(${theme.theme_color.r},${theme.theme_color.g},${theme.theme_color.b})`,
+                        borderColor: theme.theme_color,
                         borderWidth: 1
                     }]
                 }}

@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 const StyledInput = styled.input`
     &::selection {
       color: ${props => props.theme.neutral_color};
-      background: rgba(${props => props.theme.theme_color.r},${props => props.theme.theme_color.g},${props => props.theme.theme_color.b},0.99);
+      background: ${props => props.theme.theme_color};
     }
 `;
 export default forwardRef(function Input({id, className, name, defaultValue, onInput} : {

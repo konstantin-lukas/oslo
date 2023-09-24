@@ -38,8 +38,8 @@ const database = {
     getBalanceUntilExcluding: async (id: number, date: string) => {
         return await ipcRenderer.invoke('getBalanceUntilExcluding', id, date);
     },
-    patchAccountColor: async (id: number, color: string) => {
-        return await ipcRenderer.invoke('patchAccountColor', id, color);
+    patchAccount: async (id: number, name: string, color: string, allow_overdrawing: boolean, interest_rate: number) => {
+        return await ipcRenderer.invoke('patchAccount', id, name, color, allow_overdrawing, interest_rate);
     }
 };
 

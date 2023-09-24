@@ -130,11 +130,21 @@ export default function registerDatabase() {
             return null;
         }
     });
-    ipcMain.handle('patchAccountColor', async (_, id, color) => {
+    ipcMain.handle('patchAccount', async (_, id, name, color, allow_overdrawing, interest_rate) => {
         try {
             const db = await openDB();
             await db.run(
-                'UPDATE "account" SET "theme_color" = ? WHERE "id" = ?;', color, id
+                'UPDATE "account" ' +
+                'SET "theme_color" = ?, ' +
+                '"name" = ?, ' +
+                '"allow_overdrawing" = ?, ' +
+                '"interest_rate" = ? ' +
+                'WHERE "id" = ?;',
+                color,
+                name,
+                allow_overdrawing,
+                interest_rate,
+                id
             );
             await db.close();
             return

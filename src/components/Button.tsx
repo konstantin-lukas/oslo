@@ -9,9 +9,7 @@ const StyledButton = styled.button`
         background: linear-gradient(0deg, 
         ${props => props.theme.neutral_color},
         ${props => props.theme.neutral_color} 50%,
-        rgb(${props => props.theme.theme_color.r},
-        ${props => props.theme.theme_color.g},
-        ${props => props.theme.theme_color.b}) 50%);
+        ${props => props.theme.theme_color} 50%);
       }
       &:hover {
         color: ${props => props.theme.neutral_opposite};
