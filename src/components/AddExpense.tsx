@@ -14,12 +14,13 @@ export default function AddExpense({openAccount, fetchTransactions}: {
     const [currencyInput, setCurrencyInput] = useState<IntlCurrencyInput | null>(null);
     const text = useContext(TextContext);
     const titleInput = useRef(null);
+
+
+    let mounted = false;
     useEffect(() => {
         const input = currencyInputElement.current;
-        if (input) {
-            if (currencyInput) {
-                currencyInput.unmount();
-            }
+        if (input && !currencyInput && !mounted) {
+            mounted = true;
             const newInput = new IntlCurrencyInput(input, '0.00', {
                 currencyName: 'EUR',
                 currencySymbol: '€',
@@ -27,10 +28,14 @@ export default function AddExpense({openAccount, fetchTransactions}: {
                 decimalSeparator: ',',
                 displayOrder: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
             });
+            newInput.enableStrictMode();
             setCurrencyInput(newInput);
-        } else {
-            setCurrencyInput(null);
         }
+    }, []);
+    useEffect(() => {
+        const input = currencyInputElement.current;
+        if (input && currencyInput)
+            currencyInput.remount(input);
     }, [currencyInputElement]);
     return (
         <div id="addExpense">

@@ -92,7 +92,7 @@ export default function App() {
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <ThemeProvider theme={{
-                        theme_color: '#ff33a3',
+                        theme_color: '#ffffff',
                         neutral_color: '#1a1a1a',
                         neutral_opposite: '#ffffff',
                         other_opposite: '#444444'
