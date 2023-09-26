@@ -1,6 +1,6 @@
 import {BrowserWindow, ipcMain, dialog} from "electron";
 import fs from "fs";
-
+import {resolve} from "path";
 export default function registerWindow(mainWindow: BrowserWindow) {
     ipcMain.on('close', function(){
         mainWindow.close();
@@ -29,14 +29,19 @@ export default function registerWindow(mainWindow: BrowserWindow) {
             ],
             filters: [
                 {
-                    name: 'All files',
-                    extensions: ['*']
+                    name: 'Osaca Files',
+                    extensions: ['osaca']
                 }
             ]
         });
         if (!path) return;
+        if (!path.endsWith('.osaca')) {
+            path += '.osaca';
+        }
         try {
-            fs.writeFileSync(path, JSON.stringify({"data":true}, null, 4));
-        } catch (_) {}
+            fs.copyFileSync(resolve(__dirname + "/account_info.db"), path);
+        } catch (_) {
+            console.error('Error exporting data!')
+        }
     });
 }

@@ -7,8 +7,9 @@ import * as process from "process";
 if (process.env.DEV_MODE)
     sqlite3.verbose();
 async function openDB() {
+    const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
     return open({
-        filename: './src/account_info.db',
+        filename: dbRoot + "/account_info.db",
         driver: sqlite3.Database
     })
 }

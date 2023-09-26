@@ -6,6 +6,7 @@ import StandingOrders from "./components/StandingOrders";
 import {AlertContext, CurrencyContext, LanguageContext, TextContext} from "./components/misc/Contexts";
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
+import langSample from "./lang.sample.json";
 
 export default function App() {
     const [alert, setAlert] = useState(null);
@@ -14,7 +15,7 @@ export default function App() {
     const [lightMode, setLightMode] = useState<boolean>(false);
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
-    const [textContent, setTextContent] = useState(require("./lang.sample.json"));
+    const [textContent, setTextContent] = useState(langSample);
     const [currency, setCurrency] = useState({
         name: 'USD',
         decimalPlaces: 2
