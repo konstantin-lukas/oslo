@@ -2,10 +2,9 @@ import React from "react";
 import './AccountMenu.scss';
 import AddExpense from "./AddExpense";
 import AccountSettings from "./AccountSettings";
-export default function AccountMenu({openAccount, fetchTransactions, fetchAccounts}: {
+export default function AccountMenu({openAccount, fetchTransactions}: {
     openAccount: AccountData,
-    fetchTransactions: () => void;
-    fetchAccounts: () => void;
+    fetchTransactions: () => void
 }) {
     return (
         <aside>
@@ -16,7 +15,6 @@ export default function AccountMenu({openAccount, fetchTransactions, fetchAccoun
             <AccountSettings
                 openAccount={openAccount}
                 fetchTransactions={fetchTransactions}
-                fetchAccounts={fetchAccounts}
             />
         </aside>
     );

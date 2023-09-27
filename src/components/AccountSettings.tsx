@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useReducer, useRef, useState} from "react";
 import './AccountSettings.scss';
-import {AlertContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import Input from "./Input";
@@ -38,13 +38,13 @@ const accountSettingsReducer = (state: any, action: any) => {
     }
 }
 
-export default function AccountSettings({openAccount, fetchAccounts}: {
+export default function AccountSettings({openAccount}: {
     openAccount: AccountData,
-    fetchTransactions: () => void,
-    fetchAccounts: () => void
+    fetchTransactions: () => void
 }) {
     const text = useContext(TextContext);
     const alert = useContext(AlertContext);
+    const fetchAccounts = useContext(FetchAccountsContext);
     const [defaultColor, setDefaultColor] = useState(openAccount.theme_color)
     const [settings, updateSettings] = useReducer(accountSettingsReducer, {
         name: openAccount.name,
@@ -100,9 +100,11 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                     id="delete_button"
                     viewBox="0 0 283.5 283.5"
                     onClick={() => {
-                        alert(text.confirm_delete_, () => {
-                            api.db.deleteAccount(openAccount.id).then(() => fetchAccounts());
-                        });
+                        alert(
+                            text.confirm_delete_,
+                            () => api.db.deleteAccount(openAccount.id).then(() => fetchAccounts()),
+                            () => {}
+                        );
                     }}
                 >
                     <path style={{
@@ -167,7 +169,12 @@ export default function AccountSettings({openAccount, fetchAccounts}: {
                     settings.theme_color,
                     settings.allow_overdrawing,
                     settings.interest_rate
-                ).then(fetchAccounts);
+                ).then(fetchAccounts).then(() => {
+                    alert(
+                        text.changes_saved_,
+                        () => {}
+                    )
+                });
             }}>{text?.save_}</Button>
         </div>
     );

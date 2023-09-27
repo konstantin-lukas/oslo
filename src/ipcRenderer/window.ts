@@ -14,7 +14,8 @@ const window = {
     unsubscribeUnmaximizeAll: () => {
         ipcRenderer.removeAllListeners('unmaximize');
     },
-    export: () => ipcRenderer.send('export')
+    export: async () => await ipcRenderer.invoke('export'),
+    import: async () => await ipcRenderer.invoke('import')
 };
 
 export default window;

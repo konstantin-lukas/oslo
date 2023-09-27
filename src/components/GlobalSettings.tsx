@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import './GlobalSettings.scss';
-import {LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
@@ -14,15 +14,29 @@ export default function GlobalSettings({open, setLanguage, setLightMode, lightMo
 }) {
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
+    const fetchAccounts = useContext(FetchAccountsContext);
+    const alert = useContext(AlertContext);
     return (                                                                                                                                                                                                                                                        
         <div id="global_settings" className={open ? 'open' : ''}>
             <label className="container"><span>{text?.export_data_}</span>
                 <Button altColors={true} onClick={() => {
-                    api.window.export();
+                    api.window.export().then((success) => {
+                        alert(
+                            success ? text.export_data_ : 'Meh',
+                            () => {}
+                        )
+
+                    });
                 }}>{text.export_}</Button>
             </label>
             <label className="container"><span>{text?.import_data_}</span>
-                <Button altColors={true} onClick={() => alert("IMPORT")}>{text.import_}</Button>
+                <Button altColors={true} onClick={() => {
+                    alert(
+                        text.confirm_import_,
+                        () => api.window.import().then(fetchAccounts),
+                        () => {}
+                    );
+                }}>{text.import_}</Button>
             </label>
             <Checkbox label={text.dark_theme_} checked={!lightMode} onChange={() => {
                 setLightMode(!lightMode);

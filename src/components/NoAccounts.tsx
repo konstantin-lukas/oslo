@@ -2,15 +2,14 @@ import React, {useContext, useEffect, useMemo, useState} from "react";
 import './NoAccounts.scss';
 import Dropdown from "./Dropdown";
 import currencies from "./misc/Currencies";
-import {LanguageContext, TextContext} from "./misc/Contexts";
+import {FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
 import Input from "./Input";
 import Button from "./Button";
 
-export default function NoAccounts({fetchAccounts} : {
-    fetchAccounts: () => void
-}) {
+export default function NoAccounts() {
     const lang = useContext(LanguageContext);
     const text = useContext(TextContext);
+    const fetchAccounts = useContext(FetchAccountsContext);
     const [currency, setCurrency] = useState('USD');
     const [name, setName] = useState<string>(text?.new_account_);
     const labels = useMemo(() => {

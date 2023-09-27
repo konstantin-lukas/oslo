@@ -9,8 +9,10 @@ export default function ColorPicker({onInput, accountId} : {onInput: (color: str
     const pickerElement = useRef(null);
     const [picker, setPicker] = useState(null);
     const [selectedColor, setSelectedColor] = useState(defaultColor);
+    let mounted = false;
     useEffect(() => {
-        if (pickerElement.current && selectedColor) {
+        if (pickerElement.current && selectedColor && !mounted) {
+            mounted = true;
             if (picker)
                 picker.destroyAndRemove();
             const pickr = Pickr.create({

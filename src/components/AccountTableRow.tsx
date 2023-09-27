@@ -4,7 +4,7 @@ import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
 import './AccountTableRow.scss';
 
 const StyledButton = styled.button`
-  background: rgb(${props => props.theme.theme_color.r},${props => props.theme.theme_color.g},${props => props.theme.theme_color.b});
+  background: ${props => props.theme.theme_color};
   &.del:hover {
     background: ${props => props.theme.neutral_color};
   }
@@ -43,7 +43,8 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
                     onClick={() => {
                         alert(
                             text.confirm_transaction_delete_,
-                            () => {api.db.deleteTransaction(id).then(() => fetchTransactions())}
+                            () => {api.db.deleteTransaction(id).then(() => fetchTransactions())},
+                            () => {}
                         );
                     }}
                 ></StyledButton>

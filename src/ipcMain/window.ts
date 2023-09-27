@@ -1,6 +1,7 @@
 import {BrowserWindow, ipcMain, dialog} from "electron";
 import fs from "fs";
 import {resolve} from "path";
+import process from "process";
 export default function registerWindow(mainWindow: BrowserWindow) {
     ipcMain.on('close', function(){
         mainWindow.close();
@@ -21,7 +22,7 @@ export default function registerWindow(mainWindow: BrowserWindow) {
     mainWindow.on('unmaximize',function () {
         mainWindow.webContents.send('unmaximize');
     });
-    ipcMain.on('export',function (_) {
+    ipcMain.handle('export',function (_) {
         let path = dialog.showSaveDialogSync(mainWindow, {
             properties: [
                 'createDirectory',
@@ -29,19 +30,42 @@ export default function registerWindow(mainWindow: BrowserWindow) {
             ],
             filters: [
                 {
-                    name: 'Osaca Files',
-                    extensions: ['osaca']
+                    name: 'Oslo Files',
+                    extensions: ['oslo']
                 }
             ]
         });
         if (!path) return;
-        if (!path.endsWith('.osaca')) {
-            path += '.osaca';
+        if (!path.endsWith('.oslo')) {
+            path += '.oslo';
         }
         try {
-            fs.copyFileSync(resolve(__dirname + "/account_info.db"), path);
+            const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
+            fs.copyFileSync(resolve(dbRoot + "/account_info.db"), path);
         } catch (_) {
-            console.error('Error exporting data!')
+            return false;
         }
+        return true;
+    });
+    ipcMain.handle('import',function (_) {
+        const path = dialog.showOpenDialogSync(mainWindow, {
+            properties: [
+                'openFile'
+            ],
+            filters: [
+                {
+                    name: 'Oslo Files',
+                    extensions: ['oslo']
+                }
+            ]
+        });
+        if (!path?.[0] || !path[0].endsWith('.oslo')) return false;
+        try {
+            const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
+            fs.copyFileSync(path[0], resolve(dbRoot + "/account_info.db"));
+        } catch (_) {
+            return false;
+        }
+        return true;
     });
 }

@@ -25,8 +25,7 @@ export default function AccountHeader({heading, date, setDate}: {
 
     const closeDatePicker = () => {
         setDatePickerOpen({from: false, until: false});
-    }
-
+    };
 
 
     if (heading && date && setDate) {

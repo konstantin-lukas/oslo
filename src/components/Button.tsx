@@ -29,10 +29,11 @@ const AltButton = styled.button`
         color: ${props => props.theme.neutral_opposite};
       }
     `;
-export default function Button({children, onClick, altColors}: {
+export default function Button({children, onClick, altColors, style}: {
     children: ReactNode,
     onClick: () => void,
-    altColors?: boolean
+    altColors?: boolean,
+    style?: React.CSSProperties
 }
 ) {
     if (altColors)
@@ -41,6 +42,7 @@ export default function Button({children, onClick, altColors}: {
                 onClick={onClick}
                 type="button"
                 className="defaultButton"
+                style={style}
             >
                 {children}
             </AltButton>
@@ -51,6 +53,7 @@ export default function Button({children, onClick, altColors}: {
             onClick={onClick}
             type="button"
             className="defaultButton"
+            style={style}
         >
             {children}
         </StyledButton>

@@ -8,6 +8,11 @@
   background: $dark3;
   border-radius: 4px;
   position: relative;
+  label > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 #color_span {

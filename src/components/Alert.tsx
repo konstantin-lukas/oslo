@@ -2,9 +2,10 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import './Alert.scss';
 import Button from "./Button";
 import {TextContext} from "./misc/Contexts";
-export default function Alert({message, confirmAction} : {
+export default function Alert({message, confirmAction, cancelAction} : {
     message: string,
-    confirmAction: () => void
+    confirmAction: () => void,
+    cancelAction?: () => void
 }) {
     const text = useContext(TextContext);
     const alertBox = useRef(null);
@@ -33,7 +34,11 @@ export default function Alert({message, confirmAction} : {
                 <span id="custom_message">{message}</span>
                 <div id="custom_html"></div>
                 <div id="buttons">
-                    <Button onClick={() => {
+                    <Button
+                        style={!cancelAction ? {
+                            marginRight: '0'
+                        } : null}
+                        onClick={() => {
                         if (confirmAction)
                             confirmAction();
                         alertBox?.current?.classList.remove("open_alert");
@@ -41,12 +46,16 @@ export default function Alert({message, confirmAction} : {
                             alertBox?.current?.classList.remove("visible_alert");
                         }, 200);
                     }}>{text?.confirm_}</Button>
-                    <Button onClick={() => {
-                        alertBox?.current?.classList.remove("open_alert");
-                        setTimeout(() => {
-                            alertBox?.current?.classList.remove("visible_alert");
-                        }, 200);
-                    }}>{text?.cancel_}</Button>
+                    {
+                        cancelAction ?
+                            <Button onClick={() => {
+                                cancelAction();
+                                alertBox?.current?.classList.remove("open_alert");
+                                setTimeout(() => {
+                                    alertBox?.current?.classList.remove("visible_alert");
+                                }, 200);
+                            }}>{text?.cancel_}</Button> : <></>
+                    }
                 </div>
             </div>
         </div>
