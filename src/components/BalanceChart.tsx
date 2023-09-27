@@ -3,7 +3,7 @@ import './BalanceChart.scss';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineController, PointElement, LineElement, Tooltip} from 'chart.js';
 import { Chart } from "react-chartjs-2";
 import { add } from "date-fns";
-import {CurrencyContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {CurrencyContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import {useTheme} from "styled-components";
 import {Money, MoneyCalculator} from "moneydew";
 
@@ -22,6 +22,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     const language = useContext(LanguageContext);
     const currency = useContext(CurrencyContext);
     const text = useContext(TextContext);
+    const lightMode = useContext(LightModeContext);
 
     useEffect(() => {
         api.db.getBalanceUntilExcluding(openAccountId, from.toISOString().split('T')[0]).then(sum => {
@@ -30,8 +31,8 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     }, [from, openAccountId]);
 
     useEffect(() => {
-        setColor(theme.light_mode ? '#1a1a1a' : '#ffffff');
-    }, [theme]);
+        setColor(lightMode ? '#1a1a1a' : '#ffffff');
+    }, [lightMode]);
 
     useEffect(() => {
         let indexDate = structuredClone(from);

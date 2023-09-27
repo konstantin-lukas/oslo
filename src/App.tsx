@@ -7,7 +7,7 @@ import {
     AlertContext,
     CurrencyContext,
     FetchAccountsContext,
-    LanguageContext,
+    LanguageContext, LightModeContext,
     TextContext
 } from "./components/misc/Contexts";
 import {ThemeProvider} from "styled-components";
@@ -23,6 +23,7 @@ export default function App() {
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(langSample);
+    const [fetchSettingsFlag, setFetchSettingsFlag] = useState(false);
     const [currency, setCurrency] = useState({
         name: 'USD',
         decimalPlaces: 2
@@ -31,16 +32,19 @@ export default function App() {
         theme_color: '#ff33a3',
         neutral_color: '#1a1a1a',
         neutral_opposite: '#ffffff',
-        other_opposite: '#444444',
-        light_mode: false
+        other_opposite: '#444444'
     });
 
     useEffect(() => {
-        (async () => {
-            setLanguage(await api.settings.getLanguage());
-            setLightMode(await api.settings.getLightMode());
-        })();
+        setFetchSettingsFlag(true);
     }, []);
+
+    useEffect(() => {
+        if (fetchSettingsFlag) {
+            api.settings.getLanguage().then(res => setLanguage(res));
+            api.settings.getLightMode().then(res => setLightMode(res));
+        }
+    }, [fetchSettingsFlag]);
 
     useEffect(() => {
         (async () => {
@@ -58,11 +62,9 @@ export default function App() {
     }, [language]);
 
     useEffect(() => {
-        // TODO FIGURE OUT HOW TO BUILD AND TEST LIGHT MODE
-        api.settings.setLightMode(lightMode).then(() => setThemeColor({
-            ...themeColor,
-            light_mode: lightMode
-        }));
+        if (fetchSettingsFlag) {
+            api.settings.setLightMode(lightMode);
+        }
     }, [lightMode]);
 
     useEffect(() => {
@@ -82,8 +84,7 @@ export default function App() {
             theme_color: '#' + (openAccount?.theme_color || 'ffffff'),
             neutral_color: contrast,
             neutral_opposite: contrast_opposite,
-            other_opposite: alt_opp,
-            light_mode: lightMode
+            other_opposite: alt_opp
         });
         const open_tab = openAccount?.id;
         if (open_tab) {
@@ -100,54 +101,13 @@ export default function App() {
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
-                        <ThemeProvider theme={{
-                            theme_color: '#ffffff',
-                            neutral_color: '#1a1a1a',
-                            neutral_opposite: '#ffffff',
-                            other_opposite: '#444444',
-                            light_mode: lightMode
-                        }}>
-                            <AlertContext.Provider value={(
-                                message: string,
-                                confirmAction: () => void,
-                                cancelAction: () => void
-                            ) => {
-                                setAlert({
-                                    message,
-                                    confirmAction,
-                                    cancelAction
-                                });
+                        <LightModeContext.Provider value={lightMode}>
+                            <ThemeProvider theme={{
+                                theme_color: '#ffffff',
+                                neutral_color: '#1a1a1a',
+                                neutral_opposite: '#ffffff',
+                                other_opposite: '#444444'
                             }}>
-                                <div className={lightMode ? 'light_mode' : ''}>
-                                    <Header
-                                        tabs={accounts || []}
-                                        openId={openAccount?.id}
-                                        setOpenAccount={setOpenAccount}
-                                        setLanguage={setLanguage}
-                                        setLightMode={setLightMode}
-                                        lightMode={lightMode}
-                                    />
-                                    <NoAccounts/>
-                                    <Alert
-                                        message={alert?.message}
-                                        confirmAction={alert?.confirmAction}
-                                        cancelAction={alert?.cancelAction}
-                                    />
-                                </div>
-                            </AlertContext.Provider>
-                        </ThemeProvider>
-                     </FetchAccountsContext.Provider>
-                </LanguageContext.Provider>
-            </TextContext.Provider>
-        )
-
-    return (
-        <div className={lightMode ? 'light_mode' : ''}>
-            <TextContext.Provider value={textContent}>
-                <LanguageContext.Provider value={language}>
-                    <CurrencyContext.Provider value={currency}>
-                        <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
-                            <ThemeProvider theme={themeColor}>
                                 <AlertContext.Provider value={(
                                     message: string,
                                     confirmAction: () => void,
@@ -159,23 +119,67 @@ export default function App() {
                                         cancelAction
                                     });
                                 }}>
-                                    <Header
-                                        tabs={accounts || []}
-                                        openId={openAccount?.id}
-                                        setOpenAccount={setOpenAccount}
-                                        setLanguage={setLanguage}
-                                        setLightMode={setLightMode}
-                                        lightMode={lightMode}
-                                    />
-                                    <Account openAccount={openAccount}/>
-                                    <StandingOrders/>
+                                    <div className={lightMode ? 'light_mode' : ''}>
+                                        <Header
+                                            tabs={accounts || []}
+                                            openId={openAccount?.id}
+                                            setOpenAccount={setOpenAccount}
+                                            setLanguage={setLanguage}
+                                            setLightMode={setLightMode}
+                                            lightMode={lightMode}
+                                        />
+                                        <NoAccounts/>
+                                        <Alert
+                                            message={alert?.message}
+                                            confirmAction={alert?.confirmAction}
+                                            cancelAction={alert?.cancelAction}
+                                        />
+                                    </div>
                                 </AlertContext.Provider>
-                                <Alert
-                                    message={alert?.message}
-                                    confirmAction={alert?.confirmAction}
-                                    cancelAction={alert?.cancelAction}
-                                />
                             </ThemeProvider>
+                        </LightModeContext.Provider>
+                    </FetchAccountsContext.Provider>
+                </LanguageContext.Provider>
+            </TextContext.Provider>
+        )
+
+    return (
+        <div className={lightMode ? 'light_mode' : ''}>
+            <TextContext.Provider value={textContent}>
+                <LanguageContext.Provider value={language}>
+                    <CurrencyContext.Provider value={currency}>
+                        <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
+                            <LightModeContext.Provider value={lightMode}>
+                                <ThemeProvider theme={themeColor}>
+                                    <AlertContext.Provider value={(
+                                        message: string,
+                                        confirmAction: () => void,
+                                        cancelAction: () => void
+                                    ) => {
+                                        setAlert({
+                                            message,
+                                            confirmAction,
+                                            cancelAction
+                                        });
+                                    }}>
+                                        <Header
+                                            tabs={accounts || []}
+                                            openId={openAccount?.id}
+                                            setOpenAccount={setOpenAccount}
+                                            setLanguage={setLanguage}
+                                            setLightMode={setLightMode}
+                                            lightMode={lightMode}
+                                        />
+                                        <Account openAccount={openAccount}/>
+                                        <StandingOrders/>
+                                    </AlertContext.Provider>
+                                    <Alert
+                                        message={alert?.message}
+                                        confirmAction={alert?.confirmAction}
+                                        cancelAction={alert?.cancelAction}
+                                    />
+                                </ThemeProvider>
+                            </LightModeContext.Provider>
                         </FetchAccountsContext.Provider>
                     </CurrencyContext.Provider>
                 </LanguageContext.Provider>
