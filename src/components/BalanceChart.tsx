@@ -17,6 +17,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     const theme = useTheme();
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([]);
+    const [color, setColor] = useState('#ffffff');
     const [initialBalance, setInitialBalance] = useState(0);
     const language = useContext(LanguageContext);
     const currency = useContext(CurrencyContext);
@@ -27,6 +28,10 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
             setInitialBalance(parseInt(sum));
         });
     }, [from, openAccountId]);
+
+    useEffect(() => {
+        setColor(theme.light_mode ? '#1a1a1a' : '#ffffff');
+    }, [theme]);
 
     useEffect(() => {
         let indexDate = structuredClone(from);
@@ -58,7 +63,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     }, [transactions, from, until]);
     ChartJS.defaults.font.size = 16;
     ChartJS.defaults.font.family = 'Barlow Condensed';
-    ChartJS.defaults.color = '#ffffff';
+    ChartJS.defaults.color = color;
     return (
         <div id="account_balance">
             <Chart
@@ -111,18 +116,18 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                         x: {
                             grid: {
                                 color: 'rgba(255,255,255,0)',
-                                tickColor: '#fff',
+                                tickColor: color,
                                 lineWidth: 1
                             }
                         },
                         y: {
                             grid: {
-                                color: 'rgba(255,255,255,0.4)',
+                                color: '#808080',
                                 tickColor: 'rgba(0,0,0,0)'
                             },
                             border: {
                                 width: 0,
-                                color: '#fff'
+                                color: color
                             },
                             ticks: {
                                 callback: function (value) {

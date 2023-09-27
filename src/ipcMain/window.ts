@@ -2,6 +2,8 @@ import {BrowserWindow, ipcMain, dialog} from "electron";
 import fs from "fs";
 import {resolve} from "path";
 import process from "process";
+
+
 export default function registerWindow(mainWindow: BrowserWindow) {
     ipcMain.on('close', function(){
         mainWindow.close();

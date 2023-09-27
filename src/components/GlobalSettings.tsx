@@ -16,6 +16,7 @@ export default function GlobalSettings({open, setLanguage, setLightMode, lightMo
     const lang = useContext(LanguageContext);
     const fetchAccounts = useContext(FetchAccountsContext);
     const alert = useContext(AlertContext);
+    // TODO HIDE ON CLICK OUTSIDE
     return (                                                                                                                                                                                                                                                        
         <div id="global_settings" className={open ? 'open' : ''}>
             <label className="container"><span>{text?.export_data_}</span>

@@ -13,6 +13,7 @@ import {
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 import langSample from "./lang.sample.json";
+import './lightMode.scss';
 
 export default function App() {
     const [alert, setAlert] = useState(null);
@@ -30,16 +31,13 @@ export default function App() {
         theme_color: '#ff33a3',
         neutral_color: '#1a1a1a',
         neutral_opposite: '#ffffff',
-        other_opposite: '#444444'
+        other_opposite: '#444444',
+        light_mode: false
     });
 
     useEffect(() => {
         (async () => {
-            if (!await api.settings.getLanguage())
-                await api.settings.setLanguage("en");
             setLanguage(await api.settings.getLanguage());
-            if (typeof await api.settings.getLightMode() === 'undefined')
-                await api.settings.setLightMode(false);
             setLightMode(await api.settings.getLightMode());
         })();
     }, []);
@@ -47,10 +45,7 @@ export default function App() {
     useEffect(() => {
         (async () => {
             const acc = await api.db.getAccounts();
-            let last_tab = await api.settings.getLastTab();
-            if (acc && !last_tab)
-                await api.settings.setLastTab(acc[0].id);
-            last_tab = parseInt(await api.settings.getLastTab());
+            let last_tab = parseInt(await api.settings.getLastTab());
             const openAccount = acc.find((acc: {id: number})=> acc.id === last_tab);
             setOpenAccount(openAccount || acc[0]);
             setAccounts(acc);
@@ -63,7 +58,11 @@ export default function App() {
     }, [language]);
 
     useEffect(() => {
-        api.settings.setLightMode(lightMode);
+        // TODO FIGURE OUT HOW TO BUILD AND TEST LIGHT MODE
+        api.settings.setLightMode(lightMode).then(() => setThemeColor({
+            ...themeColor,
+            light_mode: lightMode
+        }));
     }, [lightMode]);
 
     useEffect(() => {
@@ -71,18 +70,20 @@ export default function App() {
         const green = Number('0x' + openAccount?.theme_color[2] + openAccount?.theme_color[3]);
         const blue = Number('0x' + openAccount?.theme_color[4] + openAccount?.theme_color[5]);
         const color = {r: red, g: green, b: blue};
+
         const contrast = (function () {
             const brightness = Math.round(((color.r * 299) + (color.g * 587) + (color.b * 114)) / 1000);
-            return (brightness > 125) ? '#1a1a1a' : '#fff';
+            return (brightness > 125) ? '#1a1a1a' : '#ffffff';
         })();
-        const contrast_opposite = (contrast == '#fff') ? '#1a1a1a' : '#fff';
-        const alt_opp = (contrast == '#1a1a1a') ? '#444' : '#fff';
+        const contrast_opposite = (contrast === '#ffffff') ? '#1a1a1a' : '#ffffff';
+        const alt_opp = (contrast == '#1a1a1a') ? '#444444' : '#ffffff';
 
         setThemeColor({
-            theme_color: '#' + (openAccount?.theme_color || 'ff33a3'),
+            theme_color: '#' + (openAccount?.theme_color || 'ffffff'),
             neutral_color: contrast,
             neutral_opposite: contrast_opposite,
-            other_opposite: alt_opp
+            other_opposite: alt_opp,
+            light_mode: lightMode
         });
         const open_tab = openAccount?.id;
         if (open_tab) {
@@ -103,7 +104,8 @@ export default function App() {
                             theme_color: '#ffffff',
                             neutral_color: '#1a1a1a',
                             neutral_opposite: '#ffffff',
-                            other_opposite: '#444444'
+                            other_opposite: '#444444',
+                            light_mode: lightMode
                         }}>
                             <AlertContext.Provider value={(
                                 message: string,
