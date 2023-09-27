@@ -1,21 +1,21 @@
 import React, {useContext} from "react";
 import './GlobalSettings.scss';
-import {AlertContext, FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import availableLanguages from '../lang.avail.json';
 
-export default function GlobalSettings({open, setLanguage, setLightMode, lightMode}: {
+export default function GlobalSettings({open, setLanguage, setLightMode}: {
     open: boolean,
     setLanguage: (lang: string) => void,
-    setLightMode: (yes: boolean) => void,
-    lightMode: boolean
+    setLightMode: (yes: boolean) => void
 }) {
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
     const fetchAccounts = useContext(FetchAccountsContext);
     const alert = useContext(AlertContext);
+    const lightMode = useContext(LightModeContext)
     // TODO HIDE ON CLICK OUTSIDE
     return (                                                                                                                                                                                                                                                        
         <div id="global_settings" className={open ? 'open' : ''}>

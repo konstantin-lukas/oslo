@@ -126,7 +126,6 @@ export default function App() {
                                             setOpenAccount={setOpenAccount}
                                             setLanguage={setLanguage}
                                             setLightMode={setLightMode}
-                                            lightMode={lightMode}
                                         />
                                         <NoAccounts/>
                                         <Alert
@@ -168,7 +167,6 @@ export default function App() {
                                             setOpenAccount={setOpenAccount}
                                             setLanguage={setLanguage}
                                             setLightMode={setLightMode}
-                                            lightMode={lightMode}
                                         />
                                         <Account openAccount={openAccount}/>
                                         <StandingOrders/>

@@ -2,13 +2,12 @@ import React, {useEffect, useMemo, useState} from 'react';
 import './Header.scss';
 import GlobalSettings from "./GlobalSettings";
 
-export default function Header({tabs, openId, setOpenAccount, setLanguage, setLightMode, lightMode}: {
+export default function Header({tabs, openId, setOpenAccount, setLanguage, setLightMode}: {
     tabs: AccountData[],
     openId: number,
     setOpenAccount: (account: AccountData) => void,
     setLanguage: (lang: string) => void,
-    setLightMode: (yes: boolean) => void,
-    lightMode: boolean
+    setLightMode: (yes: boolean) => void
 }) {
     const [isWindowMaximized, setIsWindowMaximized] = useState<boolean>(true);
     useEffect(() => {
@@ -59,7 +58,6 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
                 open={settingsOpen}
                 setLanguage={setLanguage}
                 setLightMode={setLightMode}
-                lightMode={lightMode}
             />
         </header>
     )
