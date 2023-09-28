@@ -35,3 +35,7 @@ html[lang=ja] #color_picker {
   background: $accentWhite;
   color: $dark2;
 }
+
+.pcr-app .pcr-interaction .pcr-save:hover, .pcr-app .pcr-interaction .pcr-cancel:hover {
+  background: $light2;
+}
