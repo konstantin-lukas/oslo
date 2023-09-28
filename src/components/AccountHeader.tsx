@@ -37,11 +37,9 @@ export default function AccountHeader({heading, date, setDate}: {
         setDatePickerOpen({from: false, until: false});
     }, []);
 
-    if (heading && date && setDate) {
-
-        const datePickerStyle = (
-            <style>
-                {`
+    const datePickerStyle = useMemo(() => {
+        return <style>
+            {`
                     .react-datepicker__header, .react-datepicker__day--selected {
                         background: ${theme.theme_color};
                         color: ${theme.neutral_color};
@@ -54,9 +52,10 @@ export default function AccountHeader({heading, date, setDate}: {
                         color: ${theme.theme_color};
                     }
                 `}
-            </style>
-        );
+        </style>
+    }, [theme, lightMode]);
 
+    if (heading && date && setDate) {
         return (
             <div id="main_header">
                 <h1 title={heading}>{heading}</h1>

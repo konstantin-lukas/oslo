@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {forwardRef, useContext} from "react";
 import './GlobalSettings.scss';
 import {AlertContext, FetchAccountsContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
@@ -7,20 +7,20 @@ import Checkbox from "./Checkbox";
 import availableLanguages from '../lang.avail.json';
 import {useTheme} from "styled-components";
 
-export default function GlobalSettings({open, setLanguage, setLightMode}: {
+export default forwardRef(function GlobalSettings({open, setLanguage, setLightMode}: {
     open: boolean,
     setLanguage: (lang: string) => void,
-    setLightMode: (yes: boolean) => void
-}) {
+    setLightMode: (yes: boolean) => void,
+}, ref: React.Ref<HTMLDivElement>) {
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
     const fetchAccounts = useContext(FetchAccountsContext);
     const alert = useContext(AlertContext);
     const lightMode = useContext(LightModeContext);
     const theme = useTheme();
-    // TODO HIDE ON CLICK OUTSIDE
-    return (                                                                                                                                                                                                                                                        
-        <div id="global_settings" className={open ? 'open' : ''}>
+
+    return (
+        <div id="global_settings" className={open ? 'open' : ''} ref={ref}>
             <label className="container"><span>{text?.export_data_}</span>
                 <Button
                     altColors={!lightMode && theme.neutral_color === '#1a1a1a'}
@@ -59,4 +59,4 @@ export default function GlobalSettings({open, setLanguage, setLightMode}: {
             </label>
         </div>
     );
-}
+})

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import './Header.scss';
 import GlobalSettings from "./GlobalSettings";
 
@@ -17,7 +17,24 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
         api.window.unmaximizeCallback(() => setIsWindowMaximized(false));
     }, []);
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const globalSettingsRef = useRef(null);
 
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            e.stopPropagation()
+            if (
+                globalSettingsRef.current &&
+                globalSettingsRef.current.classList.contains('open') &&
+                !globalSettingsRef.current.contains(e.target)
+            ) {
+                setSettingsOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [globalSettingsRef]);
 
     const tabElements = useMemo(() => tabs.map(tab => {
         return (
@@ -58,6 +75,7 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
                 open={settingsOpen}
                 setLanguage={setLanguage}
                 setLightMode={setLightMode}
+                ref={globalSettingsRef}
             />
         </header>
     )
