@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import './Dropdown.scss';
-import {log10} from "chart.js/dist/helpers";
 
 export default function Dropdown({labels, values, defaultSelected, returnValue, compact}: {
     labels: string[],
@@ -19,7 +18,7 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
             <span
                 key={i}
                 className={"option" + (values[i] === selection.value ? " selected_option" : "")}
-                onClick={e => {
+                onClick={() => {
                     setSelection({
                         label,
                         value: values[i]

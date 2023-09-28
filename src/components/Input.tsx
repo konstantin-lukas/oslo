@@ -1,6 +1,5 @@
-import React, {FormEventHandler} from "react";
-import styled from "styled-components";
-import { forwardRef } from 'react';
+import React, {FormEventHandler, forwardRef} from "react";
+import {styled} from "styled-components";
 import './Input.scss';
 const StyledInput = styled.input`
     &::selection {

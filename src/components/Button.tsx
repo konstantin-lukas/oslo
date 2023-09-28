@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
 import './Button.scss';
-import styled from 'styled-components';
+import {styled} from 'styled-components';
 
 const StyledButton = styled.button`
       background: transparent;

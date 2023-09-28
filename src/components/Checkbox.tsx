@@ -1,6 +1,6 @@
 import React, {ChangeEventHandler} from "react";
 import './Checkbox.scss';
-import styled from "styled-components";
+import {styled} from "styled-components";
 
 const StyledSpan = styled.span`
       &::after {
