@@ -13,13 +13,13 @@
   transition: left .3s linear, visibility .3s .3s linear;
 }
 
-body.open_orders main {
+.open_orders main {
   transform: translateX(-100vw);
   visibility: hidden;
   transition: transform .3s linear, visibility .3s .3s linear;
 }
 
-body.open_orders #standing_orders {
+.open_orders #standing_orders {
   left: 0;
   visibility: visible;
   transition: left .3s linear, visibility .3s linear;

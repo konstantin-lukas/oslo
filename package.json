@@ -57,6 +57,8 @@
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.2",
+    "@types/animejs": "^3.1.8",
+    "animejs": "^3.2.1",
     "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "electron-settings": "^4.0.2",

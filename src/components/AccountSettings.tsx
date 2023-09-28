@@ -39,9 +39,10 @@ const accountSettingsReducer = (state: any, action: any) => {
     }
 }
 
-export default function AccountSettings({openAccount}: {
+export default function AccountSettings({openAccount, openStandingOrders}: {
     openAccount: AccountData,
-    fetchTransactions: () => void
+    fetchTransactions: () => void,
+    openStandingOrders: () => void
 }) {
     const text = useContext(TextContext);
     const alert = useContext(AlertContext);
@@ -69,7 +70,7 @@ export default function AccountSettings({openAccount}: {
         <div id="account_settings">
             <h2>{text?.settings_}</h2>
             <div id="options">
-                <svg id="calendar_btn" viewBox="0 0 283.5 283.5">
+                <svg onClick={openStandingOrders} id="calendar_btn" viewBox="0 0 283.5 283.5">
                     <path style={{
                         fill: `#${defaultColor}`
                     }} d="M211,28.3v47.9h-45V28.3h-48.6v47.9h-45V28.3H0v247.2h283.5V28.3H211z M258.5,250.5H25v-160h233.5V250.5z"/>

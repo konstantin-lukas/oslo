@@ -24,6 +24,7 @@ export default function App() {
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(langSample);
     const [fetchSettingsFlag, setFetchSettingsFlag] = useState(false);
+    const [openOrders, setOpenOrders] = useState(false);
     const [currency, setCurrency] = useState({
         name: 'USD',
         decimalPlaces: 2
@@ -49,7 +50,7 @@ export default function App() {
     useEffect(() => {
         (async () => {
             const acc = await api.db.getAccounts();
-            let last_tab = parseInt(await api.settings.getLastTab());
+            const last_tab = parseInt(await api.settings.getLastTab());
             const openAccount = acc.find((acc: {id: number})=> acc.id === last_tab);
             setOpenAccount(openAccount || acc[0]);
             setAccounts(acc);
@@ -91,7 +92,7 @@ export default function App() {
         });
         const open_tab = openAccount?.id;
         if (open_tab) {
-            api.settings.setLastTab(open_tab);
+            api.settings.setLastTab(open_tab).then();
             setCurrency({
                 name: openAccount.currency,
                 decimalPlaces: 2
@@ -123,7 +124,7 @@ export default function App() {
                                         cancelAction
                                     });
                                 }}>
-                                    <div className={lightMode ? 'light_mode' : ''}>
+                                    <div className={(lightMode ? 'light_mode' : '')}>
                                         <Header
                                             tabs={accounts || []}
                                             openId={openAccount?.id}
@@ -147,7 +148,7 @@ export default function App() {
         )
 
     return (
-        <div className={lightMode ? 'light_mode' : ''}>
+        <div className={(openOrders ? 'open_orders ' : '') + (lightMode ? 'light_mode' : '')}>
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <CurrencyContext.Provider value={currency}>
@@ -172,8 +173,13 @@ export default function App() {
                                             setLanguage={setLanguage}
                                             setLightMode={setLightMode}
                                         />
-                                        <Account openAccount={openAccount}/>
-                                        <StandingOrders/>
+                                        <Account
+                                            openAccount={openAccount}
+                                            openStandingOrders={() => setOpenOrders(true)}
+                                        />
+                                        <StandingOrders
+                                            closeStandingOrders={() => setOpenOrders(false)}
+                                        />
                                     </AlertContext.Provider>
                                     <Alert
                                         message={alert?.message}

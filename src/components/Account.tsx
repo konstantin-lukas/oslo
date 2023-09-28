@@ -5,8 +5,9 @@ import './Account.scss';
 import AccountTable from "./AccountTable";
 import AccountMenu from "./AccountMenu";
 import { sub } from 'date-fns'
-export default function Account({openAccount}: {
-    openAccount: AccountData
+export default function Account({openAccount, openStandingOrders}: {
+    openAccount: AccountData,
+    openStandingOrders: () => void
 }) {
     const [date, setDate] =
         useState<{from: Date, until: Date}>({
@@ -45,6 +46,7 @@ export default function Account({openAccount}: {
                     />
                     <AccountMenu
                         openAccount={openAccount}
+                        openStandingOrders={openStandingOrders}
                         fetchTransactions={() => setTriggerFetchFlag(!triggerFetchFlag)}
                     />
                 </div>
