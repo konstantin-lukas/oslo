@@ -1,13 +1,16 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import './Alert.scss';
 import Button from "./Button";
-import {TextContext} from "./misc/Contexts";
+import {LightModeContext, TextContext} from "./misc/Contexts";
+import {useTheme} from "styled-components";
 export default function Alert({message, confirmAction, cancelAction} : {
     message: string,
     confirmAction: () => void,
     cancelAction?: () => void
 }) {
     const text = useContext(TextContext);
+    const lightMode = useContext(LightModeContext);
+    const theme = useTheme();
     const alertBox = useRef(null);
     const [initialRender, setInitialRender] = useState(true);
     useEffect(() => {
@@ -35,6 +38,7 @@ export default function Alert({message, confirmAction, cancelAction} : {
                 <div id="custom_html"></div>
                 <div id="buttons">
                     <Button
+                        altColors={lightMode && theme.neutral_color === '#ffffff'}
                         style={!cancelAction ? {
                             marginRight: '0'
                         } : null}
@@ -48,7 +52,9 @@ export default function Alert({message, confirmAction, cancelAction} : {
                     }}>{text?.confirm_}</Button>
                     {
                         cancelAction ?
-                            <Button onClick={() => {
+                            <Button
+                                altColors={lightMode && theme.neutral_color === '#ffffff'}
+                                onClick={() => {
                                 cancelAction();
                                 alertBox?.current?.classList.remove("open_alert");
                                 setTimeout(() => {

@@ -13,6 +13,12 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
         label: labels.find((label, i) => defaultSelected === values[i]),
         value: defaultSelected
     })
+    useEffect(() => {
+        setSelection({
+            label: labels.find((label, i) => defaultSelected === values[i]),
+            value: defaultSelected
+        })
+    }, [labels, defaultSelected]);
     const spans = labels.map((label, i) =>
         (
             <span

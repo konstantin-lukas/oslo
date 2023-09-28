@@ -63,6 +63,11 @@ html[lang=ja] #exec_date {
   justify-content: space-between;
 }
 
+#add_order > button:last-of-type {
+  margin-top: 1.5em;
+  margin-bottom: .5em;
+}
+
 #add_order, #manage_orders > * {
   background: $dark3;
   border-radius: 4px;
@@ -99,7 +104,7 @@ html[lang=ja] #manage_orders > * {
 
 #order_wrapper h2 {
   color: $accentWhite;
-  margin-bottom: .2em;
+  margin-bottom: .7em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -145,6 +150,10 @@ html[lang=ja] #manage_orders > * {
   #add_order, #manage_orders {
     width: 100%;
   }
+}
+
+.container *, .custom-select-container .selected, .custom-select-container .option {
+  font-size: 1.2rem;
 }
 
 @media only screen and (max-width: 700px) {

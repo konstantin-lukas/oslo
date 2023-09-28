@@ -1,10 +1,16 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useContext} from "react";
 import anime from 'animejs';
 import './StandingOrders.scss';
 import {useTheme} from "styled-components";
+import {TextContext} from "./misc/Contexts";
+import Dropdown from "./Dropdown";
+import Input from "./Input";
+import Checkbox from "./Checkbox";
+import Button from "./Button";
 export default function StandingOrders({closeStandingOrders}: {closeStandingOrders: () => void}) {
 
     const theme = useTheme();
+    const text = useContext(TextContext);
 
     const backAnim = useCallback((path: string, target: string) => {
         anime({
@@ -18,6 +24,8 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
             }
         });
     }, []);
+
+    // TODO BETRAG MIT CURRENCY INPUT
 
     return (
         <div id="standing_orders">
@@ -34,20 +42,47 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
             </svg>
             <div id="order_wrapper">
                 <div id="add_order" className="theme_background">
-                    <h2>Dauerauftrag erstellen</h2>
+                    <h2>{text.create_standing_order_}</h2>
                     <input type="hidden"/>
-                    <label className="export_label" id="name_label"><span className="label_name"></span>
-                        <input type="text" autoComplete="off"/>
+                    <label className="export_label" id="name_label">
+                        <span className="label_name">{text.standing_order_name_}</span>
+                        <Input/>
                     </label>
-                    <label className="export_label" id="amount_label"><span className="label_name"></span>
-                        <input type="text" autoComplete="off"/>
+                    <label className="export_label" id="amount_label">
+                        <span className="label_name">{text.amount_}</span>
+                        <Input/>
                     </label>
-                    <label className="export_label" id="exec_date_label"><span className="label_name"></span>
-                        <div id="exec_date"></div>
+                    <label className="export_label" id="exec_date_label">
+                        <span className="label_name">{text.first_execution_}</span>
+                        <Input/>
                     </label>
-                    <label className="export_label" id="interval_select"><span className="label_name"></span></label>
-                    <label className="export_label" id="exec_on_last"><span className="label_name"></span></label>
-                    <button type="button" className="theme_background" id="create_order"></button>
+                    <label className="export_label" id="interval_select">
+                        <span className="label_name">{text.exec_interval_}</span>
+                        <Dropdown
+                            labels={[
+                                text.every_1_,
+                                text.every_2_,
+                                text.every_3_,
+                                text.every_4_,
+                                text.every_5_,
+                                text.every_6_,
+                                text.every_7_,
+                                text.every_8_,
+                                text.every_9_,
+                                text.every_10_,
+                                text.every_11_,
+                                text.every_12_,
+                            ]}
+                            values={["1","2","3","4","5","6","7","8","9","10","11","12"]}
+                            defaultSelected={"1"}
+                            returnValue={() => undefined}
+                            compact={false}
+                        />
+                    </label>
+                    <label className="export_label" id="exec_on_last">
+                        <Checkbox onChange={() => undefined} checked={false} label={text.exec_on_last_day_of_month_}/>
+                    </label>
+                    <Button onClick={() => {}}>{text.create_standing_order_}</Button>
                 </div>
                 <div id="manage_orders" className="theme_background">
                     <h2>Daueraufträge verwalten</h2>
