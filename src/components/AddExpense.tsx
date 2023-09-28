@@ -2,9 +2,10 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import './AddExpense.scss';
 import IntlCurrencyInput from "intl-currency-input";
 import {DisplayOrder} from "moneydew";
-import {TextContext} from "./misc/Contexts";
+import {LightModeContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Input from "./Input";
+import {useTheme} from "styled-components";
 
 export default function AddExpense({openAccount, fetchTransactions}: {
     openAccount: AccountData,
@@ -13,6 +14,8 @@ export default function AddExpense({openAccount, fetchTransactions}: {
     const currencyInputElement = useRef<HTMLInputElement | null>(null);
     const [currencyInput, setCurrencyInput] = useState<IntlCurrencyInput | null>(null);
     const text = useContext(TextContext);
+    const lightMode = useContext(LightModeContext);
+    const theme = useTheme();
     const titleInput = useRef(null);
 
 
@@ -37,6 +40,7 @@ export default function AddExpense({openAccount, fetchTransactions}: {
         if (input && currencyInput)
             currencyInput.remount(input);
     }, [currencyInputElement]);
+
     return (
         <div id="addExpense">
             <h2>{text?.transaction_}</h2>
@@ -46,7 +50,9 @@ export default function AddExpense({openAccount, fetchTransactions}: {
             <label><span id="title">{text?.reference_}</span>
                 <Input ref={titleInput} className="title" name="title"/>
             </label>
-            <Button onClick={() => {
+            <Button
+                altColors={theme.neutral_color === '#ffffff' && lightMode}
+                onClick={() => {
                 const sum = currencyInput?.getValue();
                 const title = titleInput?.current?.value;
                 api.db.postTransaction(title, sum, openAccount?.id).then(() => {

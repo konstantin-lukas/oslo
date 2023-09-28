@@ -12,7 +12,7 @@ import {
 } from "./components/misc/Contexts";
 import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
-import langSample from "./lang.sample.json";
+import langSample from "./lang/en.json";
 import './lightMode.scss';
 
 export default function App() {
@@ -57,8 +57,11 @@ export default function App() {
     }, [triggerFetchFlag]);
 
     useEffect(() => {
-        api.textContent(language).then(result => setTextContent(result));
-        api.settings.setLanguage(language);
+        if (fetchSettingsFlag) {
+            api.textContent(language).then(result => setTextContent(result)).then(() => {
+                api.settings.setLanguage(language);
+            });
+        }
     }, [language]);
 
     useEffect(() => {
@@ -78,7 +81,7 @@ export default function App() {
             return (brightness > 125) ? '#1a1a1a' : '#ffffff';
         })();
         const contrast_opposite = (contrast === '#ffffff') ? '#1a1a1a' : '#ffffff';
-        const alt_opp = (contrast == '#1a1a1a') ? '#444444' : '#ffffff';
+        const alt_opp = (contrast == '#1a1a1a') ? '#444444' : '#cccccc';
 
         setThemeColor({
             theme_color: '#' + (openAccount?.theme_color || 'ffffff'),
@@ -96,6 +99,7 @@ export default function App() {
         }
     }, [openAccount]);
 
+    // TODO: SELECT CURRENCY NAME AND SYMBOL
     if (!openAccount)
         return (
             <TextContext.Provider value={textContent}>
@@ -103,8 +107,8 @@ export default function App() {
                     <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
                         <LightModeContext.Provider value={lightMode}>
                             <ThemeProvider theme={{
-                                theme_color: '#ffffff',
-                                neutral_color: '#1a1a1a',
+                                theme_color: lightMode ? '#1a1a1a' : '#ffffff',
+                                neutral_color: !lightMode ? '#1a1a1a' : '#ffffff',
                                 neutral_opposite: '#ffffff',
                                 other_opposite: '#444444'
                             }}>

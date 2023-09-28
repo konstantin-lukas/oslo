@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import './AccountHeader.scss';
 import DatePicker from 'react-datepicker';
 import { add, sub } from 'date-fns';
-import {LanguageContext} from "./misc/Contexts";
+import {LanguageContext, LightModeContext} from "./misc/Contexts";
 import registerLocales from './misc/Locales';
 import {useTheme} from "styled-components";
 registerLocales();
@@ -15,6 +15,7 @@ export default function AccountHeader({heading, date, setDate}: {
 
     const theme = useTheme();
     const language = useContext(LanguageContext);
+    const lightMode = useContext(LightModeContext);
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
         {
@@ -46,7 +47,7 @@ export default function AccountHeader({heading, date, setDate}: {
                         border-color: ${theme.neutral_color};
                     }
                     .react-datepicker__day:hover {
-                        background: ${theme.neutral_color};
+                        background: ${lightMode ? theme.other_opposite : theme.neutral_color};
                         color: ${theme.theme_color};
                     }
                 `}

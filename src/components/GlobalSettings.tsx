@@ -5,6 +5,7 @@ import Dropdown from "./Dropdown";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import availableLanguages from '../lang.avail.json';
+import {useTheme} from "styled-components";
 
 export default function GlobalSettings({open, setLanguage, setLightMode}: {
     open: boolean,
@@ -15,28 +16,32 @@ export default function GlobalSettings({open, setLanguage, setLightMode}: {
     const lang = useContext(LanguageContext);
     const fetchAccounts = useContext(FetchAccountsContext);
     const alert = useContext(AlertContext);
-    const lightMode = useContext(LightModeContext)
+    const lightMode = useContext(LightModeContext);
+    const theme = useTheme();
     // TODO HIDE ON CLICK OUTSIDE
     return (                                                                                                                                                                                                                                                        
         <div id="global_settings" className={open ? 'open' : ''}>
             <label className="container"><span>{text?.export_data_}</span>
-                <Button altColors={true} onClick={() => {
-                    api.window.export().then((success) => {
-                        alert(
-                            success ? text.export_data_ : 'Meh',
-                            () => {}
-                        )
-
+                <Button
+                    altColors={!lightMode && theme.neutral_color === '#1a1a1a'}
+                    onClick={() => {
+                        api.window.export().then((success) => {
+                            alert(
+                                success ? text.export_data_ : 'Meh',
+                                () => {}
+                            );
                     });
                 }}>{text.export_}</Button>
             </label>
             <label className="container"><span>{text?.import_data_}</span>
-                <Button altColors={true} onClick={() => {
-                    alert(
-                        text.confirm_import_,
-                        () => api.window.import().then(fetchAccounts),
-                        () => {}
-                    );
+                <Button
+                    altColors={!lightMode && theme.neutral_color === '#1a1a1a'}
+                    onClick={() => {
+                        alert(
+                            text.confirm_import_,
+                            () => api.window.import().then(fetchAccounts),
+                            () => {}
+                        );
                 }}>{text.import_}</Button>
             </label>
             <Checkbox label={text.dark_theme_} checked={!lightMode} onChange={() => {

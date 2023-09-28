@@ -1,7 +1,13 @@
+@import "./vars";
+
 .light_mode {
   &, .current_tab {
     background: #fff;
     color: #1a1a1a;
+  }
+
+  #no_accounts {
+    background: $accentWhite;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -95,5 +101,11 @@
   .tab::before {
     background: #808080;
   }
+
+  .react-datepicker {
+    background-color: $accentWhite;
+    color: $dark1;
+  }
+
 
 }

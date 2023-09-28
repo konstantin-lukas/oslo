@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useMemo, useState} from "react";
 import './NoAccounts.scss';
 import Dropdown from "./Dropdown";
 import currencies from "./misc/Currencies";
-import {FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {FetchAccountsContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Input from "./Input";
 import Button from "./Button";
 
@@ -10,6 +10,7 @@ export default function NoAccounts() {
     const lang = useContext(LanguageContext);
     const text = useContext(TextContext);
     const fetchAccounts = useContext(FetchAccountsContext);
+    const lightMode = useContext(LightModeContext);
     const [currency, setCurrency] = useState('USD');
     const [name, setName] = useState<string>(text?.new_account_);
     const labels = useMemo(() => {
@@ -40,13 +41,15 @@ export default function NoAccounts() {
                     }
                 }}
             />
-            <Button onClick={() => {
+            <Button
+                altColors={true}
+                onClick={() => {
                 if (!name) return;
                 api.db.postAccount(
                     name,
                     currency,
                     false,
-                    'ffffff',
+                    lightMode ? '1a1a1a' : 'ffffff',
                     new Date().getFullYear() - 1
                 ).then(fetchAccounts);
             }}>{text?.confirm_}</Button>

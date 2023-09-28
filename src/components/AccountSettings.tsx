@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useReducer, useRef, useState} from "react";
 import './AccountSettings.scss';
-import {AlertContext, FetchAccountsContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import Input from "./Input";
 import ColorPicker from "./ColorPicker";
+import {useTheme} from "styled-components";
 
 const accountSettingsReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -45,6 +46,8 @@ export default function AccountSettings({openAccount}: {
     const text = useContext(TextContext);
     const alert = useContext(AlertContext);
     const fetchAccounts = useContext(FetchAccountsContext);
+    const theme = useTheme();
+    const lightMode = useContext(LightModeContext);
     const [defaultColor, setDefaultColor] = useState(openAccount.theme_color)
     const [settings, updateSettings] = useReducer(accountSettingsReducer, {
         name: openAccount.name,
@@ -162,7 +165,9 @@ export default function AccountSettings({openAccount}: {
                     label={text.allow_overdrawing_}
                 />
             </div>
-            <Button onClick={() => {
+            <Button
+                altColors={theme.neutral_color === '#ffffff' && lightMode}
+                onClick={() => {
                 api.db.patchAccount(
                     openAccount?.id,
                     settings.name,
