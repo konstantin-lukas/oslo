@@ -1,6 +1,6 @@
 {
-  "name": "spectrum",
-  "productName": "Spectrum",
+  "name": "oslo",
+  "productName": "Open Source Ledger Oslo",
   "version": "3.0.0",
   "description": "Create and manage virtual bank accounts to keep track of your savings",
   "main": ".webpack/main",
