@@ -1,4 +1,4 @@
-import React, {useContext, useMemo, useState} from "react";
+import React, {useCallback, useContext, useMemo, useState} from "react";
 import './AccountHeader.scss';
 import DatePicker from 'react-datepicker';
 import { add, sub } from 'date-fns';
@@ -33,10 +33,9 @@ export default function AccountHeader({heading, date, setDate}: {
     const pickerClass = useMemo(() => datePickerOpen.from && !datePickerOpen.until ? 'left_open' :
         (!datePickerOpen.from && datePickerOpen.until ? 'right_open' : ''), [datePickerOpen]);
 
-    const closeDatePicker = () => {
+    const closeDatePicker = useCallback(() => {
         setDatePickerOpen({from: false, until: false});
-    };
-
+    }, []);
 
     if (heading && date && setDate) {
 

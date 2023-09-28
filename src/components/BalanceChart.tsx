@@ -39,13 +39,14 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
         let labelArray: string[] = [];
         let dataArray: number[] = [];
         let sum = initialBalance;
-        while(indexDate <= until) {
+        let today = indexDate.toISOString().split('T')[0];
+        const until_string = until.toISOString().split('T')[0];
+        while(today <= until_string) {
             labelArray.push(indexDate.toLocaleDateString(language, {
                 month: "2-digit",
                 day: "2-digit",
                 year: "numeric"
             }));
-            const today = indexDate.toISOString().split('T')[0];
             const balanceChange = transactions
                 .filter(transaction => transaction.timestamp.startsWith(today))
                 .map(transaction => transaction.sum)
@@ -58,6 +59,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
             indexDate = add(indexDate, {
                 days: 1
             });
+            today = indexDate.toISOString().split('T')[0];
         }
         setLabels(labelArray);
         setData(dataArray);
