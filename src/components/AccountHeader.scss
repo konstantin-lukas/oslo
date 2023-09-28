@@ -51,10 +51,32 @@ html[lang=ja] #from_date, html[lang=ja] #until_date {
   top: 0;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease-in-out;
+
+  &.left_open, &.right_open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  & > div:first-of-type, & > div:last-of-type {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -122px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+  }
+
+  &.left_open > div:first-of-type, &.right_open > div:last-of-type {
+    opacity: 1;
+    pointer-events: all;
+  }
 }
+
+
 
 .react-datepicker {
   font-family: inherit;

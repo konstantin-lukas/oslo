@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useMemo, useState} from "react";
 import './AccountHeader.scss';
 import DatePicker from 'react-datepicker';
 import { add, sub } from 'date-fns';
@@ -16,6 +16,13 @@ export default function AccountHeader({heading, date, setDate}: {
     const theme = useTheme();
     const language = useContext(LanguageContext);
     const lightMode = useContext(LightModeContext);
+    const localeOptions: Intl.DateTimeFormatOptions = useMemo(() => {
+        return {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric"
+        };
+    }, []);
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
         {
@@ -23,6 +30,8 @@ export default function AccountHeader({heading, date, setDate}: {
             until: false
         }
     );
+    const pickerClass = useMemo(() => datePickerOpen.from && !datePickerOpen.until ? 'left_open' :
+        (!datePickerOpen.from && datePickerOpen.until ? 'right_open' : ''), [datePickerOpen]);
 
     const closeDatePicker = () => {
         setDatePickerOpen({from: false, until: false});
@@ -30,11 +39,6 @@ export default function AccountHeader({heading, date, setDate}: {
 
 
     if (heading && date && setDate) {
-        const localeOptions: Intl.DateTimeFormatOptions = {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric"
-        }
 
         const datePickerStyle = (
             <style>
@@ -54,11 +58,10 @@ export default function AccountHeader({heading, date, setDate}: {
             </style>
         );
 
-        // TODO: FADE PICKER IN OR OUT WITH HELP OF POINTER EVENTS
-        let datePicker;
-        if (datePickerOpen.from && !datePickerOpen.until) {
-            datePicker = (
-                <div id="dateTimePickerContainer">
+        return (
+            <div id="main_header">
+                <h1 title={heading}>{heading}</h1>
+                <div id="dateTimePickerContainer" className={pickerClass}>
                     {datePickerStyle}
                     <DatePicker
                         onChange={() => {}}
@@ -69,17 +72,11 @@ export default function AccountHeader({heading, date, setDate}: {
                             });
                             closeDatePicker();
                         }}
-                        onClickOutside={closeDatePicker}
+                        onClickOutside={pickerClass === 'left_open' ? closeDatePicker : () => {}}
                         locale={language}
                         maxDate={sub(new Date(date.until), {days: 1})}
                         selected={date.from}
                         inline/>
-                </div>
-            );
-        } else if (!datePickerOpen.from && datePickerOpen.until) {
-            datePicker = (
-                <div id="dateTimePickerContainer">
-                    {datePickerStyle}
                     <DatePicker
                         onChange={() => {}}
                         onSelect={(pickedDate) => {
@@ -89,20 +86,12 @@ export default function AccountHeader({heading, date, setDate}: {
                             });
                             closeDatePicker();
                         }}
-                        onClickOutside={closeDatePicker}
+                        onClickOutside={pickerClass === 'right_open' ? closeDatePicker : () => {}}
                         locale={language}
                         minDate={add(new Date(date.from), {days: 1})}
                         selected={date.until}
                         inline/>
                 </div>
-            );
-        } else {
-            datePicker = <></>;
-        }
-        return (
-            <div id="main_header">
-                <h1 title={heading}>{heading}</h1>
-                {datePicker}
                 <div id="time_span">
                     <span
                         id="from_date"
