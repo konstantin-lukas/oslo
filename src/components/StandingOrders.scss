@@ -22,15 +22,21 @@
 .open_orders #standing_orders {
   left: 0;
   visibility: visible;
-  transition: left .3s linear, visibility .3s linear;
+  transition: left .3s linear;
 }
 
 #back_btn {
-  position: absolute;
-  top: .5em;
+  transform: translateX(100vw);
+  transition: transform .3s linear;
+  position: fixed;
+  top: calc(#{$headerHeight} + 0.5em);
   left: .5em;
   height: 30px;
   cursor: pointer;
+}
+
+.open_orders #back_btn {
+  transform: translateX(0);
 }
 
 #back_btn .st0 {
