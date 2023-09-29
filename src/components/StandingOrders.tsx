@@ -1,28 +1,38 @@
-import React, {useCallback, useContext, useEffect, useMemo, useReducer} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useReducer, useState} from "react";
 import anime from 'animejs';
 import './StandingOrders.scss';
 import {useTheme} from "styled-components";
-import {LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import CurrencyInput from "./CurrencyInput";
 import {formatDate} from "./misc/Format";
+import {sub, lastDayOfMonth, getDaysInMonth} from "date-fns";
+import DatePicker from "react-datepicker";
 
 function addOrderReducer(state: any, action: {type: string, payload: any}) {
     const obj = {
         ...state
     }
-    obj[action.type] = action.type === 'exec_interval' ? parseInt(action.payload) : action.payload;
+    if (action.payload instanceof Date) {
+        obj[action.type] = action.payload.toISOString().split('T')[0]
+    } else {
+        obj[action.type] = action.type === 'exec_interval' ? parseInt(action.payload) : action.payload;
+    }
     return obj;
 }
 
-export default function StandingOrders({closeStandingOrders}: {closeStandingOrders: () => void}) {
+export default function StandingOrders({closeStandingOrders, openAccountId}: {
+    closeStandingOrders: () => void,
+    openAccountId: number
+}) {
 
     const theme = useTheme();
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
+    const alertCtx = useContext(AlertContext);
     const dropdownLabels = useMemo(() => [
         text.every_1_,
         text.every_2_,
@@ -46,11 +56,37 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
         exec_interval: 1,
         exec_on_last_of_month: false
     });
+    const [datePickerOpen, setDatePickerOpen] = useState(false);
+    const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
+    const [standingOrders, setStandingOrders] = useState([]);
+    const standingOrderElements = useMemo(() => standingOrders.map(order => {
+        return (
+            <div key={order.id} className="standing_order">
+                <label className="heading">
+                    <span className="label_name">ABC</span>
+                    <Input/>
+                </label>
+                <label><span className="label_name">ABC (123)</span>
+                    <Input/>
+                </label>
+                <label className="dot"><span className="label_name">ABC</span></label>
+                <label className="int" ><span className="label_name">ABC</span></label>
+                <div className="contain_two">
+                    <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => undefined}>{text.save_}</Button>
+                    <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => undefined}>{text.delete_}</Button>
+                </div>
+            </div>
+        )
+    }), [standingOrders]);
 
     useEffect(() => {
-        console.log(addOrderState)
-    }, [addOrderState]);
+        api.db.getStandingOrders(openAccountId).then(res => setStandingOrders(res));
+    }, [openAccountId]);
 
+    useEffect(() => {
+        if (isUsingDefaultName)
+            setAddOrderState({type: 'name', payload: text.account_name_})
+    }, [text]);
 
     const backAnim = useCallback((path: string, target: string) => {
         anime({
@@ -84,9 +120,15 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
                     <input type="hidden"/>
                     <label className="export_label" id="name_label">
                         <span className="label_name">{text.standing_order_name_}</span>
-                        <Input onInput={(e: any) =>
-                            setAddOrderState({type: 'name', payload: e.target.value})
-                        }/>
+                        <Input onInput={e => {
+                            if (!/^.+$/.test((e.target as HTMLInputElement).value)) {
+                                (e.target as HTMLInputElement).value = addOrderState.name;
+                            } else {
+                                setAddOrderState({type: 'name', payload: (e.target as HTMLInputElement).value});
+                                setIsUsingDefaultName(false);
+                            }
+                        }}
+                        defaultValue={addOrderState.name}/>
                     </label>
                     <label className="export_label" id="amount_label">
                         <span className="label_name">{text.amount_}</span>
@@ -99,7 +141,8 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
                         <span className="label_name">{text.first_execution_}</span>
                         <Input
                             readOnly={true}
-                            defaultValue={formatDate(lang, new Date(addOrderState.first_execution))}
+                            onClick={() => setDatePickerOpen(true)}
+                            value={formatDate(lang, new Date(addOrderState.first_execution))}
                         />
                     </label>
                     <label className="export_label" id="interval_select">
@@ -119,11 +162,54 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
                             label={text.exec_on_last_day_of_month_}
                         />
                     </label>
-                    <Button onClick={() => {}}>{text.create_standing_order_}</Button>
+                    <Button
+                        altColors={theme.neutral_color === '#ffffff'}
+                        onClick={() => {
+                        const first_exec = addOrderState.first_execution;
+                        const exec_on = addOrderState.exec_on_last_of_month
+                            ? 32
+                            : parseInt(first_exec.substring(8));
+                        const first_exec_date = new Date(first_exec);
+                        let last_exec = sub(first_exec_date, {
+                            months: addOrderState.exec_interval
+                        });
+                        if (getDaysInMonth(last_exec) < getDaysInMonth(first_exec_date) || addOrderState.exec_on_last_of_month) {
+                            last_exec = lastDayOfMonth(last_exec);
+                        }
+                        api.db.postStandingOrder(
+                            openAccountId,
+                            addOrderState.name,
+                            addOrderState.amount,
+                            addOrderState.exec_interval,
+                            exec_on,
+                            last_exec.toISOString().split('T')[0]
+                        ).then(() => {
+                            api.db.getStandingOrders(openAccountId).then(res => {
+                                setStandingOrders(res);
+                                alertCtx(
+                                    text.changes_saved_,
+                                    () => {}
+                                );
+                            })
+                        });
+                    }}>{text.create_standing_order_}</Button>
                 </div>
                 <div id="manage_orders" className="theme_background">
                     <h2>Daueraufträge verwalten</h2>
+                    {standingOrderElements}
                 </div>
+            </div>
+            <div className={(datePickerOpen ? 'left_open' : '') + " dateTimePickerContainer"}>
+                <DatePicker
+                    onChange={() => {}}
+                    onSelect={(pickedDate) => {
+                        setAddOrderState({type: 'first_execution', payload: pickedDate});
+                        setDatePickerOpen(false);
+                    }}
+                    onClickOutside={() => {setDatePickerOpen(false)}}
+                    locale={lang}
+                    selected={new Date()}
+                    inline/>
             </div>
         </div>
     );

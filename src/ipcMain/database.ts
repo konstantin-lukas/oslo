@@ -15,7 +15,7 @@ async function openDB() {
 }
 
 export default function registerDatabase() {
-    ipcMain.handle('getAccounts', async (_) => {
+    ipcMain.handle('getAccounts', async () => {
         try {
             const db = await openDB();
             const result = await db.all('SELECT * FROM "account"');
@@ -151,6 +151,34 @@ export default function registerDatabase() {
             return
         } catch (_) {
             return;
+        }
+    });
+    ipcMain.handle('postStandingOrder', async (_, account, title, sum, exec_interval, exec_on, last_exec) => {
+        try {
+            const db = await openDB();
+            await db.run(
+                'INSERT INTO "standing_order" ("account", "title", "sum", "exec_interval", "exec_on", "last_exec") VALUES (?, ?, ?, ?, ?, ?);',
+                account,
+                title,
+                sum,
+                exec_interval,
+                exec_on,
+                last_exec
+            );
+            await db.close();
+            return
+        } catch (_) {
+            return;
+        }
+    });
+    ipcMain.handle('getStandingOrders', async (_, account) => {
+        try {
+            const db = await openDB();
+            const result = await db.all('SELECT * FROM "standing_order" WHERE "account" = ?;', account);
+            await db.close();
+            return result;
+        } catch (_) {
+            return null;
         }
     });
 

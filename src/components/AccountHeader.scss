@@ -43,7 +43,7 @@ html[lang=ja] #from_date, html[lang=ja] #until_date {
   justify-content: space-between;
 }
 
-#dateTimePickerContainer {
+.dateTimePickerContainer {
   background: rgba($dark0, .5);
   position: fixed;
   z-index: 10;

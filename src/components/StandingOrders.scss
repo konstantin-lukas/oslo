@@ -46,6 +46,10 @@
   border-radius: 2em;
 }
 
+#exec_date_label input {
+  cursor: pointer;
+}
+
 html[lang=ja] #exec_date {
   padding: .4em .8em;
 }

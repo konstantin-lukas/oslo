@@ -60,14 +60,14 @@ export default function App() {
     useEffect(() => {
         if (fetchSettingsFlag) {
             api.textContent(language).then(result => setTextContent(result)).then(() => {
-                api.settings.setLanguage(language);
+                api.settings.setLanguage(language).then();
             });
         }
     }, [language]);
 
     useEffect(() => {
         if (fetchSettingsFlag) {
-            api.settings.setLightMode(lightMode);
+            api.settings.setLightMode(lightMode).then();
         }
     }, [lightMode]);
 
@@ -82,7 +82,7 @@ export default function App() {
             return (brightness > 125) ? '#1a1a1a' : '#ffffff';
         })();
         const contrast_opposite = (contrast === '#ffffff') ? '#1a1a1a' : '#ffffff';
-        const alt_opp = (contrast == '#1a1a1a') ? '#444444' : '#cccccc';
+        const alt_opp = (contrast == '#1a1a1a') ? '#444444' : '#ffffff';
 
         setThemeColor({
             theme_color: '#' + (openAccount?.theme_color || 'ffffff'),
@@ -178,6 +178,7 @@ export default function App() {
                                             openStandingOrders={() => setOpenOrders(true)}
                                         />
                                         <StandingOrders
+                                            openAccountId={openAccount.id}
                                             closeStandingOrders={() => setOpenOrders(false)}
                                         />
                                     </AlertContext.Provider>

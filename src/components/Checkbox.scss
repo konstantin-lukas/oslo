@@ -37,15 +37,6 @@ html[lang=ja] .toggle_checkbox::after {
 input:checked + .toggle_checkbox {
   background: $accentPink;
 }
-/*
-
-input:checked + .toggle_checkbox::after {
-  background: $accentWhite;
-  left: 100%;
-  transform: translate(-115%, -50%);
-}
-*/
-
 
 input:checked + .toggle_checkbox::after {
   background: $accentWhite;

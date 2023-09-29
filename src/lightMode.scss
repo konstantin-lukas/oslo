@@ -8,6 +8,10 @@
 
   #no_accounts {
     background: $accentWhite;
+
+    .message {
+      color: $dark0;
+    }
   }
 
   ::-webkit-scrollbar-thumb {

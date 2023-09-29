@@ -7,13 +7,15 @@ const StyledInput = styled.input`
       background: ${props => props.theme.theme_color};
     }
 `;
-export default forwardRef(function Input({id, className, name, defaultValue, onInput, readOnly} : {
+export default forwardRef(function Input({id, className, name, defaultValue, onInput, readOnly, onClick, value} : {
     id?: string,
     className?: string,
     name?: string,
     defaultValue?: string,
     onInput?: FormEventHandler<HTMLInputElement>,
-    readOnly?: boolean
+    onClick?: FormEventHandler<HTMLInputElement>,
+    readOnly?: boolean,
+    value?: string
 }, ref: React.Ref<HTMLInputElement>) {
     return <StyledInput
         type="text"
@@ -27,5 +29,7 @@ export default forwardRef(function Input({id, className, name, defaultValue, onI
         defaultValue={defaultValue}
         onInput={onInput}
         readOnly={readOnly}
+        onClick={onClick}
+        value={value}
     />
 });

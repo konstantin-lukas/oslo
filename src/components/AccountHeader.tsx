@@ -54,7 +54,7 @@ export default function AccountHeader({heading, date, setDate}: {
         return (
             <div id="main_header">
                 <h1 title={heading}>{heading}</h1>
-                <div id="dateTimePickerContainer" className={pickerClass}>
+                <div className={pickerClass + ' dateTimePickerContainer'}>
                     {datePickerStyle}
                     <DatePicker
                         onChange={() => {}}

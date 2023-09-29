@@ -40,6 +40,12 @@ const database = {
     },
     patchAccount: async (id: number, name: string, color: string, allow_overdrawing: boolean, interest_rate: number) => {
         return await ipcRenderer.invoke('patchAccount', id, name, color, allow_overdrawing, interest_rate);
+    },
+    postStandingOrder: async (account: number, title: string, sum: string, exec_interval: number, exec_on: number, last_exec: string) => {
+        return await ipcRenderer.invoke('postStandingOrder', account, title, sum, exec_interval, exec_on, last_exec);
+    },
+    getStandingOrders: async (account: number) => {
+        return await ipcRenderer.invoke('getStandingOrders', account);
     }
 };
 
