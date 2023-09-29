@@ -1,4 +1,4 @@
-<img src="favicon.svg" alt="Oslo Logo" width="50%">
+<img src="src/img/favicon.svg" alt="Oslo Logo" width="50%">
 
 # Open Source Ledger Oslo
 Oslo is a program that helps you manage your savings by letting you create virtual savings accounts. 

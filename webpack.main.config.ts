@@ -1,6 +1,5 @@
 import type { Configuration } from 'webpack';
-// eslint-disable-next-line import/default
-import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CopyPlugin = require("copy-webpack-plugin");
 
 import { rules } from './webpack.rules';
 
@@ -15,9 +14,10 @@ export const mainConfig: Configuration = {
     rules,
   },
   plugins: [
-    new CopyWebpackPlugin({
+    new CopyPlugin({
       patterns: [
-        { from: './src/lang', to: 'lang' }
+        { from: './src/lang', to: 'lang' },
+        { from: './src/img', to: 'img' }
       ]
     })
   ],

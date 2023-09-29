@@ -50,7 +50,7 @@ const createWindow = async () => {
           nodeIntegration: false, // is default value after Electron v5
           contextIsolation: true, // protect against prototype pollution
         },
-        icon: './src/img/favicon.png'
+        icon: resolve(__dirname + '/img/favicon.png')
     });
 
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
