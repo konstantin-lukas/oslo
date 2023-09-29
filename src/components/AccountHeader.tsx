@@ -5,6 +5,8 @@ import { add, sub } from 'date-fns';
 import {LanguageContext, LightModeContext} from "./misc/Contexts";
 import registerLocales from './misc/Locales';
 import {useTheme} from "styled-components";
+import {formatDate} from "./misc/Format";
+
 registerLocales();
 
 export default function AccountHeader({heading, date, setDate}: {
@@ -16,13 +18,6 @@ export default function AccountHeader({heading, date, setDate}: {
     const theme = useTheme();
     const language = useContext(LanguageContext);
     const lightMode = useContext(LightModeContext);
-    const localeOptions: Intl.DateTimeFormatOptions = useMemo(() => {
-        return {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric"
-        };
-    }, []);
     const [datePickerOpen, setDatePickerOpen] =
         useState<{from: boolean, until: boolean}>(
         {
@@ -97,7 +92,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: true, until: false});
                         }}
                     >
-                        {date.from.toLocaleDateString(language, localeOptions)}
+                        {formatDate(language, date.from)}
                     </span>
                     <span
                         id="until_date"
@@ -105,7 +100,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: false, until: true});
                         }}
                     >
-                        {date.until.toLocaleDateString(language, localeOptions)}
+                        {formatDate(language, date.until)}
                     </span>
                 </div>
             </div>

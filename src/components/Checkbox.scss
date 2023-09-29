@@ -24,9 +24,9 @@ html[lang=ja] .toggle_checkbox {
   background: $accentPink;
   position: absolute;
   top: 50%;
-  left: 0;
-  transform: translate(15%, -50%);
-  transition: left .2s ease-out, transform .2s ease-out;
+  left: 0.25em;
+  transform: translate(0, -50%);
+  animation: rtl_checkbox .3s cubic-bezier(0,.65,0,.99) forwards;
 }
 
 html[lang=ja] .toggle_checkbox::after {
@@ -37,11 +37,49 @@ html[lang=ja] .toggle_checkbox::after {
 input:checked + .toggle_checkbox {
   background: $accentPink;
 }
+/*
 
 input:checked + .toggle_checkbox::after {
   background: $accentWhite;
   left: 100%;
   transform: translate(-115%, -50%);
+}
+*/
+
+
+input:checked + .toggle_checkbox::after {
+  background: $accentWhite;
+  animation: ltr_checkbox .3s cubic-bezier(0,.65,0,.99) forwards;
+}
+
+@keyframes ltr_checkbox {
+  0%{
+    width: 2.5em;
+    left: 0.25em;
+  }
+  50%{
+    width: calc(100% - 0.5em);
+    left: 0.25em;
+  }
+  100%{
+    width: 2.5em;
+    left: calc(100% - 2.75em);
+  }
+}
+
+@keyframes rtl_checkbox {
+  0%{
+    width: 2.5em;
+    left: calc(100% - 2.75em);
+  }
+  50%{
+    width: calc(100% - 0.5em);
+    left: 0.25em;
+  }
+  100%{
+    width: 2.5em;
+    left: 0.25em;
+  }
 }
 
 label.container {

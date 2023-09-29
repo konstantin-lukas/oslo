@@ -1,16 +1,56 @@
-import React, {useCallback, useContext} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useReducer} from "react";
 import anime from 'animejs';
 import './StandingOrders.scss';
 import {useTheme} from "styled-components";
-import {TextContext} from "./misc/Contexts";
+import {LanguageContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
+import CurrencyInput from "./CurrencyInput";
+import {formatDate} from "./misc/Format";
+
+function addOrderReducer(state: any, action: {type: string, payload: any}) {
+    const obj = {
+        ...state
+    }
+    obj[action.type] = action.type === 'exec_interval' ? parseInt(action.payload) : action.payload;
+    return obj;
+}
+
 export default function StandingOrders({closeStandingOrders}: {closeStandingOrders: () => void}) {
 
     const theme = useTheme();
     const text = useContext(TextContext);
+    const lang = useContext(LanguageContext);
+    const dropdownLabels = useMemo(() => [
+        text.every_1_,
+        text.every_2_,
+        text.every_3_,
+        text.every_4_,
+        text.every_5_,
+        text.every_6_,
+        text.every_7_,
+        text.every_8_,
+        text.every_9_,
+        text.every_10_,
+        text.every_11_,
+        text.every_12_,
+    ], [text]);
+
+    const dropdownValues = useMemo(() => ["1","2","3","4","5","6","7","8","9","10","11","12"], []);
+    const [addOrderState, setAddOrderState] = useReducer(addOrderReducer, {
+        name: '',
+        amount: '0.00',
+        first_execution: new Date().toISOString().split('T')[0],
+        exec_interval: 1,
+        exec_on_last_of_month: false
+    });
+
+    useEffect(() => {
+        console.log(addOrderState)
+    }, [addOrderState]);
+
 
     const backAnim = useCallback((path: string, target: string) => {
         anime({
@@ -24,8 +64,6 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
             }
         });
     }, []);
-
-    // TODO BETRAG MIT CURRENCY INPUT
 
     return (
         <div id="standing_orders">
@@ -46,41 +84,40 @@ export default function StandingOrders({closeStandingOrders}: {closeStandingOrde
                     <input type="hidden"/>
                     <label className="export_label" id="name_label">
                         <span className="label_name">{text.standing_order_name_}</span>
-                        <Input/>
+                        <Input onInput={(e: any) =>
+                            setAddOrderState({type: 'name', payload: e.target.value})
+                        }/>
                     </label>
                     <label className="export_label" id="amount_label">
                         <span className="label_name">{text.amount_}</span>
-                        <Input/>
+                        <CurrencyInput
+                            setValue={(val: string) => setAddOrderState({type: 'amount', payload: val})}
+                            value={addOrderState.amount}
+                        />
                     </label>
                     <label className="export_label" id="exec_date_label">
                         <span className="label_name">{text.first_execution_}</span>
-                        <Input/>
+                        <Input
+                            readOnly={true}
+                            defaultValue={formatDate(lang, new Date(addOrderState.first_execution))}
+                        />
                     </label>
                     <label className="export_label" id="interval_select">
                         <span className="label_name">{text.exec_interval_}</span>
                         <Dropdown
-                            labels={[
-                                text.every_1_,
-                                text.every_2_,
-                                text.every_3_,
-                                text.every_4_,
-                                text.every_5_,
-                                text.every_6_,
-                                text.every_7_,
-                                text.every_8_,
-                                text.every_9_,
-                                text.every_10_,
-                                text.every_11_,
-                                text.every_12_,
-                            ]}
-                            values={["1","2","3","4","5","6","7","8","9","10","11","12"]}
+                            labels={dropdownLabels}
+                            values={dropdownValues}
                             defaultSelected={"1"}
-                            returnValue={() => undefined}
+                            returnValue={(val) => setAddOrderState({type: 'exec_interval', payload: val})}
                             compact={false}
                         />
                     </label>
                     <label className="export_label" id="exec_on_last">
-                        <Checkbox onChange={() => undefined} checked={false} label={text.exec_on_last_day_of_month_}/>
+                        <Checkbox
+                            onChange={() => setAddOrderState({type: 'exec_on_last_of_month', payload: !addOrderState.exec_on_last_of_month})}
+                            checked={addOrderState.exec_on_last_of_month}
+                            label={text.exec_on_last_day_of_month_}
+                        />
                     </label>
                     <Button onClick={() => {}}>{text.create_standing_order_}</Button>
                 </div>
