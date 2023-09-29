@@ -80,7 +80,6 @@ export default function ColorPicker({onInput, accountId} : {onInput: (color: str
         {`.custom-color-picker {background: #ffffff;box-shadow: rgba(0,0,0,.5) 0 0 10px}`}
     </style> : <></>, [lightMode]);
 
-    console.log(lightModeStyle)
     return (
         <>
             {lightModeStyle}

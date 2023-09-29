@@ -36,7 +36,7 @@ const createWindow = async () => {
     await db.exec('CREATE TABLE IF NOT EXISTS "standing_order" ("id" INTEGER NOT NULL UNIQUE,"title" TEXT NOT NULL,"sum" TEXT NOT NULL,"exec_interval" INTEGER NOT NULL,"exec_on" INTEGER NOT NULL,"last_exec" TEXT NOT NULL,"account" INTEGER NOT NULL,PRIMARY KEY("id" AUTOINCREMENT), FOREIGN KEY("account") REFERENCES "account"("id") ON DELETE CASCADE )');
     await db.exec('CREATE TABLE IF NOT EXISTS "transaction" ("id" INTEGER NOT NULL UNIQUE, "title" TEXT NOT NULL, "sum" TEXT NOT NULL, "timestamp" TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, "account" INTEGER NOT NULL, PRIMARY KEY("id" AUTOINCREMENT) ON CONFLICT ROLLBACK, FOREIGN KEY("account") REFERENCES "account"("id") ON DELETE CASCADE )');
     await db.exec('CREATE TABLE IF NOT EXISTS "meta" ("version" TEXT NOT NULL DEFAULT "0.0.0", PRIMARY KEY("version") ON CONFLICT ROLLBACK)');
-    await db.exec('INSERT INTO "meta" ("version") SELECT "0.0.0" WHERE NOT EXISTS (SELECT * FROM "meta")');
+    await db.exec('INSERT INTO "meta" ("version") SELECT "3.0.0" WHERE NOT EXISTS (SELECT * FROM "meta")');
     await db.close();
 
   // Create the browser window.
