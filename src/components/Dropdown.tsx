@@ -42,9 +42,8 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
         function handleClickOutside(e: MouseEvent) {
             if (
                 ref.current &&
-                !ref.current.contains(e.target) &&
-                !(e.target as HTMLElement).classList.contains('custom-select') &&
-                !(e.target as HTMLElement).classList.contains('selected')
+                e.target instanceof HTMLElement &&
+                !ref.current.contains(e.target)
             ) {
                 setIsOpen(false);
             }
@@ -55,9 +54,9 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
         };
     }, [ref]);
     return (
-        <span className={"custom-select-container limited_height" + (isOpen ? ' open' : '') + (compact ? ' compact' : '')} >
+        <span ref={ref} className={"custom-select-container limited_height" + (isOpen ? ' open' : '') + (compact ? ' compact' : '')} >
             <span onClick={() => setIsOpen(!isOpen)} className="selected">{selection.label}</span>
-            <span ref={ref} className="custom-select">
+            <span className="custom-select">
                 <span className="scroll-anchor hide_scrollbar">
                     {spans}
                 </span>

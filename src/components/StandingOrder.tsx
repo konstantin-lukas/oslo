@@ -10,11 +10,12 @@ const executionDayLablesAndValues = [
     "21","22","23","24","25","26","27","28","29","30","31"
 ];
 
-export default function StandingOrder({data, currency, intervalLabels, intervalValues}: {
+export default function StandingOrder({data, currency, intervalLabels, intervalValues, zIndex}: {
     data: StandingOrder,
     currency: string,
     intervalLabels: string[],
-    intervalValues: string[]
+    intervalValues: string[],
+    zIndex: number
 }) {
     const theme = useTheme()
     const text = useContext(TextContext);
@@ -27,7 +28,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
             <label><span className="label_name">{text.amount_} ({currency})</span>
                 <Input/>
             </label>
-            <label className="dot">
+            <label className="dot" style={{ zIndex: zIndex }}>
                 <span className="label_name">{text.day_of_execution_}</span>
                 <Dropdown
                     labels={executionDayLablesAndValues}
@@ -36,7 +37,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
                     returnValue={() => {}}
                 />
             </label>
-            <label className="int" >
+            <label className="int" style={{ zIndex: zIndex - 1 }}>
                 <span className="label_name">{text.exec_interval_}</span>
                 <Dropdown
                     labels={intervalLabels}

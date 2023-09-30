@@ -60,13 +60,14 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
     const [standingOrders, setStandingOrders] = useState([]);
-    const standingOrderElements = useMemo(() => standingOrders.map(order => (
+    const standingOrderElements = useMemo(() => standingOrders.map((order, i) => (
         <StandingOrder
             key={order.id}
             data={order}
             currency={openAccount.currency}
             intervalLabels={intervalLabels}
             intervalValues={intervalValues}
+            zIndex={(standingOrders.length - i) * 2}
         />
     )), [standingOrders]);
 
