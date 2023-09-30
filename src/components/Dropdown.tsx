@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import './Dropdown.scss';
 
 export default function Dropdown({labels, values, defaultSelected, returnValue, compact}: {
@@ -29,6 +29,7 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
                         label,
                         value: values[i]
                     });
+                    setIsOpen(false);
                 }}
             >{label}</span>
         )
@@ -36,12 +37,27 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
     useEffect(() => {
         returnValue(selection.value);
     }, [selection]);
+    const ref = useRef(null);
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (
+                ref.current &&
+                !ref.current.contains(e.target) &&
+                !(e.target as HTMLElement).classList.contains('custom-select') &&
+                !(e.target as HTMLElement).classList.contains('selected')
+            ) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [ref]);
     return (
-        <span className={"custom-select-container limited_height" + (isOpen ? ' open' : '') + (compact ? ' compact' : '')} onClick={() => {
-            setIsOpen(!isOpen);
-        }}>
-            <span className="selected">{selection.label}</span>
-            <span className="custom-select">
+        <span className={"custom-select-container limited_height" + (isOpen ? ' open' : '') + (compact ? ' compact' : '')} >
+            <span onClick={() => setIsOpen(!isOpen)} className="selected">{selection.label}</span>
+            <span ref={ref} className="custom-select">
                 <span className="scroll-anchor hide_scrollbar">
                     {spans}
                 </span>

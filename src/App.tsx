@@ -178,7 +178,7 @@ export default function App() {
                                             openStandingOrders={() => setOpenOrders(true)}
                                         />
                                         <StandingOrders
-                                            openAccountId={openAccount.id}
+                                            openAccount={openAccount}
                                             closeStandingOrders={() => setOpenOrders(false)}
                                         />
                                     </AlertContext.Provider>

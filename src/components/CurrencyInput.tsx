@@ -10,11 +10,10 @@ export default function CurrencyInput({value, setValue}: {
     const currencyInputElement = useRef<HTMLInputElement | null>(null);
     const [currencyInput, setCurrencyInput] = useState<IntlCurrencyInput | null>(null);
     const [valueState, setValueState] = useState(value);
-    let mounted = false;
+
     useEffect(() => {
         const input = currencyInputElement.current;
-        if (input && !currencyInput && !mounted) {
-            mounted = true;
+        if (input && !currencyInput) {
             const newInput = new IntlCurrencyInput(input, value, {
                 currencyName: 'EUR',
                 currencySymbol: '€',
@@ -25,7 +24,11 @@ export default function CurrencyInput({value, setValue}: {
             newInput.enableStrictMode();
             newInput.validCallback(() => setValueState(newInput.getValue()));
             setCurrencyInput(newInput);
+            return () => {
+                newInput.unmount();
+            }
         }
+
     }, []);
     useEffect(() => {
         const input = currencyInputElement.current;

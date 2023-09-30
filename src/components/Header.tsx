@@ -21,7 +21,6 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
-            e.stopPropagation()
             if (
                 globalSettingsRef.current &&
                 globalSettingsRef.current.classList.contains('open') &&
@@ -30,6 +29,7 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
                 setSettingsOpen(false);
             }
         }
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);

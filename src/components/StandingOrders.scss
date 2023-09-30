@@ -160,9 +160,12 @@ html[lang=ja] #manage_orders > * {
   #add_order, #manage_orders {
     width: 100%;
   }
+  #manage_orders h2 {
+    margin-top: .7em;
+  }
 }
 
-.container *, .custom-select-container .selected, .custom-select-container .option {
+#standing_orders .container *, #standing_orders .custom-select-container .selected, #standing_orders .custom-select-container .option {
   font-size: 1.2rem;
 }
 

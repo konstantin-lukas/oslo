@@ -11,6 +11,7 @@ import CurrencyInput from "./CurrencyInput";
 import {formatDate} from "./misc/Format";
 import {sub, lastDayOfMonth, getDaysInMonth} from "date-fns";
 import DatePicker from "react-datepicker";
+import StandingOrder from "./StandingOrder";
 
 function addOrderReducer(state: any, action: {type: string, payload: any}) {
     const obj = {
@@ -24,16 +25,16 @@ function addOrderReducer(state: any, action: {type: string, payload: any}) {
     return obj;
 }
 
-export default function StandingOrders({closeStandingOrders, openAccountId}: {
+export default function StandingOrders({closeStandingOrders, openAccount}: {
     closeStandingOrders: () => void,
-    openAccountId: number
+    openAccount: AccountData
 }) {
 
     const theme = useTheme();
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
     const alertCtx = useContext(AlertContext);
-    const dropdownLabels = useMemo(() => [
+    const intervalLabels = useMemo(() => [
         text.every_1_,
         text.every_2_,
         text.every_3_,
@@ -47,8 +48,8 @@ export default function StandingOrders({closeStandingOrders, openAccountId}: {
         text.every_11_,
         text.every_12_,
     ], [text]);
+    const intervalValues = useMemo(() => ["1","2","3","4","5","6","7","8","9","10","11","12"], []);
 
-    const dropdownValues = useMemo(() => ["1","2","3","4","5","6","7","8","9","10","11","12"], []);
     const [addOrderState, setAddOrderState] = useReducer(addOrderReducer, {
         name: '',
         amount: '0.00',
@@ -59,29 +60,19 @@ export default function StandingOrders({closeStandingOrders, openAccountId}: {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
     const [standingOrders, setStandingOrders] = useState([]);
-    const standingOrderElements = useMemo(() => standingOrders.map(order => {
-        return (
-            <div key={order.id} className="standing_order">
-                <label className="heading">
-                    <span className="label_name">ABC</span>
-                    <Input/>
-                </label>
-                <label><span className="label_name">ABC (123)</span>
-                    <Input/>
-                </label>
-                <label className="dot"><span className="label_name">ABC</span></label>
-                <label className="int" ><span className="label_name">ABC</span></label>
-                <div className="contain_two">
-                    <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => undefined}>{text.save_}</Button>
-                    <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => undefined}>{text.delete_}</Button>
-                </div>
-            </div>
-        )
-    }), [standingOrders]);
+    const standingOrderElements = useMemo(() => standingOrders.map(order => (
+        <StandingOrder
+            key={order.id}
+            data={order}
+            currency={openAccount.currency}
+            intervalLabels={intervalLabels}
+            intervalValues={intervalValues}
+        />
+    )), [standingOrders]);
 
     useEffect(() => {
-        api.db.getStandingOrders(openAccountId).then(res => setStandingOrders(res));
-    }, [openAccountId]);
+        api.db.getStandingOrders(openAccount.id).then(res => setStandingOrders(res));
+    }, [openAccount]);
 
     useEffect(() => {
         if (isUsingDefaultName)
@@ -148,8 +139,8 @@ export default function StandingOrders({closeStandingOrders, openAccountId}: {
                     <label className="export_label" id="interval_select">
                         <span className="label_name">{text.exec_interval_}</span>
                         <Dropdown
-                            labels={dropdownLabels}
-                            values={dropdownValues}
+                            labels={intervalLabels}
+                            values={intervalValues}
                             defaultSelected={"1"}
                             returnValue={(val) => setAddOrderState({type: 'exec_interval', payload: val})}
                             compact={false}
@@ -177,14 +168,14 @@ export default function StandingOrders({closeStandingOrders, openAccountId}: {
                             last_exec = lastDayOfMonth(last_exec);
                         }
                         api.db.postStandingOrder(
-                            openAccountId,
+                            openAccount.id,
                             addOrderState.name,
                             addOrderState.amount,
                             addOrderState.exec_interval,
                             exec_on,
                             last_exec.toISOString().split('T')[0]
                         ).then(() => {
-                            api.db.getStandingOrders(openAccountId).then(res => {
+                            api.db.getStandingOrders(openAccount.id).then(res => {
                                 setStandingOrders(res);
                                 alertCtx(
                                     text.changes_saved_,
