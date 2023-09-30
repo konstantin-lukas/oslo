@@ -46,7 +46,11 @@ const database = {
     },
     getStandingOrders: async (account: number) => {
         return await ipcRenderer.invoke('getStandingOrders', account);
-    }
+    },
+    deleteStandingOrder: async (id: number) => {
+        return await ipcRenderer.invoke('deleteStandingOrder', id);
+    },
+
 };
 
 export default database;

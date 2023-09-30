@@ -48,7 +48,9 @@ export default function registerDatabase() {
         try {
             const db = await openDB();
             const result = await db.all(
-                'SELECT * FROM "transaction" WHERE "account" = ? AND "timestamp" >= ? AND "timestamp" <= ? ORDER BY "timestamp" DESC;',
+                'SELECT "id", "title", "sum", "timestamp" ' +
+                'FROM "transaction"' +
+                'WHERE "account" = ? AND "timestamp" >= ? AND "timestamp" <= ? ORDER BY "timestamp" DESC;',
                 id, from_stamp, until_stamp);
             await db.close();
             return result;
@@ -174,12 +176,30 @@ export default function registerDatabase() {
     ipcMain.handle('getStandingOrders', async (_, account) => {
         try {
             const db = await openDB();
-            const result = await db.all('SELECT * FROM "standing_order" WHERE "account" = ?;', account);
+            const result = await db.all(
+                'SELECT ' +
+                '"id", ' +
+                '"title", ' +
+                '"sum", ' +
+                '"exec_interval", ' +
+                '"exec_on", ' +
+                '"last_exec" ' +
+                'FROM "standing_order" WHERE "account" = ?;',
+                account);
             await db.close();
             return result;
         } catch (_) {
             return null;
         }
     });
-
+    ipcMain.handle('deleteStandingOrder', async (_, id) => {
+        try {
+            const db = await openDB();
+            await db.run('DELETE FROM "standing_order" WHERE id = ?;', id);
+            await db.close();
+            return;
+        } catch (_) {
+            return;
+        }
+    });
 }

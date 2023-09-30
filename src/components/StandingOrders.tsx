@@ -68,6 +68,8 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
             intervalLabels={intervalLabels}
             intervalValues={intervalValues}
             zIndex={(standingOrders.length - i) * 2}
+            account={openAccount.id}
+            setStandingOrders={setStandingOrders}
         />
     )), [standingOrders]);
 
@@ -159,7 +161,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                         onClick={() => {
                         const first_exec = addOrderState.first_execution;
                         const exec_on = addOrderState.exec_on_last_of_month
-                            ? 32
+                            ? 31
                             : parseInt(first_exec.substring(8));
                         const first_exec_date = new Date(first_exec);
                         let last_exec = sub(first_exec_date, {

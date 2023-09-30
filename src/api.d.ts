@@ -1,25 +1,19 @@
 declare const api: typeof import("./api").default;
 
-declare type Color = {
-    r: number,
-    g: number,
-    b: number
-}
-
 declare type Transaction = {
     id: number
     title: string,
     sum: string,
-    timestamp: string,
-    time: string
+    timestamp: string
 }
 
 declare type StandingOrder = {
+    id: number,
     title: string,
     sum: string,
     exec_interval: number,
     exec_on: number,
-    last_exec: string
+    last_exec: string,
 }
 
 declare type AccountData = {
