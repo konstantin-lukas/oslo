@@ -50,6 +50,9 @@ const database = {
     deleteStandingOrder: async (id: number) => {
         return await ipcRenderer.invoke('deleteStandingOrder', id);
     },
+    patchStandingOrder: async (id: number, title: string, sum: string, exec_interval: number, exec_on: number) => {
+        return await ipcRenderer.invoke('patchStandingOrder', id, title, sum, exec_interval, exec_on);
+    }
 
 };
 

@@ -23,12 +23,25 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
     const theme = useTheme()
     const text = useContext(TextContext);
     const [amount, setAmount] = useState(data.sum);
+    const [name, setName] = useState(data.title);
+    const [execOn, setExecOn] = useState(data.exec_on);
+    const [execInterval, setExecInterval] = useState(data.exec_interval);
+
     const alertCtx = useContext(AlertContext);
     return (
         <div className="standing_order">
             <label className="heading">
                 <span className="label_name">{text.standing_order_name_}</span>
-                <Input defaultValue={data.title}/>
+                <Input
+                    defaultValue={data.title}
+                    onInput={e => {
+                        if (!/^.+$/.test((e.target as HTMLInputElement).value)) {
+                            (e.target as HTMLInputElement).value = name;
+                        } else {
+                            setName((e.target as HTMLInputElement).value);
+                        }
+                    }}
+                />
             </label>
             <label><span className="label_name">{text.amount_} ({currency})</span>
                 <CurrencyInput value={amount} setValue={setAmount}/>
@@ -39,7 +52,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
                     labels={executionDayLablesAndValues}
                     values={executionDayLablesAndValues}
                     defaultSelected={data.exec_on.toString()}
-                    returnValue={() => {}}
+                    returnValue={val => setExecOn(parseInt(val))}
                 />
             </label>
             <label className="int" style={{ zIndex: zIndex - 1 }}>
@@ -48,11 +61,18 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
                     labels={intervalLabels}
                     values={intervalValues}
                     defaultSelected={data.exec_interval.toString()}
-                    returnValue={() => {}}
+                    returnValue={val => setExecInterval(parseInt(val))}
                 />
             </label>
             <div className="contain_two">
-                <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => undefined}>{text.save_}</Button>
+                <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => {
+                    api.db.patchStandingOrder(data.id, name, amount, execInterval, execOn).then(() => {
+                        alertCtx(
+                            text.changes_saved_,
+                            () => {}
+                        );
+                    });
+                }}>{text.save_}</Button>
                 <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => {
                     alertCtx(
                         text.confirm_standing_order_delete_,

@@ -202,4 +202,22 @@ export default function registerDatabase() {
             return;
         }
     });
+    ipcMain.handle('patchStandingOrder', async (_, id, title, sum, exec_interval, exec_on) => {
+        try {
+            const db = await openDB();
+            await db.run(
+                'UPDATE "standing_order" ' +
+                'SET "title" = ?, ' +
+                '"sum" = ?, ' +
+                '"exec_interval" = ?, ' +
+                '"exec_on" = ? ' +
+                'WHERE "id" = ?;',
+                title, sum, exec_interval, exec_on, id
+            );
+            await db.close();
+            return
+        } catch (_) {
+            return;
+        }
+    });
 }

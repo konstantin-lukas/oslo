@@ -67,7 +67,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
             currency={openAccount.currency}
             intervalLabels={intervalLabels}
             intervalValues={intervalValues}
-            zIndex={(standingOrders.length - i) * 2}
+            zIndex={(standingOrders.length - i) * 2 + 1}
             account={openAccount.id}
             setStandingOrders={setStandingOrders}
         />
