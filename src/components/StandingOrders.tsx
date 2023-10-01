@@ -61,17 +61,23 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
     const [standingOrders, setStandingOrders] = useState([]);
-    const standingOrderElements = useMemo(() => standingOrders.map(order => (
-        <StandingOrder
-            key={order.id}
-            data={order}
-            currency={openAccount.currency}
-            intervalLabels={intervalLabels}
-            intervalValues={intervalValues}
-            account={openAccount.id}
-            setStandingOrders={setStandingOrders}
-        />
-    )), [standingOrders]);
+    const standingOrderElements = useMemo(() => {
+        if (standingOrders.length === 0) {
+            return <label>{text.no_standing_orders_}</label>
+        } else {
+            return standingOrders.map(order => (
+                <StandingOrder
+                    key={order.id}
+                    data={order}
+                    currency={openAccount.currency}
+                    intervalLabels={intervalLabels}
+                    intervalValues={intervalValues}
+                    account={openAccount.id}
+                    setStandingOrders={setStandingOrders}
+                />
+            ));
+        }
+    }, [standingOrders]);
 
     useEffect(() => {
         api.db.getStandingOrders(openAccount.id).then(res => setStandingOrders(res));

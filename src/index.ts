@@ -42,6 +42,9 @@ const createWindow = async () => {
 
     await executeStandingOrders();
 
+    // TODO DATABASE MIGRATIONS
+    // TODO IMPLEMENT INTEREST RATE WITH "INTEREST" AS REFERENCE; ALSO ADD LAST INTEREST TO DB
+    // TODO FORMAT INTEREST RATE WITH PERCENT SIGN AT THE END
 
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -56,13 +59,19 @@ const createWindow = async () => {
         },
         icon: resolve(__dirname + '/img/favicon.png')
     });
-
+    const splash = new BrowserWindow({
+        width: 600,
+        height: 600,
+        transparent: true,
+        frame: false,
+        alwaysOnTop: true
+    });
+    await splash.loadURL(`file://${__dirname}/splash.html`);
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
           .then(() => {
               mainWindow.maximize();
               if (!process.env.DEV_MODE)
                   Menu.setApplicationMenu(null);
-              mainWindow.show();
               registerWindow(mainWindow);
               registerTextContent();
               registerDatabase();
@@ -74,6 +83,11 @@ const createWindow = async () => {
           .catch(e => {
             console.log(e);
           });
+
+    mainWindow.once('ready-to-show', () => {
+        splash.destroy();
+        mainWindow.show();
+    })
 
 };
 

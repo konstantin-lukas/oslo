@@ -103,8 +103,6 @@ export default function App() {
         }
     }, [openAccount]);
 
-    console.log(font)
-
     // TODO: SELECT CURRENCY NAME AND SYMBOL
     if (!openAccount)
         return (

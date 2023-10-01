@@ -17,7 +17,8 @@ export const mainConfig: Configuration = {
     new CopyPlugin({
       patterns: [
         { from: './src/lang', to: 'lang' },
-        { from: './src/img', to: 'img' }
+        { from: './src/img', to: 'img' },
+        { from: './src/splash.html', to: 'splash.html' }
       ]
     })
   ],

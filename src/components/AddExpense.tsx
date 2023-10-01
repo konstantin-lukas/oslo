@@ -35,7 +35,6 @@ export default function AddExpense({openAccount, fetchTransactions}: {
                 onClick={async () => {
                     const balance = new Money(await api.db.getBalance(openAccount.id));
                     const transactionAmount = new Money(amount);
-                    console.log(balance, transactionAmount)
                     MoneyCalculator.add(balance, transactionAmount);
                     if (balance.isNegative) {
                         alertCtx(

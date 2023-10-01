@@ -24,7 +24,9 @@ export default function Header({tabs, openId, setOpenAccount, setLanguage, setLi
             if (
                 globalSettingsRef.current &&
                 globalSettingsRef.current.classList.contains('open') &&
-                !globalSettingsRef.current.contains(e.target)
+                !globalSettingsRef.current.contains(e.target) &&
+                e.target instanceof HTMLElement &&
+                e.target.id !== "config-btn"
             ) {
                 setSettingsOpen(false);
             }

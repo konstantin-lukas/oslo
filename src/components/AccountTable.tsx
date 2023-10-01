@@ -24,7 +24,16 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         setTimeSpanBalance(timeSpanNetChange.value);
     }, [transactions]);
 
-    const rows = transactions.map(transaction => {
+    const rows = transactions.length === 0
+        ? (
+            <tr className="balanceChange">
+                <td
+                    colSpan={21}
+                    style={{whiteSpace: 'normal'}}
+                >{text.no_transactions_}</td>
+            </tr>
+        )
+        : transactions.map(transaction => {
         return (
             <AccountTableRow
                 key={transaction.id}
@@ -48,7 +57,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
                         marginRight: '.25em',
                         color: balance[0] === '-' ? 'red' : 'green'
                     }}> {balance}</span>
-                    (<span title="Selected time span" style={{
+                    (<span title={text.selected_time_span_} style={{
                     color: timeSpanBalance[0] === '-' ? 'red' : 'green'
                 }}>{timeSpanBalance}</span>)
                 </td>
