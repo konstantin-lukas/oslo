@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
 );
 
 document.addEventListener('contextmenu', (e) => {
-    api.window.contextMenu({x: e.x, y: e.y});
+    api.dev.contextMenu({x: e.x, y: e.y});
 });
 
 root.render(

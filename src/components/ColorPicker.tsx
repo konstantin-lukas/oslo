@@ -19,6 +19,7 @@ export default function ColorPicker({onInput, accountId} : {onInput: (color: str
                 picker.destroyAndRemove();
             const pickr = Pickr.create({
                 el: pickerElement.current,
+                container: document.querySelector('#root > div main') as HTMLElement,
                 theme: 'monolith',
                 default: selectedColor,
                 useAsButton: true,

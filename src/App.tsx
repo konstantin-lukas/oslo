@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Header from "./components/Header";
 import Account from "./components/Account";
 import Alert from "./components/Alert";
@@ -14,6 +14,7 @@ import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 import langSample from "./lang/en.json";
 import './lightMode.scss';
+import availableLanguages from "./lang.avail.json";
 
 export default function App() {
     const [alert, setAlert] = useState(null);
@@ -35,6 +36,8 @@ export default function App() {
         neutral_opposite: '#ffffff',
         other_opposite: '#444444'
     });
+    const font = useMemo(() =>
+        availableLanguages.find(lang => lang.code === language).font, [language]);
 
     useEffect(() => {
         setFetchSettingsFlag(true);
@@ -100,6 +103,8 @@ export default function App() {
         }
     }, [openAccount]);
 
+    console.log(font)
+
     // TODO: SELECT CURRENCY NAME AND SYMBOL
     if (!openAccount)
         return (
@@ -124,7 +129,10 @@ export default function App() {
                                         cancelAction
                                     });
                                 }}>
-                                    <div className={(lightMode ? 'light_mode' : '')}>
+                                    <div
+                                        className={(lightMode ? 'light_mode' : '')}
+                                        style={{fontFamily: font}}
+                                    >
                                         <Header
                                             tabs={accounts || []}
                                             openId={openAccount?.id}
@@ -148,7 +156,10 @@ export default function App() {
         )
 
     return (
-        <div className={(openOrders ? 'open_orders ' : '') + (lightMode ? 'light_mode' : '')}>
+        <div
+            className={(openOrders ? 'open_orders ' : '') + (lightMode ? 'light_mode' : '')}
+            style={{fontFamily: font}}
+        >
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <CurrencyContext.Provider value={currency}>

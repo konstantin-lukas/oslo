@@ -24,6 +24,10 @@ html[lang=ja] #color_picker {
 .custom-color-picker {
   background: $dark0;
   border-radius: 3px;
+  font-family: inherit;
+  * {
+    font-family: inherit;
+  }
 }
 
 .pcr-app .pcr-interaction .pcr-result {

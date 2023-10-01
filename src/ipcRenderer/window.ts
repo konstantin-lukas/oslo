@@ -16,7 +16,6 @@ const window = {
     },
     export: async () => await ipcRenderer.invoke('export'),
     import: async () => await ipcRenderer.invoke('import'),
-    contextMenu: (pos: {x: number, y: number}) => ipcRenderer.send('context_menu', pos)
 };
 
 export default window;
