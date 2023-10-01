@@ -11,12 +11,11 @@ const executionDayLablesAndValues = [
     "21","22","23","24","25","26","27","28","29","30","31"
 ];
 
-export default function StandingOrder({data, currency, intervalLabels, intervalValues, zIndex, account, setStandingOrders}: {
+export default function StandingOrder({data, currency, intervalLabels, intervalValues, account, setStandingOrders}: {
     data: StandingOrder,
     currency: string,
     intervalLabels: string[],
     intervalValues: string[],
-    zIndex: number,
     account: number,
     setStandingOrders: (orders: StandingOrder[]) => void
 }) {
@@ -46,7 +45,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
             <label><span className="label_name">{text.amount_} ({currency})</span>
                 <CurrencyInput value={amount} setValue={setAmount}/>
             </label>
-            <label className="dot" style={{ zIndex: zIndex }}>
+            <label className="dot">
                 <span className="label_name">{text.day_of_execution_}</span>
                 <Dropdown
                     labels={executionDayLablesAndValues}
@@ -55,7 +54,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
                     returnValue={val => setExecOn(parseInt(val))}
                 />
             </label>
-            <label className="int" style={{ zIndex: zIndex - 1 }}>
+            <label className="int">
                 <span className="label_name">{text.exec_interval_}</span>
                 <Dropdown
                     labels={intervalLabels}

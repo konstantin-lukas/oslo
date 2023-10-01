@@ -24,7 +24,7 @@ export default function App() {
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
     const [textContent, setTextContent] = useState(langSample);
     const [fetchSettingsFlag, setFetchSettingsFlag] = useState(false);
-    const [openOrders, setOpenOrders] = useState(true);
+    const [openOrders, setOpenOrders] = useState(false);
     const [currency, setCurrency] = useState({
         name: 'USD',
         decimalPlaces: 2

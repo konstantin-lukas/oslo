@@ -8,7 +8,6 @@
   left: 100vw;
   font-size: 32px;
   overflow-y: auto;
-  z-index: 9;
   visibility: hidden;
   transition: left .3s linear, visibility .3s .3s linear;
 }
@@ -94,10 +93,6 @@ html[lang=ja] #manage_orders > * {
   width: calc(50% - .3em);
 }
 
-#add_order .custom-select-container {
-  z-index: 6;
-}
-
 #add_order button {
   width: 100%;
 }
@@ -121,34 +116,11 @@ html[lang=ja] #manage_orders > * {
   width: 100%;
 }
 
-#add_order #exec_on_last {
-  z-index: 7;
-}
 
 .standing_order {
   margin-top: .6em;
   padding-top: .6em !important;
   padding-bottom: .6em !important;
-}
-
-.dot {
-  position: relative;
-  z-index: 8;
-}
-
-.int {
-  position: relative;
-  z-index: 4;
-}
-
-#interval_select {
-  position: relative;
-  z-index: 8;
-}
-
-#exec_on_last {
-  position: relative;
-  z-index: 4;
 }
 
 @media only screen and (max-width: 900px) {

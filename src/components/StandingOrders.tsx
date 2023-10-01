@@ -2,14 +2,14 @@ import React, {useCallback, useContext, useEffect, useMemo, useReducer, useState
 import anime from 'animejs';
 import './StandingOrders.scss';
 import {useTheme} from "styled-components";
-import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import CurrencyInput from "./CurrencyInput";
 import {formatDate} from "./misc/Format";
-import {sub, lastDayOfMonth, getDaysInMonth} from "date-fns";
+import {sub, lastDayOfMonth, formatISO, setDate} from "date-fns";
 import DatePicker from "react-datepicker";
 import StandingOrder from "./StandingOrder";
 
@@ -18,7 +18,7 @@ function addOrderReducer(state: any, action: {type: string, payload: any}) {
         ...state
     }
     if (action.payload instanceof Date) {
-        obj[action.type] = action.payload.toISOString().split('T')[0]
+        obj[action.type] = formatISO(action.payload, {representation: 'date'})
     } else {
         obj[action.type] = action.type === 'exec_interval' ? parseInt(action.payload) : action.payload;
     }
@@ -34,6 +34,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
     const alertCtx = useContext(AlertContext);
+    const fetchCtx = useContext(FetchAccountsContext);
     const intervalLabels = useMemo(() => [
         text.every_1_,
         text.every_2_,
@@ -60,14 +61,13 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
     const [standingOrders, setStandingOrders] = useState([]);
-    const standingOrderElements = useMemo(() => standingOrders.map((order, i) => (
+    const standingOrderElements = useMemo(() => standingOrders.map(order => (
         <StandingOrder
             key={order.id}
             data={order}
             currency={openAccount.currency}
             intervalLabels={intervalLabels}
             intervalValues={intervalValues}
-            zIndex={(standingOrders.length - i) * 2 + 1}
             account={openAccount.id}
             setStandingOrders={setStandingOrders}
         />
@@ -163,33 +163,38 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                         const exec_on = addOrderState.exec_on_last_of_month
                             ? 31
                             : parseInt(first_exec.substring(8));
-                        const first_exec_date = new Date(first_exec);
+                        let first_exec_date = new Date(first_exec);
+                        if (addOrderState.exec_on_last_of_month)
+                            first_exec_date = setDate(first_exec_date, lastDayOfMonth(first_exec_date).getDate());
                         let last_exec = sub(first_exec_date, {
                             months: addOrderState.exec_interval
                         });
-                        if (getDaysInMonth(last_exec) < getDaysInMonth(first_exec_date) || addOrderState.exec_on_last_of_month) {
+                        if (addOrderState.exec_on_last_of_month) {
                             last_exec = lastDayOfMonth(last_exec);
                         }
-                        api.db.postStandingOrder(
+                            api.db.postStandingOrder(
                             openAccount.id,
                             addOrderState.name,
                             addOrderState.amount,
                             addOrderState.exec_interval,
                             exec_on,
-                            last_exec.toISOString().split('T')[0]
+                            formatISO(last_exec, {representation: 'date'})
                         ).then(() => {
-                            api.db.getStandingOrders(openAccount.id).then(res => {
-                                setStandingOrders(res);
-                                alertCtx(
-                                    text.changes_saved_,
-                                    () => {}
-                                );
-                            })
+                            api.db.executeStandingOrders().then(() => {
+                                api.db.getStandingOrders(openAccount.id).then(res => {
+                                    setStandingOrders(res);
+                                    alertCtx(
+                                        text.changes_saved_,
+                                        () => {}
+                                    );
+                                });
+                                fetchCtx();
+                            });
                         });
-                    }}>{text.create_standing_order_}</Button>
+                        }}>{text.create_standing_order_}</Button>
                 </div>
                 <div id="manage_orders" className="theme_background">
-                    <h2>Daueraufträge verwalten</h2>
+                    <h2>{text.manage_standing_orders_}</h2>
                     {standingOrderElements}
                 </div>
             </div>
@@ -201,8 +206,9 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                         setDatePickerOpen(false);
                     }}
                     onClickOutside={() => {setDatePickerOpen(false)}}
+                    minDate={new Date()}
                     locale={lang}
-                    selected={new Date()}
+                    selected={new Date(addOrderState.first_execution)}
                     inline/>
             </div>
         </div>

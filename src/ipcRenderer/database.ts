@@ -52,6 +52,9 @@ const database = {
     },
     patchStandingOrder: async (id: number, title: string, sum: string, exec_interval: number, exec_on: number) => {
         return await ipcRenderer.invoke('patchStandingOrder', id, title, sum, exec_interval, exec_on);
+    },
+    executeStandingOrders: async () => {
+        return await ipcRenderer.invoke('executeStandingOrders');
     }
 
 };

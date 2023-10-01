@@ -4,7 +4,6 @@
   position: relative;
   margin: .4em 0;
   font-size: 1.5rem;
-  z-index: 3;
 
   &::after {
     content: "";
@@ -49,6 +48,7 @@
     display: block;
     transition: all .2s ease-in-out;
     pointer-events: none;
+    z-index: 4;
   }
 
   &.open .custom-select {

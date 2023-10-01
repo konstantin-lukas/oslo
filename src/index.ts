@@ -3,7 +3,7 @@ import * as process from "process";
 import registerWindow from "./ipcMain/window";
 import registerDevTools from "./ipcMain/devTools";
 import registerTextContent from "./ipcMain/textContent";
-import registerDatabase from "./ipcMain/database";
+import registerDatabase, {executeStandingOrders} from "./ipcMain/database";
 import registerSettings from "./ipcMain/settings";
 import {resolve} from "path";
 import {open} from "sqlite";
@@ -26,6 +26,7 @@ app.disableHardwareAcceleration();
 
 const createWindow = async () => {
 
+    // SET UP DATABASE IF NOT EXISTS
     const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
     const dbPath = resolve( dbRoot + "/account_info.db");
     const db = await open({
@@ -39,7 +40,10 @@ const createWindow = async () => {
     await db.exec('INSERT INTO "meta" ("version") SELECT "3.0.0" WHERE NOT EXISTS (SELECT * FROM "meta")');
     await db.close();
 
-  // Create the browser window.
+    await executeStandingOrders();
+
+
+    // Create the browser window.
     const mainWindow = new BrowserWindow({
         frame: false,
         show: false,

@@ -3,6 +3,7 @@ import { open } from 'sqlite'
 import {ipcMain} from "electron";
 import {MoneyCalculator, Money} from "moneydew";
 import * as process from "process";
+import {add, formatISO, getDaysInMonth, lastDayOfMonth, setDate} from "date-fns";
 
 if (process.env.DEV_MODE)
     sqlite3.verbose();
@@ -12,6 +13,47 @@ async function openDB() {
         filename: dbRoot + "/account_info.db",
         driver: sqlite3.Database
     })
+}
+
+export async function executeStandingOrders() {
+    // EXECUTE STANDING ORDERS
+    const db = await openDB();
+    try {
+        const standingOrders: (StandingOrder & {account: number})[] = await db.all('SELECT * FROM "standing_order"');
+        for (const order of standingOrders) {
+            const today = formatISO(new Date(), {representation: 'date'});
+            let nextExecution = new Date(order.last_exec);
+            do {
+                let execDate = add(nextExecution, {
+                    months: order.exec_interval
+                });
+                if (getDaysInMonth(execDate) < order.exec_on)
+                    execDate = setDate(execDate, lastDayOfMonth(execDate).getDate());
+                else
+                    execDate = setDate(execDate, order.exec_on);
+                if (formatISO(execDate, {representation: 'date'}) <= today) {
+                    nextExecution = execDate;
+                    await db.run(
+                        'INSERT INTO "transaction" ("title", "sum", "account", "timestamp") VALUES (?, ?, ?, ?);',
+                        order.title, order.sum, order.account, formatISO(nextExecution, {representation: 'date'}) + ' 00:00:00'
+                    );
+                } else {
+                    break;
+                }
+                // eslint-disable-next-line no-constant-condition
+            } while (true);
+
+            const newLastExec = formatISO(nextExecution, {representation: 'date'});
+            if (newLastExec > order.last_exec) {
+                await db.run('UPDATE "standing_order" SET "last_exec" = ? WHERE "id" = ?', newLastExec, order.id);
+            }
+        }
+    } catch (e) {
+        await db.close();
+        console.log(e)
+    } finally {
+        await db.close();
+    }
 }
 
 export default function registerDatabase() {
@@ -220,4 +262,5 @@ export default function registerDatabase() {
             return;
         }
     });
+    ipcMain.handle('executeStandingOrders', executeStandingOrders);
 }
