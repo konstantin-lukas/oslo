@@ -1,4 +1,15 @@
 {
+  "welcome_to_oslo_": "Welcome to Oslo!",
+  "pick_name_and_currency_": "Create a new account by choosing a name and a currency.",
+  "caution_currency_perma_": "Caution: the currency cannot be changed later.",
+  "export_successful_": "Your account data was successfully exported. Keep it in a safe place!",
+  "export_failed_": "Something went wrong trying to export your account data. Please try again.",
+  "confirm_import_": "Caution: importing account data will overwrite any existing accounts and associated data. This action cannot be undone. Are you sure you want to continue?",
+  "import_successful_": "The account data was successfully imported. You can start using it now.",
+  "import_failed_": "Something went wrong trying to import the account data. Please try again.",
+
+
+
   "language_": "Language",
   "theme_color_": "Theme color",
   "dark_theme_": "Dark theme",
@@ -45,11 +56,9 @@
   "last_day_of_month_": "Last day of the month",
   "balance_": "Balance",
   "settings_": "Settings",
-  "pick_name_and_currency_": "Please choose a name and currency for the new account. Caution: the currency cannot be changed later.",
   "confirm_delete_": "Are you sure you want to delete this account? This action cannot be undone!",
   "cannot_delete_last_account_": "You cannot delete all accounts.",
   "invalid_values_": "The entered values are invalid.",
-  "confirm_import_": "Are you sure you want to import these accounts? This will overwrite the existing accounts.",
   "interest_rate_": "Interest rate",
   "selected_time_span_": "Selected time span",
   "interest_": "Interest",

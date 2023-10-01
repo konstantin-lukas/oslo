@@ -25,12 +25,14 @@ export default forwardRef(function GlobalSettings({open, setLanguage, setLightMo
                 <Button
                     altColors={!lightMode && theme.neutral_color === '#1a1a1a'}
                     onClick={() => {
-                        api.window.export().then((success) => {
-                            alert(
-                                success ? text.export_data_ : 'Meh',
-                                () => {}
-                            );
-                    });
+                        api.window.export().then((status) => {
+                            if (status !== 'cancel') {
+                                alert(
+                                    status === 'success' ? text.export_successful_ : text.export_failed_,
+                                    () => {}
+                                );
+                            }
+                        });
                 }}>{text.export_}</Button>
             </label>
             <label className="container"><span>{text?.import_data_}</span>
@@ -39,7 +41,15 @@ export default forwardRef(function GlobalSettings({open, setLanguage, setLightMo
                     onClick={() => {
                         alert(
                             text.confirm_import_,
-                            () => api.window.import().then(fetchAccounts),
+                            () => api.window.import().then(status => {
+                                if (status !== 'cancel') {
+                                    alert(
+                                        status === 'success' ? text.import_successful_ : text.import_failed_,
+                                        () => {}
+                                    )
+                                    fetchAccounts();
+                                }
+                            }),
                             () => {}
                         );
                 }}>{text.import_}</Button>

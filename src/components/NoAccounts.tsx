@@ -25,7 +25,7 @@ export default function NoAccounts() {
     }, [text]);
 
     return <div id="no_accounts">
-        <span className="message">{text?.pick_name_and_currency_}</span>
+        <span className="message">{text?.pick_name_and_currency_}<br/><span style={{color: '#808080'}}>{text?.caution_currency_perma_}</span></span>
         <div className="container">
             <Dropdown labels={labels} values={currencies} defaultSelected={'USD'} returnValue={value=> {
                 setCurrency(value);

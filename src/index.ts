@@ -60,7 +60,8 @@ const createWindow = async () => {
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
           .then(() => {
               mainWindow.maximize();
-              Menu.setApplicationMenu(null);
+              if (!process.env.DEV_MODE)
+                  Menu.setApplicationMenu(null);
               mainWindow.show();
               registerWindow(mainWindow);
               registerTextContent();

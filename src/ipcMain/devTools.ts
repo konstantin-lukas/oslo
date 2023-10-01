@@ -13,7 +13,7 @@ export default function registerDevTools(mainWindow: BrowserWindow) {
         }
     });
     menu.append(menuItem);
-    ipcMain.on('context_menu', function(e, pos){
+    ipcMain.on('context_menu', function(_, pos){
         p = pos;
         menu.popup();
     });

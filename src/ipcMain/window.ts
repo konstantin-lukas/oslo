@@ -1,7 +1,9 @@
 import {BrowserWindow, ipcMain, dialog} from "electron";
 import fs from "fs";
 import {resolve} from "path";
+import {open} from "sqlite";
 import process from "process";
+import sqlite3 from "sqlite3";
 
 
 export default function registerWindow(mainWindow: BrowserWindow) {
@@ -24,7 +26,7 @@ export default function registerWindow(mainWindow: BrowserWindow) {
     mainWindow.on('unmaximize',function () {
         mainWindow.webContents.send('unmaximize');
     });
-    ipcMain.handle('export',function (_) {
+    ipcMain.handle('export',function () {
         let path = dialog.showSaveDialogSync(mainWindow, {
             properties: [
                 'createDirectory',
@@ -37,7 +39,7 @@ export default function registerWindow(mainWindow: BrowserWindow) {
                 }
             ]
         });
-        if (!path) return;
+        if (!path) return 'cancel';
         if (!path.endsWith('.oslo')) {
             path += '.oslo';
         }
@@ -45,11 +47,11 @@ export default function registerWindow(mainWindow: BrowserWindow) {
             const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
             fs.copyFileSync(resolve(dbRoot + "/account_info.db"), path);
         } catch (_) {
-            return false;
+            return 'failure';
         }
-        return true;
+        return 'success';
     });
-    ipcMain.handle('import',function (_) {
+    ipcMain.handle('import',async () => {
         const path = dialog.showOpenDialogSync(mainWindow, {
             properties: [
                 'openFile'
@@ -61,13 +63,23 @@ export default function registerWindow(mainWindow: BrowserWindow) {
                 }
             ]
         });
-        if (!path?.[0] || !path[0].endsWith('.oslo')) return false;
+        if (!path?.[0] || !path[0].endsWith('.oslo')) return 'cancel';
+        try {
+            const db = await open({
+                filename: path[0],
+                driver: sqlite3.Database
+            });
+            await db.all('SELECT * FROM "account", "transaction", "standing_order", "meta"');
+            await db.close();
+        } catch (_) {
+            return 'failure';
+        }
         try {
             const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
             fs.copyFileSync(path[0], resolve(dbRoot + "/account_info.db"));
         } catch (_) {
-            return false;
+            return 'failure';
         }
-        return true;
+        return 'success';
     });
 }

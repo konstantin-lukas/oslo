@@ -28,6 +28,12 @@ declare type AccountData = {
 }
 
 declare type TextContent = {
+    export_successful_: string,
+    export_failed_: string,
+    import_successful_: string,
+    import_failed_: string,
+    welcome_to_oslo_: string,
+    caution_currency_perma_: string,
     language_: string,
     theme_color_: string,
     dark_theme_: string,
