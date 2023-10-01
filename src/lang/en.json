@@ -7,15 +7,11 @@
   "confirm_import_": "Caution: importing account data will overwrite any existing accounts and associated data. This action cannot be undone. Are you sure you want to continue?",
   "import_successful_": "The account data was successfully imported. You can start using it now.",
   "import_failed_": "Something went wrong trying to import the account data. Please try again.",
-
-
-
   "language_": "Language",
   "theme_color_": "Theme color",
   "dark_theme_": "Dark theme",
   "allow_overdrawing_": "Allow overdrawing",
-  "vertical_layout_": "Vertical layout",
-  "save_": "save",
+  "save_": "Save",
   "cancel_": "Cancel",
   "new_account_": "New account",
   "confirm_": "Confirm",
@@ -23,10 +19,10 @@
   "amount_": "Amount",
   "reference_": "Reference",
   "date_": "Date",
-  "savings_accounts_": "Savings accounts",
   "account_name_": "Account name",
   "add_": "Add",
-  "cannot_overdraw_": "You cannot overdraw your account! If you are already in the negative, you can only make deposits.",
+  "cannot_overdraw_": "You cannot overdraw this account! If you are already in the red, you can only make deposits.",
+
   "export_data_": "Export account data",
   "export_": "Export",
   "import_data_": "Import account data",
