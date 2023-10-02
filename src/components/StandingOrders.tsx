@@ -86,7 +86,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
 
     useEffect(() => {
         setAddOrderState({type: 'amount', payload: getZeroValue(currency.decimalPlaces)})
-    }, [currency, openAccount]);
+    }, [currency]);
 
     useEffect(() => {
         if (isUsingDefaultName)
@@ -133,7 +133,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                                 setIsUsingDefaultName(false);
                             }
                         }}
-                        defaultValue={addOrderState.name}/>
+                        value={addOrderState.name}/>
                     </label>
                     <label className="export_label" id="amount_label">
                         <span className="label_name">{text.amount_}</span>

@@ -9,5 +9,14 @@ export default [
         group_separator: ',',
         decimal_separator: '.',
         custom_symbols: []
+    },
+    {
+        code: "de",
+        name: "Deutsch",
+        font: "Barlow Condensed",
+        display_order: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
+        group_separator: '.',
+        decimal_separator: ',',
+        custom_symbols: []
     }
 ];

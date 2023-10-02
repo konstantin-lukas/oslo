@@ -13,15 +13,16 @@ export default function NoAccounts() {
     const lightMode = useContext(LightModeContext);
     const [currency, setCurrency] = useState('USD');
     const [name, setName] = useState<string>(text?.new_account_);
+    const [defaultName, setDefaultName] = useState(true);
     const labels = useMemo(() => {
         return currencies.map((currency) => {
             return currency + " (" + new Intl.DisplayNames([lang.code], { type: 'currency' }).of(currency) + ")"
         })
-    }, []);
+    }, [lang]);
 
     useEffect(() => {
-        if (text)
-            setName(text.new_account_)
+        if (defaultName)
+            setName(text.new_account_);
     }, [text]);
 
     return <div id="no_accounts">
@@ -32,12 +33,13 @@ export default function NoAccounts() {
             }}/>
             <Input
                 id="accountName"
-                defaultValue={name}
+                value={name}
                 onInput={(e) => {
                     if (!/^.+$/.test((e.target as HTMLInputElement).value)) {
                         (e.target as HTMLInputElement).value = name;
                     } else {
                         setName((e.target as HTMLInputElement).value);
+                        setDefaultName(false);
                     }
                 }}
             />
