@@ -66,7 +66,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             closeDatePicker();
                         }}
                         onClickOutside={pickerClass === 'left_open' ? closeDatePicker : () => {}}
-                        locale={language}
+                        locale={language.code}
                         maxDate={sub(new Date(date.until), {days: 1})}
                         selected={date.from}
                         inline/>
@@ -80,7 +80,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             closeDatePicker();
                         }}
                         onClickOutside={pickerClass === 'right_open' ? closeDatePicker : () => {}}
-                        locale={language}
+                        locale={language.code}
                         minDate={add(new Date(date.from), {days: 1})}
                         selected={date.until}
                         inline/>
@@ -92,7 +92,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: true, until: false});
                         }}
                     >
-                        {formatDate(language, date.from)}
+                        {formatDate(language.code, date.from)}
                     </span>
                     <span
                         id="until_date"
@@ -100,7 +100,7 @@ export default function AccountHeader({heading, date, setDate}: {
                             setDatePickerOpen({from: false, until: true});
                         }}
                     >
-                        {formatDate(language, date.until)}
+                        {formatDate(language.code, date.until)}
                     </span>
                 </div>
             </div>

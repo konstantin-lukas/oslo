@@ -15,7 +15,7 @@ export default function NoAccounts() {
     const [name, setName] = useState<string>(text?.new_account_);
     const labels = useMemo(() => {
         return currencies.map((currency) => {
-            return currency + " (" + new Intl.DisplayNames([lang], { type: 'currency' }).of(currency) + ")"
+            return currency + " (" + new Intl.DisplayNames([lang.code], { type: 'currency' }).of(currency) + ")"
         })
     }, []);
 

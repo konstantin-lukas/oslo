@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import styled from "styled-components";
+import {styled} from "styled-components";
 import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
 import './AccountTableRow.scss';
 
@@ -27,7 +27,7 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
     const text = useContext(TextContext);
 
     const className = "balanceChange" + (sum[0] === '-' ? " expense" : " proceed");
-    const date = new Date(timestamp).toLocaleDateString(language);
+    const date = new Date(timestamp).toLocaleDateString(language.code);
     sum = (sum[0] === '-' ? '' : '+') + sum;
     return (
         <tr className={className}>

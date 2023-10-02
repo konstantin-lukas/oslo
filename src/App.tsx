@@ -14,12 +14,12 @@ import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 import langSample from "./lang/en.json";
 import './lightMode.scss';
-import availableLanguages from "./lang.avail.json";
+import availableLanguages from "./lang.avail";
 
 export default function App() {
     const [alert, setAlert] = useState(null);
     const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
-    const [language, setLanguage] = useState<string>('en');
+    const [language, setLanguage] = useState(availableLanguages[0]);
     const [lightMode, setLightMode] = useState<boolean>(false);
     const [accounts, setAccounts] = useState(null);
     const [openAccount, setOpenAccount] = useState<AccountData | null>(null);
@@ -37,7 +37,7 @@ export default function App() {
         other_opposite: '#444444'
     });
     const font = useMemo(() =>
-        availableLanguages.find(lang => lang.code === language).font, [language]);
+        availableLanguages.find(lang => lang.code === language.code).font, [language]);
 
     useEffect(() => {
         setFetchSettingsFlag(true);
@@ -45,7 +45,9 @@ export default function App() {
 
     useEffect(() => {
         if (fetchSettingsFlag) {
-            api.settings.getLanguage().then(res => setLanguage(res));
+            api.settings.getLanguage().then(res => setLanguage(
+                availableLanguages.find(lang => lang.code === res)
+            ));
             api.settings.getLightMode().then(res => setLightMode(res));
         }
     }, [fetchSettingsFlag]);
@@ -62,8 +64,8 @@ export default function App() {
 
     useEffect(() => {
         if (fetchSettingsFlag) {
-            api.textContent(language).then(result => setTextContent(result)).then(() => {
-                api.settings.setLanguage(language).then();
+            api.textContent(language.code).then(result => setTextContent(result)).then(() => {
+                api.settings.setLanguage(language.code).then();
             });
         }
     }, [language]);
@@ -135,7 +137,9 @@ export default function App() {
                                             tabs={accounts || []}
                                             openId={openAccount?.id}
                                             setOpenAccount={setOpenAccount}
-                                            setLanguage={setLanguage}
+                                            setLanguage={res => setLanguage(
+                                                availableLanguages.find(lang => lang.code === res)
+                                            )}
                                             setLightMode={setLightMode}
                                         />
                                         <NoAccounts/>
@@ -179,7 +183,9 @@ export default function App() {
                                             tabs={accounts || []}
                                             openId={openAccount?.id}
                                             setOpenAccount={setOpenAccount}
-                                            setLanguage={setLanguage}
+                                            setLanguage={res => setLanguage(
+                                                availableLanguages.find(lang => lang.code === res)
+                                            )}
                                             setLightMode={setLightMode}
                                         />
                                         <Account

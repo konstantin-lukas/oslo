@@ -36,13 +36,13 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
 
     useEffect(() => {
         let indexDate = structuredClone(from);
-        let labelArray: string[] = [];
-        let dataArray: number[] = [];
+        const labelArray: string[] = [];
+        const dataArray: number[] = [];
         let sum = initialBalance;
         let today = indexDate.toISOString().split('T')[0];
         const until_string = until.toISOString().split('T')[0];
         while(today <= until_string) {
-            labelArray.push(indexDate.toLocaleDateString(language, {
+            labelArray.push(indexDate.toLocaleDateString(language.code, {
                 month: "2-digit",
                 day: "2-digit",
                 year: "numeric"
@@ -100,7 +100,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                                 label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) label += ': ';
-                                    if (context.parsed.y !== null) label += new Intl.NumberFormat(language,
+                                    if (context.parsed.y !== null) label += new Intl.NumberFormat(language.code,
                                         {
                                             style: 'currency',
                                             currency: currency.name
@@ -136,7 +136,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                                 callback: function (value) {
                                     if (typeof value === 'string')
                                         value = parseInt(value);
-                                    return new Intl.NumberFormat(language, { style: 'currency', currency: currency.name, currencyDisplay: 'code', maximumFractionDigits: 0 }).format(value);
+                                    return new Intl.NumberFormat(language.code, { style: 'currency', currency: currency.name, currencyDisplay: 'code', maximumFractionDigits: 0 }).format(value);
                                 },
                                 maxTicksLimit: 8,
                                 crossAlign: 'far'

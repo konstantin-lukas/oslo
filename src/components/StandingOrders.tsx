@@ -142,7 +142,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                         <Input
                             readOnly={true}
                             onClick={() => setDatePickerOpen(true)}
-                            value={formatDate(lang, new Date(addOrderState.first_execution))}
+                            value={formatDate(lang.code, new Date(addOrderState.first_execution))}
                         />
                     </label>
                     <label className="export_label" id="interval_select">
@@ -213,7 +213,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                     }}
                     onClickOutside={() => {setDatePickerOpen(false)}}
                     minDate={new Date()}
-                    locale={lang}
+                    locale={lang.code}
                     selected={new Date(addOrderState.first_execution)}
                     inline/>
             </div>

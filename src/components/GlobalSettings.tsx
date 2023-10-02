@@ -4,7 +4,7 @@ import {AlertContext, FetchAccountsContext, LanguageContext, LightModeContext, T
 import Dropdown from "./Dropdown";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
-import availableLanguages from '../lang.avail.json';
+import availableLanguages from '../lang.avail';
 import {useTheme} from "styled-components";
 
 export default forwardRef(function GlobalSettings({open, setLanguage, setLightMode}: {
@@ -62,7 +62,7 @@ export default forwardRef(function GlobalSettings({open, setLanguage, setLightMo
                 <Dropdown
                     labels={availableLanguages.map(lang => lang.name)}
                     values={availableLanguages.map(lang => lang.code)}
-                    defaultSelected={lang}
+                    defaultSelected={lang.code}
                     returnValue={(newLang) => setLanguage(newLang)}
                     compact={true}
                 />
