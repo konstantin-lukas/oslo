@@ -1,8 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import './AccountTable.scss';
-import {TextContext} from "./misc/Contexts";
+import {CurrencyContext, LanguageContext, TextContext} from "./misc/Contexts";
 import AccountTableRow from "./AccountTableRow";
-import {Money, MoneyCalculator} from "moneydew";
+import {Money, MoneyCalculator, MoneyFormatter} from "moneydew";
+import {getZeroValue} from "./misc/Format";
 
 export default function AccountTable({ transactions, openAccount, fetchTransactions }: {
     transactions: Transaction[],
@@ -10,17 +11,40 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
     fetchTransactions: () => void;
 }) {
     const text = useContext(TextContext);
-    const [balance, setBalance] = useState<string>('0.00');
-    const [timeSpanBalance, setTimeSpanBalance] = useState<string>('0.00');
+    const language = useContext(LanguageContext);
+    const currency = useContext(CurrencyContext);
+    const [balance, setBalance] = useState<string>(getZeroValue(currency.decimalPlaces));
+    const [timeSpanBalance, setTimeSpanBalance] = useState<string>(getZeroValue(currency.decimalPlaces));
+
+    const formattedBalance = useMemo(() => {
+        return new MoneyFormatter({
+            displayOrder: language.display_order,
+            currencySymbol: currency.symbol,
+            groupSeparator: currency.group_separator,
+            decimalSeparator: currency.decimal_separator,
+            currencyName: currency.name
+        }).format(new Money(balance));
+    }, [balance]);
+
+    const formattedTimeSpanBalance = useMemo(() => {
+        return new MoneyFormatter({
+            displayOrder: language.display_order,
+            currencySymbol: currency.symbol,
+            groupSeparator: currency.group_separator,
+            decimalSeparator: currency.decimal_separator,
+            currencyName: currency.name
+        }).format(new Money(timeSpanBalance));
+    }, [timeSpanBalance]);
+
 
     useEffect(() => {
         api.db.getBalance(openAccount?.id).then(sum => {
-            setBalance(sum || '0.00');
+            setBalance(sum || getZeroValue(currency.decimalPlaces));
         });
 
         const timeSpanNetChange: Money = transactions.reduce((previousValue, currentValue) => {
             return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
-        }, new Money('0.00'));
+        }, new Money(getZeroValue(currency.decimalPlaces)));
         setTimeSpanBalance(timeSpanNetChange.value);
     }, [transactions]);
 
@@ -56,10 +80,10 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
                     <span style={{
                         marginRight: '.25em',
                         color: balance[0] === '-' ? 'red' : 'green'
-                    }}> {balance}</span>
+                    }}> {formattedBalance}</span>
                     (<span title={text.selected_time_span_} style={{
                     color: timeSpanBalance[0] === '-' ? 'red' : 'green'
-                }}>{timeSpanBalance}</span>)
+                }}>{formattedTimeSpanBalance}</span>)
                 </td>
             </tr>
             <tr className="headingRow">

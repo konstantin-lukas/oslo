@@ -1,7 +1,8 @@
-import React, {useContext} from "react";
+import React, {useContext, useMemo} from "react";
 import {styled} from "styled-components";
-import {AlertContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, CurrencyContext, LanguageContext, TextContext} from "./misc/Contexts";
 import './AccountTableRow.scss';
+import {Money, MoneyFormatter} from "moneydew";
 
 const StyledButton = styled.button`
   background: ${props => props.theme.theme_color};
@@ -23,16 +24,25 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
     fetchTransactions: () => void
 }) {
     const language = useContext(LanguageContext);
+    const currency = useContext(CurrencyContext);
     const alert = useContext(AlertContext);
     const text = useContext(TextContext);
 
     const className = "balanceChange" + (sum[0] === '-' ? " expense" : " proceed");
     const date = new Date(timestamp).toLocaleDateString(language.code);
-    sum = (sum[0] === '-' ? '' : '+') + sum;
+    const formattedSum = useMemo(() => {
+        return new MoneyFormatter({
+            displayOrder: language.display_order,
+            currencySymbol: currency.symbol,
+            currencyName: '',
+            negativeSign: '-',
+            positiveSign: '+'
+        }).format(new Money(sum));
+    }, [sum, language, currency]);
     return (
         <tr className={className}>
-            <td colSpan={5} title={sum}>
-                <span>{sum}</span>
+            <td colSpan={5} title={formattedSum}>
+                <span>{formattedSum}</span>
             </td>
             <td colSpan={10} title={title}>{title}</td>
             <td colSpan={5} title={date}>{date}</td>

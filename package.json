@@ -63,7 +63,7 @@
     "date-fns": "^2.30.0",
     "electron-settings": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
-    "intl-currency-input": "^2.0.0",
+    "intl-currency-input": "^2.0.1",
     "moneydew": "^1.0.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

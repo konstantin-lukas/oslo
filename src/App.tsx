@@ -15,6 +15,7 @@ import NoAccounts from "./components/NoAccounts";
 import langSample from "./lang/en.json";
 import './lightMode.scss';
 import availableLanguages from "./lang.avail";
+import {getCurrencySymbol, getDecimalPlaces} from "./components/misc/Format";
 
 export default function App() {
     const [alert, setAlert] = useState(null);
@@ -28,6 +29,7 @@ export default function App() {
     const [openOrders, setOpenOrders] = useState(false);
     const [currency, setCurrency] = useState({
         name: 'USD',
+        symbol: '$',
         decimalPlaces: 2
     });
     const [themeColor, setThemeColor] = useState({
@@ -100,12 +102,12 @@ export default function App() {
             api.settings.setLastTab(open_tab).then();
             setCurrency({
                 name: openAccount.currency,
-                decimalPlaces: 2
+                symbol: getCurrencySymbol(language.code, openAccount.currency),
+                decimalPlaces: getDecimalPlaces(openAccount.currency)
             });
         }
     }, [openAccount]);
 
-    // TODO: SELECT CURRENCY NAME AND SYMBOL
     if (!openAccount)
         return (
             <TextContext.Provider value={textContent}>

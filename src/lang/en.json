@@ -13,6 +13,8 @@
   "save_": "Save",
   "cancel_": "Cancel",
   "new_account_": "New account",
+  "new_standing_order_": "New standing order",
+  "new_transaction_": "New transaction",
   "confirm_": "Confirm",
   "transaction_": "Transaction",
   "amount_": "Amount",

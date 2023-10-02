@@ -2,13 +2,13 @@ import React, {useCallback, useContext, useEffect, useMemo, useReducer, useState
 import anime from 'animejs';
 import './StandingOrders.scss';
 import {useTheme} from "styled-components";
-import {AlertContext, FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {AlertContext, CurrencyContext, FetchAccountsContext, LanguageContext, TextContext} from "./misc/Contexts";
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import CurrencyInput from "./CurrencyInput";
-import {formatDate} from "./misc/Format";
+import {formatDate, getZeroValue} from "./misc/Format";
 import {sub, lastDayOfMonth, formatISO, setDate} from "date-fns";
 import DatePicker from "react-datepicker";
 import StandingOrder from "./StandingOrder";
@@ -33,6 +33,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const theme = useTheme();
     const text = useContext(TextContext);
     const lang = useContext(LanguageContext);
+    const currency = useContext(CurrencyContext);
     const alertCtx = useContext(AlertContext);
     const fetchCtx = useContext(FetchAccountsContext);
     const intervalLabels = useMemo(() => [
@@ -52,8 +53,8 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const intervalValues = useMemo(() => ["1","2","3","4","5","6","7","8","9","10","11","12"], []);
 
     const [addOrderState, setAddOrderState] = useReducer(addOrderReducer, {
-        name: '',
-        amount: '0.00',
+        name: text.new_standing_order_,
+        amount: getZeroValue(currency.decimalPlaces),
         first_execution: new Date().toISOString().split('T')[0],
         exec_interval: 1,
         exec_on_last_of_month: false
@@ -84,8 +85,12 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     }, [openAccount]);
 
     useEffect(() => {
+        setAddOrderState({type: 'amount', payload: getZeroValue(currency.decimalPlaces)})
+    }, [currency, openAccount]);
+
+    useEffect(() => {
         if (isUsingDefaultName)
-            setAddOrderState({type: 'name', payload: text.account_name_})
+            setAddOrderState({type: 'name', payload: text.new_standing_order_})
     }, [text]);
 
     const backAnim = useCallback((path: string, target: string) => {

@@ -42,6 +42,8 @@ declare type TextContent = {
     save_: string,
     cancel_: string,
     new_account_: string,
+    new_standing_order_: string,
+    new_transaction_: string,
     confirm_: string,
     transaction_: string,
     amount_: string,

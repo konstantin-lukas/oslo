@@ -1,11 +1,13 @@
-import React, {useContext, useEffect, useReducer, useRef, useState} from "react";
+import React, {useContext, useEffect, useMemo, useReducer, useRef, useState} from "react";
 import './AccountSettings.scss';
-import {AlertContext, FetchAccountsContext, LightModeContext, TextContext} from "./misc/Contexts";
+import {AlertContext, FetchAccountsContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
 import Input from "./Input";
 import ColorPicker from "./ColorPicker";
 import {useTheme} from "styled-components";
+import CurrencyInput from "./CurrencyInput";
+import {DisplayOrder} from "moneydew";
 
 const accountSettingsReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -45,6 +47,7 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
     openStandingOrders: () => void
 }) {
     const text = useContext(TextContext);
+    const language = useContext(LanguageContext);
     const alert = useContext(AlertContext);
     const fetchAccounts = useContext(FetchAccountsContext);
     const theme = useTheme();
@@ -57,15 +60,22 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
         allow_overdrawing: openAccount.allow_overdrawing
     });
     const nameInput = useRef();
-    const interestRateInput = useRef();
     useEffect(() => {
         setDefaultColor(openAccount.theme_color);
         updateSettings({type: 'reset', payload: openAccount});
         if (nameInput.current)
             (nameInput.current as HTMLInputElement).value = openAccount.name;
-        if (interestRateInput.current)
-            (interestRateInput.current as HTMLInputElement).value = openAccount.interest_rate.toString();
     }, [openAccount]);
+    const percentageFormat = useMemo(() => {
+        return {
+            displayOrder: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
+            currencyName: '',
+            currencySymbol: '%',
+            groupSeparator: '',
+            decimalSeparator: language.decimal_separator
+        };
+    }, []);
+
     return (
         <div id="account_settings">
             <h2>{text?.settings_}</h2>
@@ -138,17 +148,12 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
                 />
             </label>
             <label><span id="interest_rate">{text?.interest_rate_}</span>
-                <Input
-                    className="name"
-                    name="interest_rate"
-                    ref={interestRateInput}
-                    onInput={(e) => {
-                        if (!/^(0|[1-9][0-9]*)$/.test((e.target as HTMLInputElement).value)) {
-                            (e.target as HTMLInputElement).value = settings.interest_rate.toString();
-                        } else {
-                            updateSettings({type: 'interest_rate', payload: (e.target as HTMLInputElement).value});
-                        }
-                    }}
+                <CurrencyInput
+                    min={"0"}
+                    value={settings.interest_rate.toString()}
+                    setValue={(val) => updateSettings({type: 'interest_rate', payload: val})}
+                    noStrictMode={true}
+                    customFormat={percentageFormat}
                 />
             </label>
             <div className="contain_two">

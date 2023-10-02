@@ -6,6 +6,7 @@ import { add } from "date-fns";
 import {CurrencyContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import {useTheme} from "styled-components";
 import {Money, MoneyCalculator} from "moneydew";
+import {getZeroValue} from "./misc/Format";
 
 ChartJS.register(CategoryScale, LinearScale, LineController, PointElement, LineElement, Tooltip);
 export default function BalanceChart({transactions, from, until, openAccountId}: {
@@ -52,7 +53,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                 .map(transaction => transaction.sum)
                 .reduce((previousValue, currentValue) => {
                     return MoneyCalculator.add(previousValue, new Money(currentValue))
-                }, new Money('0.00'))
+                }, new Money(getZeroValue(currency.decimalPlaces)))
                 .value;
             sum += parseInt(balanceChange);
             dataArray.push(sum);

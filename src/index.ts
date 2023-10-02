@@ -3,7 +3,7 @@ import * as process from "process";
 import registerWindow from "./ipcMain/window";
 import registerDevTools from "./ipcMain/devTools";
 import registerTextContent from "./ipcMain/textContent";
-import registerDatabase, {executeStandingOrders} from "./ipcMain/database";
+import registerDatabase, {executeInterestRates, executeStandingOrders} from "./ipcMain/database";
 import registerSettings from "./ipcMain/settings";
 import {resolve} from "path";
 import {open} from "sqlite";
@@ -41,6 +41,7 @@ const createWindow = async () => {
     await db.close();
 
     await executeStandingOrders();
+    await executeInterestRates();
 
     // TODO DATABASE MIGRATIONS
     // TODO IMPLEMENT INTEREST RATE WITH "INTEREST" AS REFERENCE; ALSO ADD LAST INTEREST TO DB
