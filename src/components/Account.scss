@@ -3,7 +3,6 @@
 main {
   width: 100%;
   height: calc(100vh - 41px);
-  //TODO: TEST FOR CORRECTNESS; PREVIOUSLY overlay
   overflow-y: scroll;
   transition: transform .3s linear, visibility .3s linear;
 }

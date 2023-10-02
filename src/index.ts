@@ -44,8 +44,6 @@ const createWindow = async () => {
     await executeInterestRates();
 
     // TODO DATABASE MIGRATIONS
-    // TODO IMPLEMENT INTEREST RATE WITH "INTEREST" AS REFERENCE; ALSO ADD LAST INTEREST TO DB
-    // TODO FORMAT INTEREST RATE WITH PERCENT SIGN AT THE END
 
     // Create the browser window.
     const mainWindow = new BrowserWindow({
