@@ -6,6 +6,7 @@
   "main": ".webpack/main",
   "scripts": {
     "start": "DEV_MODE=1 electron-forge start",
+    "start-win": "set DEV_MODE=1& electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

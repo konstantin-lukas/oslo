@@ -1,6 +1,10 @@
 @import "./vars";
 
 .light_mode {
+  * {
+    font-weight: 400;
+  }
+
   &, .current_tab {
     background: #fff;
     color: #1a1a1a;

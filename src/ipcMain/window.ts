@@ -2,7 +2,7 @@ import {BrowserWindow, ipcMain, dialog} from "electron";
 import fs from "fs";
 import {open} from "sqlite";
 import sqlite3 from "sqlite3";
-import {database_dir} from "./database";
+import {database_path} from "./database";
 
 
 export default function registerWindow(mainWindow: BrowserWindow) {
@@ -43,7 +43,7 @@ export default function registerWindow(mainWindow: BrowserWindow) {
             path += '.oslo';
         }
         try {
-            fs.copyFileSync(database_dir, path);
+            fs.copyFileSync(database_path, path);
         } catch (_) {
             return 'failure';
         }
@@ -73,7 +73,7 @@ export default function registerWindow(mainWindow: BrowserWindow) {
             return 'failure';
         }
         try {
-            fs.copyFileSync(path[0], database_dir);
+            fs.copyFileSync(path[0], database_path);
         } catch (_) {
             return 'failure';
         }

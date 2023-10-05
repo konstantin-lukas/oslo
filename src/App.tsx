@@ -47,9 +47,10 @@ export default function App() {
 
     useEffect(() => {
         if (fetchSettingsFlag) {
-            api.settings.getLanguage().then(res => setLanguage(
-                availableLanguages.find(lang => lang.code === res)
-            ));
+            api.settings.getLanguage().then(res => {
+                const lang = availableLanguages.find(lang => lang.code === res);
+                if (lang) setLanguage(lang);
+            });
             api.settings.getLightMode().then(res => setLightMode(res));
         }
     }, [fetchSettingsFlag]);
