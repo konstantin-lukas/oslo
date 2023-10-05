@@ -45,6 +45,7 @@ const createWindow = async () => {
     // TODO DATABASE MIGRATIONS
 
     // Create the browser window.
+    const iconPath = process.platform === 'win32' ? '/img/favicon.ico' : '/img/favicon.png';
     const mainWindow = new BrowserWindow({
         frame: false,
         show: false,
@@ -55,14 +56,15 @@ const createWindow = async () => {
           nodeIntegration: false, // is default value after Electron v5
           contextIsolation: true, // protect against prototype pollution
         },
-        icon: resolve(__dirname + '/img/favicon.png')
+        icon: resolve(__dirname + iconPath)
     });
     const splash = new BrowserWindow({
         width: 600,
         height: 600,
         transparent: true,
         frame: false,
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        icon: resolve(__dirname + iconPath)
     });
     await splash.loadURL(`file://${__dirname}/splash.html`);
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
