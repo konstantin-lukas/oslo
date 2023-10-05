@@ -3,7 +3,7 @@ import * as process from "process";
 import registerWindow from "./ipcMain/window";
 import registerDevTools from "./ipcMain/devTools";
 import registerTextContent from "./ipcMain/textContent";
-import registerDatabase, {executeInterestRates, executeStandingOrders} from "./ipcMain/database";
+import registerDatabase, {executeInterestRates, executeStandingOrders, database_dir} from "./ipcMain/database";
 import registerSettings from "./ipcMain/settings";
 import {resolve} from "path";
 import {open} from "sqlite";
@@ -27,8 +27,7 @@ app.disableHardwareAcceleration();
 const createWindow = async () => {
 
     // SET UP DATABASE IF NOT EXISTS
-    const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
-    const dbPath = resolve( dbRoot + "/account_info.db");
+    const dbPath = resolve(database_dir);
     const db = await open({
         filename: dbPath,
         driver: sqlite3.Database

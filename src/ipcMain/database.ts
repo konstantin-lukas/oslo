@@ -10,10 +10,11 @@ import {promises as fs} from "fs";
 
 if (process.env.DEV_MODE)
     sqlite3.verbose();
+
+export const database_dir = (process.env.APPDATA || (process.env.HOME + "/.local/share") + 'oslo_data.db');
 async function openDB() {
-    const dbRoot = process.env.DEV_MODE ? '/tmp' : __dirname;
     return open({
-        filename: dbRoot + "/account_info.db",
+        filename: database_dir,
         driver: sqlite3.Database
     })
 }
