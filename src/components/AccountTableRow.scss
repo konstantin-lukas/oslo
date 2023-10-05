@@ -1,0 +1,44 @@
+@import "../vars";
+.proceed td:first-of-type {
+  color: $proceed;
+}
+
+.proceed td:first-of-type::first-letter, .expense td:first-of-type::first-letter {
+  margin-right: .1em;
+  margin-left: .1em;
+}
+
+.expense td:first-of-type {
+  color: $expense;
+}
+
+td:first-of-type span {
+  transform: translateX(-.53em);
+  display: block;
+}
+
+td {
+  font-size: .6em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-sizing: border-box;
+  color: $accentWhite;
+  border-top: 1px $dark4 solid;
+  border-bottom: 1px $dark4 solid;
+  padding: .5em 1em .6em 1em;
+}
+
+html[lang=ja] td {
+  padding: .5em 1em;
+}
+
+tr.headingRow td {
+  border-top: none;
+  padding-top: 0;
+  padding-bottom: .75em;
+}
+
+tr:last-of-type td {
+  border-bottom: none;
+}

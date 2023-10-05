@@ -1,0 +1,239 @@
+@import "../vars";
+
+header {
+  width: 100%;
+  background: $dark0;
+  -webkit-app-region: drag;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  height: $headerHeight;
+  > .window_nav {
+    height: 41px;
+    width: 41px;
+    display: block;
+    -webkit-app-region: no-drag;
+    position: relative;
+    flex-shrink: 0;
+  }
+}
+
+
+header > .window_nav:hover, button[name=add_tab]:hover {
+  background: $dark1;
+}
+
+#config-btn > span {
+  position: absolute;
+  background: $accentWhite;
+  width: 13px;
+  left: 14px;
+  height: 1px;
+}
+
+#config-btn > span:first-of-type {
+  top: 15px;
+  pointer-events: none;
+}
+
+#config-btn > span:nth-of-type(2) {
+  top: 20px;
+  pointer-events: none;
+}
+
+#config-btn > span:last-of-type {
+  bottom: 15px;
+  pointer-events: none;
+}
+
+#config-btn > span::after {
+  content: "";
+  width: 1px;
+  height: 3px;
+  background: $accentWhite;
+  position: absolute;
+  top: -1px;
+}
+
+#config-btn > span:first-of-type::after, #config-btn > span:last-of-type::after {
+  left: 3px;
+}
+
+#config-btn > span:nth-of-type(2)::after {
+  right: 3px;
+}
+
+#min-btn::before {
+  content: "";
+  width: 12px;
+  height: 1px;
+  background: $accentWhite;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#max-btn::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border: $accentWhite 1px solid;
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+#close-btn::before, #close-btn::after, button[name=add_tab]::before, button[name=add_tab]::after {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: $accentWhite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+#close-btn::after {
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+
+#close-btn:hover {
+  background: $close;
+}
+
+button[name=add_tab] {
+  display: block;
+  position: relative;
+  -webkit-app-region: no-drag;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: .25em;
+  margin-bottom: 3px;
+  margin-left: 3px;
+}
+
+button[name=add_tab]::before {
+  transform: none;
+  top: 14px;
+  left: 8px;
+  width: 13px;
+}
+
+button[name=add_tab]::after {
+  transform: none;
+  width: 1px;
+  height: 13px;
+  left: 14px;
+  top: 8px;
+}
+
+.maximized button[name=add_tab] {
+  border-radius: 0;
+  height: 41px;
+  width: 41px;
+  margin: 0;
+}
+
+.maximized button[name=add_tab]::after {
+  left: 20px;
+  top: 14px;
+}
+
+.maximized button[name=add_tab]::before {
+  left: 14px;
+  top: 20px;
+}
+
+#tab-group {
+  display: flex;
+  flex: 1 1 0;
+  overflow: hidden;
+  margin-right: 41px;
+  align-items: flex-end;
+}
+
+.tab {
+  border-radius: 4px 4px 0 0;
+  color: $accentWhite;
+  font-size: 16px;
+  height: 31px;
+  line-height: 31px;
+  display: block;
+  max-width: 15em;
+  flex: 1 1 0;
+  position: relative;
+  -webkit-app-region: no-drag;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.tab span {
+  padding: 0 .75em;
+}
+
+.maximized .tab {
+  border-radius: 0;
+  height: 41px;
+  line-height: 41px;
+}
+
+.tab:first-of-type {
+  margin-left: .5em;
+}
+
+.tab:not(:first-of-type)::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 50%;
+  background: $accentWhite;
+  width: 1px;
+}
+
+.tab:hover {
+  background-color: $dark1;
+}
+
+.tab:hover::after {
+  background: linear-gradient(90deg, rgba(38,38,38,0) 0%, rgba(38,38,38,1) 65%);
+}
+
+.tab:hover::before, .tab:hover + .tab::before {
+  opacity: 0;
+}
+
+.tab::after {
+  content: "";
+  background: linear-gradient(90deg, rgba(26,26,26,0) 0%, rgba(26,26,26,1) 65%);
+  position: absolute;
+  height: 100%;
+  width: 2em;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.current_tab.tab::after {
+  background: linear-gradient(90deg, rgba(41,41,41,0) 0%, rgba(41,41,41,1) 65%);
+}
+
+.current_tab.tab:hover, button.current_tab:hover {
+  background-color: $dark2;
+}
+
+.current_tab {
+  background: $dark2;
+}
+
+.current_tab.tab::before, .current_tab + .tab::before {
+  opacity: 0;
+}

@@ -1,0 +1,111 @@
+@import "../vars";
+@import 'react-datepicker/dist/react-datepicker.min.css';
+@use 'sass:color';
+
+#time_span {
+  transform: translateY(31%);
+}
+
+#from_date, #until_date {
+  color: $accentWhite;
+  background: $dark4;
+  padding: .4em .8em .5em .8em;
+  font-size: 1.1em;
+  border-radius: 1em;
+  transition: background-color .2s ease-out;
+}
+
+html[lang=ja] #from_date, html[lang=ja] #until_date {
+  padding: .4em .8em;
+}
+
+#until_date {
+  position: relative;
+  margin-left: 2em;
+}
+
+#until_date::before {
+  content: "";
+  height: 1px;
+  width: .75em;
+  position: absolute;
+  top: 50%;
+  left: -1em;
+  transform: translateX(-50%);
+  background: $dark5;
+}
+
+#from_date:hover, #until_date:hover {
+  background-color: $dark5;
+}
+#main_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dateTimePickerContainer {
+  background: rgba($dark0, .5);
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease-in-out;
+
+  &.left_open, &.right_open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  & > div:first-of-type, & > div:last-of-type {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -122px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+  }
+
+  &.left_open > div:first-of-type, &.right_open > div:last-of-type {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+
+
+.react-datepicker {
+  font-family: inherit;
+  background-color: $dark3;
+  color: $accentWhite;
+  border: none;
+  font-weight: 400;
+  font-size: 1rem;
+  * {
+    color: inherit;
+    font-weight: inherit;
+    border: inherit;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  .react-datepicker__header {
+    text-transform: uppercase;
+    .react-datepicker__current-month {
+      font-size: 1.5em;
+    }
+  }
+
+  .react-datepicker__day--keyboard-selected {
+    background: transparent;
+  }
+
+  .react-datepicker__day--disabled {
+    visibility: hidden;
+  }
+}
+

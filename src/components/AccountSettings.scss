@@ -1,0 +1,97 @@
+@import "../vars";
+#account_settings {
+  padding: .4em .65em .75em .65em;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: $dark3;
+  border-radius: 4px;
+  position: relative;
+  label > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+#color_span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#account_settings label {
+  font-size: .6em;
+  display: flex;
+  flex-direction: column;
+  margin-top: .2em;
+}
+
+#delete_button * {
+  pointer-events: none;
+}
+
+
+html[lang=ja] #account_settings > button {
+  min-height: 2.4em;
+}
+
+html[lang=ja] button {
+  padding-bottom: .4em;
+}
+
+.config_path {
+  fill: $accentPink;
+}
+
+#account_settings.openConfig {
+  left: 0;
+}
+
+#options {
+  height: 31px;
+  position: absolute;
+  top: .55em;
+  right: .5em;
+}
+
+#options svg {
+  height: 100%;
+  padding: 7px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  float: left;
+}
+
+#options svg:first-of-type {
+  margin-right: 4px;
+}
+
+#options svg:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#account_settings h2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
+  max-width: calc(100% - 70px);
+}
+
+.contain_two {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.contain_two > * {
+  width: 45%;
+}
+
+
+@media only screen and (max-width: 1000px) {
+  #account_settings {
+    margin-bottom: .6em;
+  }
+}

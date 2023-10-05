@@ -1,0 +1,94 @@
+@import "./fonts/barlowCondensed/barlowCondensed.css";
+@import "./vars";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  font-weight: 300;
+  outline: none;
+  user-select: none;
+}
+
+.hide_btn {
+  display: none !important;
+}
+
+html[lang=ja] * {
+  font-family: 'Yu Gothic', 'Yu Gothic UI', '游ゴシック', '游ゴシック体', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+}
+
+button {
+  outline: none;
+  background: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $dark4;
+  border-radius: 30px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $dark4;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.hide_scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  background: $dark2;
+}
+
+label {
+  color: $accentWhite;
+}
+
+h1 {
+  color: $accentWhite;
+  font-size: 3em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 0;
+}
+
+h2 {
+  font-size: 1em;
+  margin-bottom: .6em;
+  text-transform: uppercase;
+}
+
+
+.pcr-save, .pcr-cancel {
+  padding: .37em .5em .53em .5em !important;
+  border-radius: 1em !important;
+}
+
+html[lang=ja] .pcr-save, html[lang=ja] .pcr-cancel {
+  padding: .45em .5em .45em .5em !important;
+  border-radius: 2em !important;
+}

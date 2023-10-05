@@ -1,0 +1,77 @@
+@import "../vars";
+.balanceChangeTable {
+  display: table;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 75%;
+  background: #333;
+  border-radius: 4px;
+}
+
+.balance_row {
+  border-bottom: none;
+  border-top: none;
+  padding-top: .75em;
+}
+
+.balance_row span {
+  display: inline !important;
+  font-weight: 500;
+}
+
+.delRow {
+  position: relative;
+  overflow: visible;
+}
+
+button.del {
+  position: absolute;
+  bottom: 50%;
+  transform: translateY(50%);
+  right: 1em;
+  width: 20px;
+  height: 20px;
+  transition: background-color .2s ease-in-out;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+button.del::before, button.del::after {
+  content:"";
+  height: 60%;
+  width: 1px;
+  background: $accentWhite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+  transition: background-color .2s ease-in-out;
+}
+
+button.del::after {
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+
+@media only screen and (max-width: 1600px) {
+  .balanceChangeTable {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 1350px) {
+  .balanceChangeTable {
+    width: 65%;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .balanceChangeTable {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .balanceChangeTable {
+    width: 100%;
+  }
+}

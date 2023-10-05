@@ -1,0 +1,14 @@
+@import "../vars";
+
+input {
+  margin: .4em 0;
+  border-radius: 50px;
+  font-size: 1em;
+  color: $accentWhite;
+  background: $dark4;
+  padding: .4em .8em .45em .8em;
+}
+
+html[lang=ja] input {
+  padding: .4em .8em;
+}

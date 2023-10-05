@@ -1,0 +1,93 @@
+@import "../vars";
+
+.toggle_checkbox {
+  width: 100%;
+  max-height: 100%;
+  border-radius: 100px;
+  font-size: 19.2px;
+  height: 2em;
+  background: $dark4;
+  margin-top: .4em;
+  position: relative;
+  transition: background-color .2s ease-out;
+}
+
+html[lang=ja] .toggle_checkbox {
+  height: 2.4em;
+}
+
+.toggle_checkbox::after {
+  content: "";
+  height: 1.5em;
+  width: 2.5em;
+  border-radius: 1.5em;
+  background: $accentPink;
+  position: absolute;
+  top: 50%;
+  left: 0.25em;
+  transform: translate(0, -50%);
+  animation: rtl_checkbox .3s cubic-bezier(0,.65,0,.99) forwards;
+}
+
+html[lang=ja] .toggle_checkbox::after {
+  height: 1.8em;
+  vertical-align: middle;
+}
+
+input:checked + .toggle_checkbox {
+  background: $accentPink;
+}
+
+input:checked + .toggle_checkbox::after {
+  background: $accentWhite;
+  animation: ltr_checkbox .3s cubic-bezier(0,.65,0,.99) forwards;
+}
+
+@keyframes ltr_checkbox {
+  0%{
+    width: 2.5em;
+    left: 0.25em;
+  }
+  50%{
+    width: calc(100% - 0.5em);
+    left: 0.25em;
+  }
+  100%{
+    width: 2.5em;
+    left: calc(100% - 2.75em);
+  }
+}
+
+@keyframes rtl_checkbox {
+  0%{
+    width: 2.5em;
+    left: calc(100% - 2.75em);
+  }
+  50%{
+    width: calc(100% - 0.5em);
+    left: 0.25em;
+  }
+  100%{
+    width: 2.5em;
+    left: 0.25em;
+  }
+}
+
+label.container {
+  position: relative;
+  cursor: pointer;
+}
+
+label.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+#negative_span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

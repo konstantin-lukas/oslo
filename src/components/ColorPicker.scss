@@ -1,0 +1,45 @@
+@import "@simonwep/pickr/dist/themes/monolith.min.css";
+@import "../vars";
+
+#color_picker {
+  margin-top: .4em;
+  border-radius: 50px;
+  background: $accentPink;
+  cursor: pointer;
+  display: flex;
+  padding-left: 1em;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+  font-size: 19.2px;
+  height: 2em;
+  padding-bottom: .1em;
+}
+
+html[lang=ja] #color_picker {
+  height: 2.4em;
+  padding-top: .1em;
+}
+
+.custom-color-picker {
+  background: $dark0;
+  border-radius: 3px;
+  font-family: inherit;
+  * {
+    font-family: inherit;
+  }
+}
+
+.pcr-app .pcr-interaction .pcr-result {
+  background: $dark3;
+  color: $accentWhite;
+}
+
+.pcr-app .pcr-interaction .pcr-save, .pcr-app .pcr-interaction .pcr-cancel {
+  background: $accentWhite;
+  color: $dark2;
+}
+
+.pcr-app .pcr-interaction .pcr-save:hover, .pcr-app .pcr-interaction .pcr-cancel:hover {
+  background: $light2;
+}
