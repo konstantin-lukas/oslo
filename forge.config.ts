@@ -1,9 +1,7 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
-import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
-import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
 import { WebpackPlugin } from '@electron-forge/plugin-webpack';
 
 import { mainConfig } from './webpack.main.config';
@@ -11,28 +9,30 @@ import { rendererConfig } from './webpack.renderer.config';
 
 const config: ForgeConfig = {
   packagerConfig: {
-    asar: true,
+    name: 'oslo',
+    executableName: 'oslo',
+    asar: false,
     icon: './src/img/favicon'
   },
   rebuildConfig: {},
   makers: [
       new MakerSquirrel({
         setupIcon: './src/img/favicon.ico'
-      }),
+      }, ['win32']),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({
       options: {
         icon: './src/img/favicon.png'
       }
-    }),
-    new MakerDeb({
+    }, ['linux']),
+    /*new MakerDeb({
       options: {
         icon: './src/img/favicon.png'
       }
-    })
+    }, ['linux'])*/
   ],
   plugins: [
-    new AutoUnpackNativesPlugin({}),
+    //new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
       mainConfig,
       renderer: {
