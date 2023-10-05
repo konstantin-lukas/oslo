@@ -14,6 +14,7 @@ import {ThemeProvider} from "styled-components";
 import NoAccounts from "./components/NoAccounts";
 import langSample from "./lang/en.json";
 import './lightMode.scss';
+import './lang.scss';
 import availableLanguages from "./lang.avail";
 import {getCurrencySymbol, getDecimalPlaces} from "./components/misc/Format";
 
@@ -133,7 +134,7 @@ export default function App() {
                                     });
                                 }}>
                                     <div
-                                        className={(lightMode ? 'light_mode' : '')}
+                                        className={'lang-' + language.code + (lightMode ? ' light_mode' : '')}
                                         style={{fontFamily: font}}
                                     >
                                         <Header
@@ -162,7 +163,7 @@ export default function App() {
 
     return (
         <div
-            className={(openOrders ? 'open_orders ' : '') + (lightMode ? 'light_mode' : '')}
+            className={'lang-' + language.code + (openOrders ? ' open_orders' : '') + (lightMode ? ' light_mode' : '')}
             style={{fontFamily: font}}
         >
             <TextContext.Provider value={textContent}>

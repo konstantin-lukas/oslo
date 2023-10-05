@@ -202,7 +202,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                                 fetchCtx();
                             });
                         });
-                        }}>{text.create_standing_order_}</Button>
+                        }}>{text.create_}</Button>
                 </div>
                 <div id="manage_orders" className="theme_background">
                     <h2>{text.manage_standing_orders_}</h2>

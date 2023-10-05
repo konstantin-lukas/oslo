@@ -18,20 +18,16 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
 
     const formattedBalance = useMemo(() => {
         return new MoneyFormatter({
-            displayOrder: language.display_order,
+            ...language.format,
             currencySymbol: currency.symbol,
-            groupSeparator: currency.group_separator,
-            decimalSeparator: currency.decimal_separator,
             currencyName: currency.name
         }).format(new Money(balance));
     }, [balance]);
 
     const formattedTimeSpanBalance = useMemo(() => {
         return new MoneyFormatter({
-            displayOrder: language.display_order,
+            ...language.format,
             currencySymbol: currency.symbol,
-            groupSeparator: currency.group_separator,
-            decimalSeparator: currency.decimal_separator,
             currencyName: currency.name
         }).format(new Money(timeSpanBalance));
     }, [timeSpanBalance]);

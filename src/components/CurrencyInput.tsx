@@ -21,11 +21,9 @@ export default function CurrencyInput({value, setValue, customFormat, noStrictMo
         const input = currencyInputElement.current;
         if (input && !currencyInput) {
             const newInput = new IntlCurrencyInput(input, value, customFormat || {
+                ...language.format,
                 currencyName: currency.name,
-                currencySymbol: currency.symbol,
-                groupSeparator: currency.group_separator,
-                decimalSeparator: currency.decimal_separator,
-                displayOrder: language.display_order
+                currencySymbol: currency.symbol
             });
             if (!noStrictMode)
                 newInput.enableStrictMode();
@@ -42,14 +40,17 @@ export default function CurrencyInput({value, setValue, customFormat, noStrictMo
     useEffect(() => {
         if (!customFormat) {
             currencyInput?.format({
+                ...language.format,
                 currencyName: currency.name,
-                currencySymbol: currency.symbol,
-                groupSeparator: currency.group_separator,
-                decimalSeparator: currency.decimal_separator,
-                displayOrder: language.display_order
+                currencySymbol: currency.symbol
             });
         }
     }, [language, currency]);
+    useEffect(() => {
+        if (customFormat) {
+            currencyInput?.format(customFormat);
+        }
+    }, [customFormat]);
     useEffect(() => {
         const input = currencyInputElement.current;
         if (input && currencyInput)

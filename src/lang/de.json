@@ -29,6 +29,7 @@
   "import_": "Importieren",
   "no_standing_orders_": "Für dieses Konto gibt es noch keine Daueraufträge.",
   "create_standing_order_": "Dauerauftrag erstellen",
+  "create_": "Erstellen",
   "manage_standing_orders_": "Daueraufträge verwalten",
   "standing_order_name_": "Name des Dauerauftrags",
   "day_of_execution_": "Ausführungstag",

@@ -29,6 +29,7 @@
   "import_": "Import",
   "no_standing_orders_": "There are no standing orders for this account yet.",
   "create_standing_order_": "Create standing order",
+  "create_": "Create",
   "manage_standing_orders_": "Manage standing orders",
   "standing_order_name_": "Standing order name",
   "day_of_execution_": "Day of execution",

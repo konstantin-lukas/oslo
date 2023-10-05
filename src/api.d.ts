@@ -58,6 +58,7 @@ declare type TextContent = {
     import_: string,
     no_standing_orders_: string,
     create_standing_order_: string,
+    create_: string,
     manage_standing_orders_: string,
     standing_order_name_: string,
     day_of_execution_: string,

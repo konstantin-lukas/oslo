@@ -32,7 +32,7 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
     const date = new Date(timestamp).toLocaleDateString(language.code);
     const formattedSum = useMemo(() => {
         return new MoneyFormatter({
-            displayOrder: language.display_order,
+            displayOrder: language.format.displayOrder,
             currencySymbol: currency.symbol,
             currencyName: '',
             negativeSign: '-',

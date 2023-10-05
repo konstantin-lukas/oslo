@@ -71,10 +71,10 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
             displayOrder: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
             currencyName: '',
             currencySymbol: '%',
-            groupSeparator: '',
-            decimalSeparator: language.decimal_separator
+            groupSeparator: language.format.groupSeparator,
+            decimalSeparator: language.format.decimalSeparator
         };
-    }, []);
+    }, [language]);
 
     return (
         <div id="account_settings">

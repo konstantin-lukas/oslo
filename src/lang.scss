@@ -1,0 +1,16 @@
+.lang-es {
+  #order_wrapper {
+    width: 1100px;
+  }
+  @media only screen and (max-width: 1200px) {
+    #order_wrapper {
+      width: 90%;
+    }
+  }
+  @media only screen and (max-width: 900px) {
+    #order_wrapper {
+      width: 70%;
+    }
+  }
+
+}
