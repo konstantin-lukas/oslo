@@ -78,7 +78,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                 />
             ));
         }
-    }, [standingOrders]);
+    }, [standingOrders, text]);
 
     useEffect(() => {
         api.db.getStandingOrders(openAccount.id).then(res => setStandingOrders(res));
