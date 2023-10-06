@@ -1,3 +1,10 @@
+@import "fonts/BarlowCondensed/BarlowCondensed.css";
+@import "fonts/NotoSansJP/NotoSansJP.css";
+
+#root {
+  font-family: "Barlow Condensed", "Noto Sans JP", sans-serif;
+}
+
 .lang-es {
   #order_wrapper {
     width: 1100px;
@@ -12,5 +19,24 @@
       width: 70%;
     }
   }
+}
 
+.lang-ja {
+  #global_settings {
+    width: 200px;
+  }
+
+  #standing_orders label:not(.dot) .custom-select-container {
+    .option, .selected {
+      padding: .25em .8em .34em .8em;
+    }
+  }
+
+  .defaultButton {
+    padding: 0.17em 0.4em 0.37em;
+  }
+}
+
+.option[data-value="ja"], .lang-ja #global_settings .selected, #no_accounts .option, #no_accounts .selected {
+  padding: .25em .8em .34em .8em;
 }

@@ -1,4 +1,3 @@
-@import "./fonts/barlowCondensed/barlowCondensed.css";
 @import "./vars";
 
 * {
@@ -13,10 +12,6 @@
 
 .hide_btn {
   display: none !important;
-}
-
-html[lang=ja] * {
-  font-family: 'Yu Gothic', 'Yu Gothic UI', '游ゴシック', '游ゴシック体', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
 }
 
 button {

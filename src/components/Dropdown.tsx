@@ -23,6 +23,7 @@ export default function Dropdown({labels, values, defaultSelected, returnValue, 
         (
             <span
                 key={i}
+                data-value={values[i]}
                 className={"option" + (values[i] === selection.value ? " selected_option" : "")}
                 onClick={() => {
                     setSelection({

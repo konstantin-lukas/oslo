@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./components/Header";
 import Account from "./components/Account";
 import Alert from "./components/Alert";
@@ -39,8 +39,6 @@ export default function App() {
         neutral_opposite: '#ffffff',
         other_opposite: '#444444'
     });
-    const font = useMemo(() =>
-        availableLanguages.find(lang => lang.code === language.code).font, [language]);
 
     useEffect(() => {
         setFetchSettingsFlag(true);
@@ -135,7 +133,6 @@ export default function App() {
                                 }}>
                                     <div
                                         className={'lang-' + language.code + (lightMode ? ' light_mode' : '')}
-                                        style={{fontFamily: font}}
                                     >
                                         <Header
                                             tabs={accounts || []}
@@ -164,7 +161,6 @@ export default function App() {
     return (
         <div
             className={'lang-' + language.code + (openOrders ? ' open_orders' : '') + (lightMode ? ' light_mode' : '')}
-            style={{fontFamily: font}}
         >
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>

@@ -1,0 +1,26 @@
+/* vietnamese */
+/* latin-ext */
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(./BarlowCondensed-Light.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./BarlowCondensed-Regular.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./BarlowCondensed-Medium.ttf) format('opentype');
+}

@@ -67,6 +67,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     }, [transactions, from, until]);
     ChartJS.defaults.font.size = 16;
     ChartJS.defaults.font.family = 'Barlow Condensed';
+    ChartJS.defaults.font.weight = lightMode ? '400' : '300'
     ChartJS.defaults.color = color;
     return (
         <div id="account_balance">
