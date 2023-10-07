@@ -3,11 +3,7 @@ import {DisplayOrder, FormatterInitializer} from "moneydew";
 const availableLanguages: {
     code: string,
     name: string,
-    format: FormatterInitializer,
-    customFormats: {
-        currency: string,
-        format: FormatterInitializer
-    }[]
+    format: FormatterInitializer
 }[] = [
     {
         code: "en",
@@ -18,8 +14,7 @@ const availableLanguages: {
             decimalSeparator: '.',
             symbolSeparator: '',
             nameSeparator: ' '
-        },
-        customFormats: []
+        }
     },
     {
         code: "de",
@@ -30,8 +25,7 @@ const availableLanguages: {
             decimalSeparator: ',',
             symbolSeparator: ' ',
             nameSeparator: ' '
-        },
-        customFormats: []
+        }
     },
     {
         code: "es",
@@ -42,8 +36,7 @@ const availableLanguages: {
             decimalSeparator: ',',
             symbolSeparator: ' ',
             nameSeparator: ' '
-        },
-        customFormats: []
+        }
     },
     {
         code: "ja",
@@ -54,20 +47,7 @@ const availableLanguages: {
             decimalSeparator: '.',
             symbolSeparator: '',
             nameSeparator: ' '
-        },
-        customFormats: [
-            {
-                currency: "JPY",
-                format: {
-                    displayOrder: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
-                    groupSeparator: ',',
-                    decimalSeparator: '.',
-                    currencyName: '',
-                    currencySymbol: '円',
-                    symbolSeparator: ''
-                }
-            }
-        ]
+        }
     }
 ];
 

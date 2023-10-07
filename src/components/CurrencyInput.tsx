@@ -22,7 +22,7 @@ export default function CurrencyInput({value, setValue, customFormat, noStrictMo
         if (input && !currencyInput) {
             const newInput = new IntlCurrencyInput(input, value, customFormat || {
                 ...language.format,
-                currencyName: currency.name,
+                currencyName: currency.symbol === currency.name ? '' : currency.name,
                 currencySymbol: currency.symbol
             });
             if (!noStrictMode)
@@ -41,7 +41,7 @@ export default function CurrencyInput({value, setValue, customFormat, noStrictMo
         if (!customFormat) {
             currencyInput?.format({
                 ...language.format,
-                currencyName: currency.name,
+                currencyName: currency.symbol === currency.name ? '' : currency.name,
                 currencySymbol: currency.symbol
             });
         }

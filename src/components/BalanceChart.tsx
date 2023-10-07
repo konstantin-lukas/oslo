@@ -140,7 +140,8 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                                         value = value.toString();
                                     return new MoneyFormatter({
                                         ...language.format,
-                                        currencyName: currency.name
+                                        currencyName: currency.symbol === currency.name ? '' : currency.name,
+                                        currencySymbol: currency.symbol
                                     }).format(new Money(value))
                                 },
                                 maxTicksLimit: 8,

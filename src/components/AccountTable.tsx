@@ -20,7 +20,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         return new MoneyFormatter({
             ...language.format,
             currencySymbol: currency.symbol,
-            currencyName: currency.name,
+            currencyName: currency.symbol === currency.name ? '' : currency.name,
             positiveSign: '+',
             negativeSign: '-'
         }).format(new Money(balance));
@@ -30,7 +30,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         return new MoneyFormatter({
             ...language.format,
             currencySymbol: currency.symbol,
-            currencyName: currency.name,
+            currencyName: currency.symbol === currency.name ? '' : currency.name,
             positiveSign: '+',
             negativeSign: '-'
         }).format(new Money(timeSpanBalance));
