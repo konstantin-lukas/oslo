@@ -6,7 +6,7 @@ import {FetchAccountsContext, LanguageContext, LightModeContext, TextContext} fr
 import Input from "./Input";
 import Button from "./Button";
 
-export default function NoAccounts({openLastAccount} : {openLastAccount: () => void}) {
+export default function NoAccounts() {
     const lang = useContext(LanguageContext);
     const text = useContext(TextContext);
     const fetchAccounts = useContext(FetchAccountsContext);
@@ -53,7 +53,7 @@ export default function NoAccounts({openLastAccount} : {openLastAccount: () => v
                     false,
                     lightMode ? '1a1a1a' : 'ffffff',
                     new Date().getFullYear() - 1
-                ).then(fetchAccounts).then(openLastAccount);
+                ).then(() => fetchAccounts('last'));
             }}>{text?.confirm_}</Button>
         </div>
     </div>

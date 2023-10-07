@@ -116,7 +116,7 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
                     onClick={() => {
                         alert(
                             text.confirm_delete_,
-                            () => api.db.deleteAccount(openAccount.id).then(() => fetchAccounts()),
+                            () => api.db.deleteAccount(openAccount.id).then(() => fetchAccounts(openAccount.id)),
                             () => {}
                         );
                     }}

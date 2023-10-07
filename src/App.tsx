@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Header from "./components/Header";
 import Account from "./components/Account";
 import Alert from "./components/Alert";
@@ -20,7 +20,6 @@ import {getCurrencySymbol, getDecimalPlaces} from "./components/misc/Format";
 
 export default function App() {
     const [alert, setAlert] = useState(null);
-    const [triggerFetchFlag, setTriggerFetchFlag] = useState(false);
     const [language, setLanguage] = useState(availableLanguages[0]);
     const [lightMode, setLightMode] = useState<boolean>(false);
     const [accounts, setAccounts] = useState(null);
@@ -53,16 +52,6 @@ export default function App() {
             api.settings.getLightMode().then(res => setLightMode(res));
         }
     }, [fetchSettingsFlag]);
-
-    useEffect(() => {
-        (async () => {
-            const acc = await api.db.getAccounts();
-            const last_tab = parseInt(await api.settings.getLastTab());
-            const openAccount = acc.find((acc: {id: number})=> acc.id === last_tab);
-            setOpenAccount(openAccount || acc[0]);
-            setAccounts(acc);
-        })();
-    }, [triggerFetchFlag]);
 
     useEffect(() => {
         if (fetchSettingsFlag) {
@@ -108,11 +97,43 @@ export default function App() {
         }
     }, [openAccount]);
 
+    const [openLastFlag, setOpenLastFlag] = useState(false);
+    useEffect(() => {
+        if (openLastFlag) {
+            setOpenAccount(accounts[accounts.length - 1]);
+            setOpenLastFlag(false);
+        }
+    }, [accounts]);
+
+    const fetchAccounts = useCallback(async (openAccount?: 'first' | 'last' | 'fromSettings' | number) => {
+        const acc = await api.db.getAccounts();
+        if (openAccount === 'first') {
+            setOpenAccount(acc[0]);
+        } else if (openAccount === 'last') {
+            setOpenAccount(acc[acc.length - 1]);
+        } else if (openAccount === 'fromSettings') {
+            const last_tab = parseInt(await api.settings.getLastTab());
+            setOpenAccount(acc.find((acc: {id: number})=> acc.id === last_tab) || acc[0]);
+        } else if (typeof openAccount === 'number') {
+            const index = accounts?.map((account: AccountData) => account.id).indexOf(openAccount);
+            if (index >= acc.length) {
+                setOpenAccount(acc[acc.length - 1]);
+            } else {
+                setOpenAccount(acc[index]);
+            }
+        }
+        setAccounts(acc);
+    }, [accounts, setAccounts, setOpenAccount]);
+
+    useEffect(() => {
+        fetchAccounts('fromSettings').then()
+    }, []);
+
     if (!openAccount)
         return (
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
-                    <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
+                    <FetchAccountsContext.Provider value={fetchAccounts}>
                         <LightModeContext.Provider value={lightMode}>
                             <ThemeProvider theme={{
                                 theme_color: lightMode ? '#1a1a1a' : '#ffffff',
@@ -143,11 +164,7 @@ export default function App() {
                                             )}
                                             setLightMode={setLightMode}
                                         />
-                                        <NoAccounts openLastAccount={() => {
-                                            console.log(accounts)
-                                            // TODO
-                                            setOpenAccount(accounts[accounts.length - 1]);
-                                        }}/>
+                                        <NoAccounts/>
                                         <Alert
                                             message={alert?.message}
                                             confirmAction={alert?.confirmAction}
@@ -169,7 +186,7 @@ export default function App() {
             <TextContext.Provider value={textContent}>
                 <LanguageContext.Provider value={language}>
                     <CurrencyContext.Provider value={currency}>
-                        <FetchAccountsContext.Provider value={() => setTriggerFetchFlag(!triggerFetchFlag)}>
+                        <FetchAccountsContext.Provider value={fetchAccounts}>
                             <LightModeContext.Provider value={lightMode}>
                                 <ThemeProvider theme={themeColor}>
                                     <AlertContext.Provider value={(

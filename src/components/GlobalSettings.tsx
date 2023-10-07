@@ -47,7 +47,7 @@ export default forwardRef(function GlobalSettings({open, setLanguage, setLightMo
                                         status === 'success' ? text.import_successful_ : text.import_failed_,
                                         () => {}
                                     )
-                                    fetchAccounts();
+                                    fetchAccounts('first');
                                 }
                             }),
                             () => {}
