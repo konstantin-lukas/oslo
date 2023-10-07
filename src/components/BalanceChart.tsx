@@ -66,7 +66,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
         setData(dataArray);
     }, [transactions, from, until]);
     ChartJS.defaults.font.size = 16;
-    ChartJS.defaults.font.family = 'Barlow Condensed';
+    ChartJS.defaults.font.family = "'Barlow Condensed', 'Noto Sans JP', sans-serif";
     ChartJS.defaults.font.weight = lightMode ? '400' : '300'
     ChartJS.defaults.color = color;
     return (
@@ -140,8 +140,8 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                                         value = value.toString();
                                     return new MoneyFormatter({
                                         ...language.format,
-                                        currencyName: currency.symbol === currency.name ? '' : currency.name,
-                                        currencySymbol: currency.symbol
+                                        currencyName: currency.name,
+                                        currencySymbol: ''
                                     }).format(new Money(value))
                                 },
                                 maxTicksLimit: 8,

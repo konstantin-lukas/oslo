@@ -86,6 +86,10 @@ export default function App() {
             neutral_opposite: contrast_opposite,
             other_opposite: alt_opp
         });
+    }, [openAccount]);
+
+    useEffect(() => {
+
         const open_tab = openAccount?.id;
         if (open_tab) {
             api.settings.setLastTab(open_tab).then();
@@ -95,7 +99,7 @@ export default function App() {
                 decimalPlaces: getDecimalPlaces(openAccount.currency)
             });
         }
-    }, [openAccount]);
+    }, [openAccount, language]);
 
     const [openLastFlag, setOpenLastFlag] = useState(false);
     useEffect(() => {

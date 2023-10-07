@@ -48,6 +48,17 @@ const availableLanguages: {
             symbolSeparator: '',
             nameSeparator: ' '
         }
+    },
+    {
+        code: "fr",
+        name: "Français",
+        format: {
+            displayOrder: DisplayOrder.NAME_SIGN_NUMBER_SYMBOL,
+            groupSeparator: ' ',
+            decimalSeparator: ',',
+            symbolSeparator: ' ',
+            nameSeparator: ' '
+        }
     }
 ];
 

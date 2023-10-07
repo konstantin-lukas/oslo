@@ -41,7 +41,7 @@ export default function CurrencyInput({value, setValue, customFormat, noStrictMo
         if (!customFormat) {
             currencyInput?.format({
                 ...language.format,
-                currencyName: currency.symbol === currency.name ? '' : currency.name,
+                currencyName: '',
                 currencySymbol: currency.symbol
             });
         }

@@ -34,6 +34,7 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
         return new MoneyFormatter({
             displayOrder: language.format.displayOrder,
             currencySymbol: currency.symbol,
+            symbolSeparator: language.format.symbolSeparator,
             currencyName: '',
             negativeSign: '-',
             positiveSign: '+'
