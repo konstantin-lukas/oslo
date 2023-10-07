@@ -5,7 +5,7 @@ import { Chart } from "react-chartjs-2";
 import { add } from "date-fns";
 import {CurrencyContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import {useTheme} from "styled-components";
-import {Money, MoneyCalculator} from "moneydew";
+import {Money, MoneyCalculator, MoneyFormatter} from "moneydew";
 import {getZeroValue} from "./misc/Format";
 
 ChartJS.register(CategoryScale, LinearScale, LineController, PointElement, LineElement, Tooltip);
@@ -136,9 +136,12 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                             },
                             ticks: {
                                 callback: function (value) {
-                                    if (typeof value === 'string')
-                                        value = parseInt(value);
-                                    return new Intl.NumberFormat(language.code, { style: 'currency', currency: currency.name, currencyDisplay: 'code', maximumFractionDigits: 0 }).format(value);
+                                    if (typeof value !== 'string')
+                                        value = value.toString();
+                                    return new MoneyFormatter({
+                                        ...language.format,
+                                        currencyName: currency.name
+                                    }).format(new Money(value))
                                 },
                                 maxTicksLimit: 8,
                                 crossAlign: 'far'

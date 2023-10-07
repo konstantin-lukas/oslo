@@ -143,7 +143,11 @@ export default function App() {
                                             )}
                                             setLightMode={setLightMode}
                                         />
-                                        <NoAccounts/>
+                                        <NoAccounts openLastAccount={() => {
+                                            console.log(accounts)
+                                            // TODO
+                                            setOpenAccount(accounts[accounts.length - 1]);
+                                        }}/>
                                         <Alert
                                             message={alert?.message}
                                             confirmAction={alert?.confirmAction}

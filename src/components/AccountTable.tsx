@@ -20,17 +20,21 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         return new MoneyFormatter({
             ...language.format,
             currencySymbol: currency.symbol,
-            currencyName: currency.name
+            currencyName: currency.name,
+            positiveSign: '+',
+            negativeSign: '-'
         }).format(new Money(balance));
-    }, [balance]);
+    }, [balance, currency]);
 
     const formattedTimeSpanBalance = useMemo(() => {
         return new MoneyFormatter({
             ...language.format,
             currencySymbol: currency.symbol,
-            currencyName: currency.name
+            currencyName: currency.name,
+            positiveSign: '+',
+            negativeSign: '-'
         }).format(new Money(timeSpanBalance));
-    }, [timeSpanBalance]);
+    }, [timeSpanBalance, currency]);
 
 
     useEffect(() => {
