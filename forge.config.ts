@@ -18,11 +18,12 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [
       new MakerSquirrel({
-        setupIcon: './src/img/favicon.ico'
+        setupIcon: iconPath,
+        iconUrl: 'file:///' + __dirname + '/src/img/favicon.ico'
       }, ['win32']),
     new MakerRpm({
       options: {
-        icon: './src/img/favicon.png'
+        icon: iconPath
       }
     }, ['linux']),
     /*new MakerDeb({
