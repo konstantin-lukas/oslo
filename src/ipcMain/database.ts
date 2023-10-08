@@ -7,11 +7,23 @@ import {add, formatISO, getDaysInMonth, lastDayOfMonth, setDate} from "date-fns"
 import {getDecimalPlaces, getZeroValue} from "../components/misc/Format";
 import settings from "electron-settings";
 import {promises as fs} from "fs";
+import {resolve} from "path";
 
 if (process.env.DEV_MODE)
     sqlite3.verbose();
 
-export const database_path = (process.env.APPDATA || process.env.HOME + "/.local/share") + 'oslo_data.db';
+export const database_path = (() => {
+    const appdata = process.env.APPDATA;
+    const database = 'oslo_data.db';
+    if (appdata) {
+        return resolve(appdata + '\\..\\Local\\oslo') + '\\' + database;
+    } else {
+        const home = process.env.HOME;
+        if (home)
+            return home + "/.local/share/" + database;
+    }
+    return '/';
+})();
 async function openDB() {
     return open({
         filename: database_path,
