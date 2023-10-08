@@ -3,10 +3,10 @@ import * as process from "process";
 import registerWindow from "./ipcMain/window";
 import registerDevTools from "./ipcMain/devTools";
 import registerTextContent from "./ipcMain/textContent";
-import registerDatabase, {executeInterestRates, executeStandingOrders, database_path} from "./ipcMain/database";
+import registerDatabase, {executeInterestRates, executeStandingOrders} from "./ipcMain/database";
 import registerSettings from "./ipcMain/settings";
 import {resolve} from "path";
-import {open} from "sqlite";
+import createDatabase from "./migrations";
 import sqlite3 from "sqlite3";
 
 if (process.env.DEV_MODE)
@@ -26,19 +26,7 @@ app.disableHardwareAcceleration();
 
 const createWindow = async () => {
 
-    // SET UP DATABASE IF NOT EXISTS
-    const dbPath = resolve(database_path);
-    const db = await open({
-        filename: dbPath,
-        driver: sqlite3.Database
-    });
-    await db.exec('CREATE TABLE IF NOT EXISTS "account" ("id" INTEGER NOT NULL UNIQUE,"name" TEXT NOT NULL,"currency" TEXT NOT NULL DEFAULT "USD" CHECK(length(currency) = 3),"allow_overdrawing" INTEGER NOT NULL DEFAULT 0 CHECK(allow_overdrawing = 0 OR allow_overdrawing = 1),"creation_date" TEXT NOT NULL DEFAULT CURRENT_DATE,"theme_color" TEXT NOT NULL DEFAULT "ff33a3","interest_rate" INTEGER NOT NULL DEFAULT 0 CHECK(interest_rate >= 0 AND interest_rate <= 100),"last_interest" INTEGER NOT NULL CHECK(last_interest >= 1000 AND last_interest <= 9999),PRIMARY KEY("id" AUTOINCREMENT) ON CONFLICT ROLLBACK)');
-    await db.exec('CREATE TABLE IF NOT EXISTS "standing_order" ("id" INTEGER NOT NULL UNIQUE,"title" TEXT NOT NULL,"sum" TEXT NOT NULL,"exec_interval" INTEGER NOT NULL,"exec_on" INTEGER NOT NULL,"last_exec" TEXT NOT NULL,"account" INTEGER NOT NULL,PRIMARY KEY("id" AUTOINCREMENT), FOREIGN KEY("account") REFERENCES "account"("id") ON DELETE CASCADE )');
-    await db.exec('CREATE TABLE IF NOT EXISTS "transaction" ("id" INTEGER NOT NULL UNIQUE, "title" TEXT NOT NULL, "sum" TEXT NOT NULL, "timestamp" TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, "account" INTEGER NOT NULL, PRIMARY KEY("id" AUTOINCREMENT) ON CONFLICT ROLLBACK, FOREIGN KEY("account") REFERENCES "account"("id") ON DELETE CASCADE )');
-    await db.exec('CREATE TABLE IF NOT EXISTS "meta" ("version" TEXT NOT NULL DEFAULT "0.0.0", PRIMARY KEY("version") ON CONFLICT ROLLBACK)');
-    await db.exec('INSERT INTO "meta" ("version") SELECT "3.0.0" WHERE NOT EXISTS (SELECT * FROM "meta")');
-    await db.close();
-
+    await createDatabase();
     await executeStandingOrders();
     await executeInterestRates();
 
