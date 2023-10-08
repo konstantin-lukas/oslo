@@ -65,7 +65,7 @@
     "date-fns": "^2.30.0",
     "electron-settings": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
-    "intl-currency-input": "^2.0.3",
+    "intl-currency-input": "^2.1.4",
     "mock-aws-s3": "^4.0.2",
     "moneydew": "^1.0.1",
     "nock": "^13.3.3",
