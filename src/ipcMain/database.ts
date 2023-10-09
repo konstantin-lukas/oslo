@@ -17,7 +17,7 @@ export const database_path = (() => {
     const database = 'oslo_data.db';
     const p = platform();
     if (p === 'win32') {
-        return resolve(app.getPath("appData"), '\\..\\Local\\oslo') + '\\' + database;
+        return resolve(app.getPath("userData"), database);
     } else if (p === 'linux') {
         return app.getPath("home") + "/.local/share/" + database;
     }
