@@ -4,7 +4,13 @@
 Oslo (formerly known as Spectrum) is a program that helps you manage your savings by letting you create virtual savings accounts. 
 It also allows you to set up standing orders, change its appearance, import/export accounts and many other things. 
 Keep in mind that Oslo is not a banking app. It is simply a way for you to keep track of your savings. 
-Your account data is saved locally in a SQLite database, so don't use Oslo for any sensitive information.
+Your account data is saved locally in a SQLite database, so don't use Oslo for any sensitive information.<br>
+Oslo is currently available in these 5 languages:
+- English
+- French
+- German
+- Japanese
+- Spanish
 <br><br>
 ## Installation
 ### Windows
@@ -65,11 +71,3 @@ By clicking the icon next to the window resize options you can adjust Oslo's glo
 ## Light Mode
 <img src="screenshots/light_mode.png" alt="Light mode"><br><br>
 Oslo is in dark mode by default. If you do want a light theme, you can activate it in the global settings.
-## Languages
-<img src="screenshots/language.png" alt="Languages"><br><br>
-Oslo is currently available in these 5 languages:
-- English
-- French
-- German
-- Japanese
-- Spanish
