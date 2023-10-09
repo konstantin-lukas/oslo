@@ -2,14 +2,14 @@
   "name": "oslo",
   "productName": "Open Source Ledger Oslo",
   "version": "3.0.0",
-  "description": "Create and manage virtual bank accounts to keep track of your savings",
+  "description": "Oslo is a personal finance app for keeping track of your savings. You can set up standing orders, manage multiple accounts and view your expenses over different time spans.",
   "main": ".webpack/main",
   "scripts": {
     "start": "DEV_MODE=1 electron-forge start",
     "start-win": "set DEV_MODE=1& electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "build": "npm run package && npm run make",
     "lint": "eslint  --ext .ts,.tsx .",
     "test": "jest"
   },
