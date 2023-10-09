@@ -7,8 +7,47 @@ Keep in mind that Oslo is not a banking app. It is simply a way for you to keep 
 Your account data is saved locally in a SQLite database, so don't use Oslo for any sensitive information.
 <br><br>
 ## Installation
-###
-
+### Windows
+Installation on Windows is extremely easy. You just download the setup and run it.
+The Windows distribution uses Squirrel.
+### Linux (RPM)
+If you are using a redhat distro like Fedora, download the .rpm and run:
+```
+sudo rpm -i /path/to/package.rpm
+```
+### Linux (DEB)
+If you are using a debian distro like Ubuntu, download the .deb and run:
+```
+sudo apt install /path/to/package.deb
+```
+### Building From Source (Other Platforms)
+If your platform is not part of the official releases, you can still use Oslo.
+You will need the following things:
+- Git
+- NPM (or another package manager)
+First clone the repo:
+```
+git clone https://github.com/konstantin-lukas/oslo.git
+```
+Then navigate to the repo and install dependencies:
+```
+cd oslo
+npm install
+```
+Write a maker config inside `forge.config.ts`.
+As you can see it already contains some configurations for Windows and Linux. If you wanted
+to build for macOS, you would use `@electron-forge/maker-dmg`. You can find more information
+on makers [here](https://www.electronforge.io/config/makers).
+After configuring, you need to run
+```
+npm run package
+```
+and when that is done
+```
+npm run make
+```
+There will be a make directory inside the output folder which contains your finished build
+which you can install with whichever means your platform uses.
 ## Main UI
 <img src="screenshots/main_ui.png" alt="Main UI"><br><br>
 The browser-like navigation bar at the top is for creating new savings accounts and switching between them. The currently selected tab is referred to as the active account. The graph at the top of every account shows you the account balance for the time span you have selected. Below that on the left, you can see the changes made during that time span in a table. In the table header you can find your total account balance and in parentheses the balance change for the selected time span.
