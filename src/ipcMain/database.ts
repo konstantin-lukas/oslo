@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from 'sqlite'
-import {ipcMain} from "electron";
+import {app, ipcMain} from "electron";
 import {MoneyCalculator, Money} from "moneydew";
 import * as process from "process";
 import {add, formatISO, getDaysInMonth, lastDayOfMonth, setDate} from "date-fns";
@@ -8,19 +8,18 @@ import {getDecimalPlaces, getZeroValue} from "../components/misc/Format";
 import settings from "electron-settings";
 import {promises as fs} from "fs";
 import {resolve} from "path";
+import {platform} from "os";
 
 if (process.env.DEV_MODE)
     sqlite3.verbose();
 
 export const database_path = (() => {
-    const appdata = process.env.APPDATA;
     const database = 'oslo_data.db';
-    if (appdata) {
-        return resolve(appdata + '\\..\\Local\\oslo') + '\\' + database;
-    } else {
-        const home = process.env.HOME;
-        if (home)
-            return home + "/.local/share/" + database;
+    const p = platform();
+    if (p === 'win32') {
+        return resolve(app.getPath("appData"), '\\..\\Local\\oslo') + '\\' + database;
+    } else if (p === 'linux') {
+        return app.getPath("home") + "/.local/share/" + database;
     }
     return '/';
 })();
@@ -154,7 +153,7 @@ const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string
         return null;
     }
 };
-const databaseGetAccounts = async () => {
+const databaseGetAccounts = async (): Promise<AccountData[]> => {
     try {
         const db = await openDB();
         const result = await db.all('SELECT * FROM "account"');
