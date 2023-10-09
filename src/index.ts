@@ -30,8 +30,6 @@ const createWindow = async () => {
     await executeStandingOrders();
     await executeInterestRates();
 
-    // TODO DATABASE MIGRATIONS
-
     // Create the browser window.
     const iconPath = process.platform === 'win32' ? '/img/favicon.ico' : '/img/favicon.png';
     const mainWindow = new BrowserWindow({
@@ -40,9 +38,10 @@ const createWindow = async () => {
         minWidth: 500,
         minHeight: 500,
         webPreferences: {
-          preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-          nodeIntegration: false, // is default value after Electron v5
-          contextIsolation: true, // protect against prototype pollution
+            preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+            nodeIntegration: false, // is default value after Electron v5
+            contextIsolation: true, // protect against prototype pollution
+            devTools: !!process.env.DEV_MODE
         },
         icon: resolve(__dirname + iconPath)
     });
@@ -64,9 +63,9 @@ const createWindow = async () => {
               registerTextContent();
               registerDatabase();
               registerSettings();
-              if (process.env.DEV_MODE) {
+              if (process.env.DEV_MODE)
                   registerDevTools(mainWindow);
-              }
+
           })
           .catch(e => {
             console.log(e);
@@ -74,6 +73,7 @@ const createWindow = async () => {
 
     mainWindow.once('ready-to-show', () => {
         splash.destroy();
+        mainWindow.maximize();
         mainWindow.show();
     })
 
