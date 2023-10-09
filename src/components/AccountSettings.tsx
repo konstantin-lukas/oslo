@@ -180,7 +180,7 @@ export default function AccountSettings({openAccount, openStandingOrders}: {
                     settings.theme_color,
                     settings.allow_overdrawing,
                     settings.interest_rate
-                ).then(fetchAccounts).then(() => {
+                ).then(() => fetchAccounts(openAccount.id)).then(() => {
                     alert(
                         text.changes_saved_,
                         () => {}
