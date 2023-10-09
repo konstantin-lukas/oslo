@@ -52,9 +52,9 @@ which you can install with whichever means your platform uses.
 <img src="screenshots/main_ui.png" alt="Main UI"><br><br>
 The browser-like navigation bar at the top is for creating new savings accounts and switching between them. The currently selected tab is referred to as the active account. The graph at the top of every account shows you the account balance for the time span you have selected. Below that on the left, you can see the changes made during that time span in a table. In the table header you can find your total account balance and in parentheses the balance change for the selected time span.
 ## Side Menu
-<img src="screenshots/add_transaction.png" alt="Side UI"><br><br>
+<img src="screenshots/add_transaction.png" alt="Add Transaction"><br><br>
 This menu allows you to make basic transaction like adding money to an account or withdrawing it by simply by creating a transaction with a negative amount.
-<br><br><img src="screenshots/account_settings.png" alt="Side UI"><br><br>
+<br><br><img src="screenshots/account_settings.png" alt="Account Settings"><br><br>
 Each account has its own name and theme color to tell it apart from other accounts. You can also set whether the balance can go below zero and set up an interest rate. The interest rate is added to your account annually if larger than 0 percent.
 ## Standing Orders
 <img src="screenshots/standing_orders.png" alt="Setting up standing orders"><br><br>
