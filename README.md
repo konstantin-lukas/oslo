@@ -1,4 +1,6 @@
-<img src="src/img/favicon.svg" alt="Oslo Logo" width="50%">
+<p style="text-align: center">
+    <img src="src/img/favicon.svg" alt="Oslo Logo" width="100px">
+</p>
 
 # Open Source Ledger Oslo
 Oslo (formerly known as Spectrum) is a program that helps you manage your savings by letting you create virtual savings accounts. 
@@ -13,9 +15,6 @@ Oslo is currently available in these 5 languages:
 - Spanish
 <br><br>
 ## Installation
-### Windows
-Installation on Windows is extremely easy. You just download the setup and run it.
-The Windows distribution uses Squirrel.
 ### Linux (RPM)
 If you are using a redhat distro like Fedora, download the .rpm and run:
 ```
@@ -26,6 +25,9 @@ If you are using a debian distro like Ubuntu, download the .deb and run:
 ```
 sudo apt install /path/to/package.deb
 ```
+### Windows
+Installation on Windows is extremely easy. You just download the setup and run it. Keep in mind that the Windows version
+has not been code signed and Windows will most likely warn you about running the app.
 ### Building From Source (Other Platforms)
 If your platform is not part of the official releases, you can still use Oslo.
 You will need the following things:
@@ -43,8 +45,9 @@ npm install
 Write a maker config inside `forge.config.ts`.
 As you can see it already contains some configurations for Windows and Linux. If you wanted
 to build for macOS, you would use `@electron-forge/maker-dmg`. You can find more information
-on makers [here](https://www.electronforge.io/config/makers).
-After configuring, you need to run
+on makers [here](https://www.electronforge.io/config/makers). To use a maker that is not already part of the
+dev dependencies you have to install it first using your package manager.
+After configuring installing and configuring a maker, you need to run
 ```
 npm run package
 ```

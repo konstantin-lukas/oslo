@@ -6,7 +6,6 @@ import { WebpackPlugin } from '@electron-forge/plugin-webpack';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
 import MakerDeb from "@electron-forge/maker-deb";
-import MakerWix from "@electron-forge/maker-wix";
 
 const iconPath = process.platform === 'win32' ? './src/img/favicon.ico' : './src/img/favicon.png';
 
@@ -24,14 +23,6 @@ const config: ForgeConfig = {
       iconUrl: 'file:///' + __dirname + '/src/img/favicon.ico',
       description: "Oslo is a personal finance app for keeping track of your savings. You can set up standing orders, manage multiple accounts and view your expenses over different time spans.",
       name: "oslo",
-      version: "3.0.0"
-    }, ['win32']),
-    new MakerWix({
-      icon: iconPath,
-      description: "Oslo is a personal finance app for keeping track of your savings. You can set up standing orders, manage multiple accounts and view your expenses over different time spans.",
-      name: "Oslo",
-      manufacturer: "Konstantin Lukas",
-      shortName: "Oslo",
       version: "3.0.0"
     }, ['win32']),
     new MakerRpm({
