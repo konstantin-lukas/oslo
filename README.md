@@ -1,8 +1,4 @@
-<p style="text-align: center">
-    <img src="src/img/favicon.svg" alt="Oslo Logo" width="100px">
-</p>
-
-# Open Source Ledger Oslo
+# Open Source Ledger Oslo <img style="transform: translateY(5px)" src="src/img/favicon.svg" alt="Oslo Logo" height="32px">
 Oslo (formerly known as Spectrum) is a program that helps you manage your savings by letting you create virtual savings accounts. 
 It also allows you to set up standing orders, change its appearance, import/export accounts and many other things. 
 Keep in mind that Oslo is not a banking app. It is simply a way for you to keep track of your savings. 
