@@ -6,7 +6,12 @@ import sqlite3 from "sqlite3";
 const migrations: {
     version: string,
     exec: (db: Database) => Promise<void>
-}[] = [];
+}[] = [{
+    version: "3.0.1",
+    exec: (db) => {
+        return db.exec('ALTER TABLE "transaction" ADD category TEXT;');
+    }
+}];
 
 export default async function createDatabase() {
     const dbPath = resolve(database_path);
