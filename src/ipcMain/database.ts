@@ -78,6 +78,15 @@ export async function executeInterestRates() {
     }
 }
 export async function executeStandingOrders() {
+    const language = settings.getSync("language") || 'en';
+    let json: TextContent | null;
+    try {
+        const rawData = await fs.readFile(__dirname + '/lang/' + language + '.json', 'utf-8');
+        json = JSON.parse(rawData);
+    } catch (e) {
+        json = null;
+    }
+    const category = json?.category_ || 'Category';
     // EXECUTE STANDING ORDERS
     const db = await openDB();
     try {
@@ -96,8 +105,12 @@ export async function executeStandingOrders() {
                 if (formatISO(execDate, {representation: 'date'}) <= today) {
                     nextExecution = execDate;
                     await db.run(
-                        'INSERT INTO "transaction" ("title", "sum", "account", "timestamp") VALUES (?, ?, ?, ?);',
-                        order.title, order.sum, order.account, formatISO(nextExecution, {representation: 'date'}) + ' 00:00:00'
+                        'INSERT INTO "transaction" ("title", "sum", "account", "timestamp", "category") VALUES (?, ?, ?, ?, ?);',
+                        order.title,
+                        order.sum,
+                        order.account,
+                        formatISO(nextExecution, {representation: 'date'}) + ' 00:00:00',
+                        category
                     );
                 } else {
                     break;
