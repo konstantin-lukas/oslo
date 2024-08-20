@@ -58,5 +58,6 @@
   "delete_": "Löschen",
   "confirm_standing_order_delete_": "Möchtest du diesen Dauerauftrag wirklich löschen?",
   "confirm_transaction_delete_": "Möchtest du diese Transaktion wirklich löschen?",
-  "first_execution_": "Erste Ausführung"
+  "first_execution_": "Erste Ausführung",
+  "category_": "Kategorie"
 }

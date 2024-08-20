@@ -16,11 +16,12 @@ const StyledButton = styled.button`
     background: ${props => props.theme.neutral_opposite};
   }
 `;
-export default function AccountTableRow({id, sum, title, timestamp, fetchTransactions}: {
+export default function AccountTableRow({id, sum, title, timestamp, category, fetchTransactions}: {
     id: number,
     sum: string,
     title: string,
     timestamp: string,
+    category: null | string,
     fetchTransactions: () => void
 }) {
     const language = useContext(LanguageContext);
@@ -46,7 +47,8 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
                 <span>{formattedSum}</span>
             </td>
             <td colSpan={10} title={title}>{title}</td>
-            <td colSpan={5} title={date}>{date}</td>
+            <td colSpan={5} title={category}>{category}</td>
+            <td colSpan={3} title={date}>{date}</td>
             <td colSpan={1} className="delRow">
                 <StyledButton
                     type="button"
@@ -54,8 +56,11 @@ export default function AccountTableRow({id, sum, title, timestamp, fetchTransac
                     onClick={() => {
                         alert(
                             text.confirm_transaction_delete_,
-                            () => {api.db.deleteTransaction(id).then(() => fetchTransactions())},
-                            () => {}
+                            () => {
+                                api.db.deleteTransaction(id).then(() => fetchTransactions())
+                            },
+                            () => {
+                            }
                         );
                     }}
                 ></StyledButton>

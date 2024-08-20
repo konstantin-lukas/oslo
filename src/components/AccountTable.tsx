@@ -65,6 +65,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
                 sum={transaction.sum}
                 title={transaction.title}
                 timestamp={transaction.timestamp}
+                category={transaction.category}
                 fetchTransactions={fetchTransactions}
             />
         );
@@ -89,7 +90,8 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
             <tr className="headingRow">
                 <td colSpan={5}>{text?.amount_}</td>
                 <td colSpan={10}>{text?.reference_}</td>
-                <td colSpan={5}>{text?.date_}</td>
+                <td colSpan={5}>{text?.category_}</td>
+                <td colSpan={3}>{text?.date_}</td>
                 <td colSpan={1} className="delRow"></td>
             </tr>
             </thead>

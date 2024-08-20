@@ -58,5 +58,6 @@
   "delete_": "Supprimer",
   "confirm_standing_order_delete_": "Es-tu sûr de vouloir supprimer ce virement permanent ?",
   "confirm_transaction_delete_": "Es-tu sûr de vouloir supprimer cette transaction ?",
-  "first_execution_": "Première exécution"
+  "first_execution_": "Première exécution",
+  "category_": "Catégorie"
 }

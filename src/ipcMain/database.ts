@@ -188,7 +188,7 @@ export default function registerDatabase() {
         try {
             const db = await openDB();
             const result = await db.all(
-                'SELECT "id", "title", "sum", "timestamp" ' +
+                'SELECT "id", "title", "sum", "timestamp", "category" ' +
                 'FROM "transaction"' +
                 'WHERE "account" = ? AND "timestamp" >= ? AND "timestamp" <= ? ORDER BY "timestamp" DESC;',
                 id, from_stamp, until_stamp);

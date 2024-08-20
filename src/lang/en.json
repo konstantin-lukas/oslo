@@ -58,5 +58,6 @@
   "delete_": "Delete",
   "confirm_standing_order_delete_": "Do you really want to delete this standing order?",
   "confirm_transaction_delete_": "Do you really want to delete this transaction?",
-  "first_execution_": "First execution"
+  "first_execution_": "First execution",
+  "category_": "Category"
 }

@@ -4,7 +4,8 @@ declare type Transaction = {
     id: number
     title: string,
     sum: string,
-    timestamp: string
+    timestamp: string,
+    category: null | string,
 }
 
 declare type StandingOrder = {
@@ -24,7 +25,7 @@ declare type AccountData = {
     interest_rate: number,
     creation_date: string,
     last_interest: number,
-    theme_color: string
+    theme_color: string,
 }
 
 declare type TextContent = {
@@ -87,5 +88,6 @@ declare type TextContent = {
     delete_: string,
     confirm_standing_order_delete_: string,
     confirm_transaction_delete_: string,
-    first_execution_: string
+    first_execution_: string,
+    category_: string
 }

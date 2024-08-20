@@ -58,5 +58,6 @@
   "delete_": "削除",
   "confirm_standing_order_delete_": "この自動振替を削除してもよろしいですか？",
   "confirm_transaction_delete_": "この取引を削除してもよろしいですか？",
-  "first_execution_": "初回実行"
+  "first_execution_": "初回実行",
+  "category_": "カテゴリー"
 }
