@@ -131,13 +131,13 @@ export async function executeStandingOrders() {
     }
 }
 
-const databasePostTransaction = async (_: any, title: string, sum: string, id: number, timestamp?: string) => {
+const databasePostTransaction = async (_: any, title: string, sum: string, id: number, category: null | string, timestamp?: string) => {
     try {
         const db = await openDB();
         if (timestamp)
-            await db.run('INSERT INTO "transaction" ("title", "sum", "account", "timestamp") VALUES (?, ?, ?, ?);', title, sum, id, timestamp);
+            await db.run('INSERT INTO "transaction" ("title", "sum", "account", "category", "timestamp") VALUES (?, ?, ?, ?, ?);', title, sum, id, category, timestamp);
         else
-            await db.run('INSERT INTO "transaction" ("title", "sum", "account") VALUES (?, ?, ?);', title, sum, id);
+            await db.run('INSERT INTO "transaction" ("title", "sum", "account", "category") VALUES (?, ?, ?, ?);', title, sum, id, category);
         await db.close();
         return;
     } catch (_) {

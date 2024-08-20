@@ -18,6 +18,7 @@ export default function AddExpense({openAccount, fetchTransactions}: {
     const currency = useContext(CurrencyContext);
     const theme = useTheme();
     const [amount, setAmount] = useState(getZeroValue(currency.decimalPlaces));
+    const [category, setCategory] = useState<null | string>(null);
     const [transactionName, setTransactionName] = useState(text.new_transaction_);
     const [defaultName, setDefaultName] = useState(true);
     useEffect(() => {
@@ -47,6 +48,17 @@ export default function AddExpense({openAccount, fetchTransactions}: {
                     }}
                 />
             </label>
+            <label><span id="category">{text?.category_}</span>
+                <Input
+                    className="title"
+                    name="title"
+                    value={category ?? ""}
+                    onInput={e => {
+                        const value = (e.target as HTMLInputElement).value;
+                        setCategory(value === "" ? null : value);
+                    }}
+                />
+            </label>
             <Button
                 altColors={theme.neutral_color === '#ffffff' && lightMode}
                 onClick={async () => {
@@ -56,12 +68,14 @@ export default function AddExpense({openAccount, fetchTransactions}: {
                     if (!openAccount.allow_overdrawing && transactionAmount.isNegative && balance.isNegative) {
                         alertCtx(
                             text.cannot_overdraw_,
-                            () => {}
+                            () => {
+                            }
                         );
                     } else {
-                        api.db.postTransaction(transactionName, amount, openAccount?.id).then(() => {
+                        api.db.postTransaction(transactionName, amount, openAccount?.id, category).then(() => {
                             setAmount(getZeroValue(currency.decimalPlaces));
                             setTransactionName(text.new_transaction_);
+                            setCategory(null);
                             setDefaultName(true);
                             fetchTransactions();
                         });
