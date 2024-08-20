@@ -56,7 +56,7 @@
   "selected_time_span_": "Período de tiempo seleccionado",
   "interest_": "Intereses",
   "delete_": "Eliminar",
-  "confirm_standing_ordeorder_delete_": "¿Realmente deseas eliminar esta transferencia automática?",
+  "confirm_standing_order_delete_": "¿Realmente deseas eliminar esta transferencia automática?",
   "confirm_transaction_delete_": "¿Realmente deseas eliminar esta transacción?",
   "first_execution_": "Primera ejecución"
 }
