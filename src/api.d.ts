@@ -89,5 +89,6 @@ declare type TextContent = {
     confirm_standing_order_delete_: string,
     confirm_transaction_delete_: string,
     first_execution_: string,
-    category_: string
+    category_: string,
+    not_set_: string
 }

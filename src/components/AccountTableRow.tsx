@@ -43,12 +43,14 @@ export default function AccountTableRow({id, sum, title, timestamp, category, fe
     }, [sum, language, currency]);
     return (
         <tr className={className}>
-            <td colSpan={5} title={formattedSum}>
+            <td colSpan={4} title={formattedSum}>
                 <span>{formattedSum}</span>
             </td>
             <td colSpan={10} title={title}>{title}</td>
-            <td colSpan={5} title={category}>{category}</td>
-            <td colSpan={3} title={date}>{date}</td>
+            <td colSpan={10} title={category ?? text.not_set_}>
+                {category ?? (<span style={{color: "gray"}}>{text.not_set_}</span>)}
+            </td>
+            <td colSpan={4} title={date}>{date}</td>
             <td colSpan={1} className="delRow">
                 <StyledButton
                     type="button"

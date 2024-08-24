@@ -51,7 +51,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         ? (
             <tr className="balanceChange">
                 <td
-                    colSpan={24}
+                    colSpan={29}
                     style={{whiteSpace: 'normal'}}
                 >{text.no_transactions_}</td>
             </tr>
@@ -75,7 +75,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         <table className="balanceChangeTable">
             <thead>
             <tr>
-                <td colSpan={21} className="balance_row">
+                <td colSpan={29} className="balance_row">
                     {text?.balance_}:
                     <span style={{
                         marginRight: '.25em',
@@ -87,10 +87,10 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
                 </td>
             </tr>
             <tr className="headingRow">
-                <td colSpan={5}>{text?.amount_}</td>
+                <td colSpan={4}>{text?.amount_}</td>
                 <td colSpan={10}>{text?.reference_}</td>
-                <td colSpan={5}>{text?.category_}</td>
-                <td colSpan={3}>{text?.date_}</td>
+                <td colSpan={10}>{text?.category_}</td>
+                <td colSpan={4}>{text?.date_}</td>
                 <td colSpan={1} className="delRow"></td>
             </tr>
             </thead>

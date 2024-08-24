@@ -59,5 +59,6 @@
   "confirm_standing_order_delete_": "¿Realmente deseas eliminar esta transferencia automática?",
   "confirm_transaction_delete_": "¿Realmente deseas eliminar esta transacción?",
   "first_execution_": "Primera ejecución",
-  "category_": "Categoría"
+  "category_": "Categoría",
+  "not_set_": "No fijado"
 }
