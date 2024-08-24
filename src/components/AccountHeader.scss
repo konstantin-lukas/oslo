@@ -1,6 +1,6 @@
+@use 'sass:color';
 @import "../vars";
 @import 'react-datepicker/dist/react-datepicker.min.css';
-@use 'sass:color';
 
 #time_span {
   transform: translateY(31%);
