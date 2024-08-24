@@ -3,6 +3,7 @@ import fs from "fs";
 import {open} from "sqlite";
 import sqlite3 from "sqlite3";
 import {database_path} from "./database";
+import createDatabase from "../migrations";
 
 
 export default function registerWindow(mainWindow: BrowserWindow) {
@@ -77,6 +78,8 @@ export default function registerWindow(mainWindow: BrowserWindow) {
         } catch (_) {
             return 'failure';
         }
+
+        await createDatabase();
         return 'success';
     });
 }

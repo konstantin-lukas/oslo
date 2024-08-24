@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from "react";
 import './AccountTable.scss';
-import {CurrencyContext, LanguageContext, TextContext} from "./misc/Contexts";
+import {CurrencyContext, FilterContext, LanguageContext, TextContext} from "./misc/Contexts";
 import AccountTableRow from "./AccountTableRow";
 import {Money, MoneyCalculator, MoneyFormatter} from "moneydew";
 import {getZeroValue} from "./misc/Format";
@@ -13,6 +13,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
     const text = useContext(TextContext);
     const language = useContext(LanguageContext);
     const currency = useContext(CurrencyContext);
+    const filters = useContext(FilterContext);
     const [balance, setBalance] = useState<string>(getZeroValue(currency.decimalPlaces));
     const [timeSpanBalance, setTimeSpanBalance] = useState<string>(getZeroValue(currency.decimalPlaces));
 
@@ -38,7 +39,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
 
 
     useEffect(() => {
-        api.db.getBalance(openAccount?.id).then(sum => {
+        api.db.getBalance(openAccount?.id, filters).then(sum => {
             setBalance(sum || getZeroValue(currency.decimalPlaces));
         });
         const timeSpanNetChange: Money = transactions.reduce((previousValue, currentValue) => {

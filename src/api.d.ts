@@ -90,5 +90,8 @@ declare type TextContent = {
     confirm_transaction_delete_: string,
     first_execution_: string,
     category_: string,
-    not_set_: string
+    not_set_: string,
+    filter_transactions_: string,
+    search_by_reference_: string,
+    search_by_category_: string
 }

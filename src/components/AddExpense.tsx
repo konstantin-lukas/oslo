@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import './AddExpense.scss';
-import {AlertContext, CurrencyContext, LightModeContext, TextContext} from "./misc/Contexts";
+import {AlertContext, CurrencyContext, FilterContext, LightModeContext, TextContext} from "./misc/Contexts";
 import Button from "./Button";
 import Input from "./Input";
 import {useTheme} from "styled-components";
@@ -21,6 +21,7 @@ export default function AddExpense({openAccount, fetchTransactions}: {
     const [category, setCategory] = useState<null | string>(null);
     const [transactionName, setTransactionName] = useState(text.new_transaction_);
     const [defaultName, setDefaultName] = useState(true);
+    const filters = useContext(FilterContext);
     useEffect(() => {
         setAmount(getZeroValue(currency.decimalPlaces));
     }, [currency]);
@@ -62,7 +63,7 @@ export default function AddExpense({openAccount, fetchTransactions}: {
             <Button
                 altColors={theme.neutral_color === '#ffffff' && lightMode}
                 onClick={async () => {
-                    const balance = new Money(await api.db.getBalance(openAccount.id));
+                    const balance = new Money(await api.db.getBalance(openAccount.id, filters));
                     const transactionAmount = new Money(amount);
                     MoneyCalculator.add(balance, transactionAmount);
                     if (!openAccount.allow_overdrawing && transactionAmount.isNegative && balance.isNegative) {

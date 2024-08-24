@@ -7,9 +7,26 @@ const migrations: {
     version: string,
     exec: (db: Database) => Promise<void>
 }[] = [{
-    version: "3.0.1",
-    exec: (db) => {
-        return db.exec('ALTER TABLE "transaction" ADD category TEXT;');
+    version: "3.1.0",
+    exec: async (db) => {
+        await db.exec('UPDATE "transaction" SET ("title") = (\'\') WHERE "title" IS NULL;');
+        await db.exec(`
+            create table transaction_dg_tmp(
+                id INTEGER not null primary key autoincrement unique,
+                title TEXT default '' not null,
+                sum TEXT not null,
+                timestamp TEXT default CURRENT_TIMESTAMP not null,
+                account INTEGER not null references account on delete cascade,
+                category TEXT default '' not null
+            );
+        `);
+        await db.exec(`
+            insert into transaction_dg_tmp(id, title, sum, timestamp, account)
+            select id, title, sum, timestamp, account
+            from "transaction";
+        `);
+        await db.exec('drop table "transaction";');
+        await db.exec('alter table transaction_dg_tmp rename to "transaction";');
     }
 }];
 
@@ -33,9 +50,7 @@ export default async function createDatabase() {
             version = migration.version;
         }
     }
-    await db.run('UPDATE "meta" SET "version" = ? WHERE 1 = 1 ', version);
+    await db.run('UPDATE "meta" SET "version" = ? WHERE 1 = 1;', version);
     await db.close();
-
-
 }
 

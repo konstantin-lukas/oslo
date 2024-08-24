@@ -60,5 +60,8 @@
   "confirm_transaction_delete_": "Do you really want to delete this transaction?",
   "first_execution_": "First execution",
   "category_": "Category",
-  "not_set_": "Not set"
+  "not_set_": "Not set",
+  "filter_transactions_": "Filter Transactions",
+  "search_by_reference_": "Search by reference",
+  "search_by_category_": "Search by category"
 }

@@ -3,7 +3,7 @@ import './BalanceChart.scss';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineController, PointElement, LineElement, Tooltip} from 'chart.js';
 import { Chart } from "react-chartjs-2";
 import { add } from "date-fns";
-import {CurrencyContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
+import {CurrencyContext, FilterContext, LanguageContext, LightModeContext, TextContext} from "./misc/Contexts";
 import {useTheme} from "styled-components";
 import {Money, MoneyCalculator, MoneyFormatter} from "moneydew";
 import {getZeroValue} from "./misc/Format";
@@ -16,6 +16,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     openAccountId: number
 }) {
     const theme = useTheme();
+    const filters = useContext(FilterContext);
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([]);
     const [color, setColor] = useState('#ffffff');
@@ -28,10 +29,14 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     const lightMode = useContext(LightModeContext);
 
     useEffect(() => {
-        api.db.getBalanceUntilExcluding(openAccountId, from.toISOString().split('T')[0]).then(sum => {
+        api.db.getBalanceUntilExcluding(
+            openAccountId,
+            from.toISOString().split('T')[0],
+            filters
+        ).then(sum => {
             setInitialBalance(new Money(sum));
         });
-    }, [from, openAccountId]);
+    }, [from, openAccountId, filters]);
 
     useEffect(() => {
         setColor(lightMode ? '#1a1a1a' : '#ffffff');
@@ -66,7 +71,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
         }
         setLabels(labelArray);
         setData(dataArray);
-    }, [transactions, from, until]);
+    }, [transactions, from, until, initialBalance]);
     ChartJS.defaults.font.size = 16;
     ChartJS.defaults.font.family = "'Barlow Condensed', 'Noto Sans JP', sans-serif";
     ChartJS.defaults.font.weight = lightMode ? '400' : '300'

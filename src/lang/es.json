@@ -60,5 +60,8 @@
   "confirm_transaction_delete_": "¿Realmente deseas eliminar esta transacción?",
   "first_execution_": "Primera ejecución",
   "category_": "Categoría",
-  "not_set_": "No fijado"
+  "not_set_": "No fijado",
+  "filter_transactions_": "Filtrar Transacciones",
+  "search_by_reference_": "Buscar por referencia",
+  "search_by_category_": "Buscar por categoria"
 }

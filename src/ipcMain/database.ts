@@ -9,6 +9,7 @@ import settings from "electron-settings";
 import {promises as fs} from "fs";
 import {resolve} from "path";
 import {platform} from "os";
+import {Filters} from "../components/TransactionFilter";
 
 if (process.env.DEV_MODE)
     sqlite3.verbose();
@@ -50,7 +51,11 @@ export async function executeInterestRates() {
                 const balance = parseInt(await databaseGetBalanceUntilExcluding(
                     null,
                     account.id,
-                    timestamp
+                    timestamp,
+                    {
+                        reference: "",
+                        category: ""
+                    }
                 ));
                 if (balance > 0) {
                     const interest = (balance * (account.interest_rate / 100)).toFixed(decimalPlaces);
@@ -157,7 +162,7 @@ const databasePatchTransaction = async (_: any, title: string, sum: string, id: 
         return;
     }
 }
-const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string) => {
+const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string, filters: Filters) => {
     try {
         const db = await openDB();
 
@@ -165,9 +170,16 @@ const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string
         const until_stamp = date + " 00:00:00";
         // DO NOT USE SQLITE'S SUM HERE; IT SUFFERS FROM FLOATING POINT PRECISION PROBLEMS; USE MONEYDEW INSTEAD
         const result = await db.all(
-            'SELECT "sum" FROM "transaction" WHERE "account" = ? AND "timestamp" < ?;',
+            'SELECT "sum" ' +
+            'FROM "transaction" ' +
+            'WHERE "account" = ? ' +
+            'AND "timestamp" < ? AND ' +
+            '"title" LIKE \'%\' || ? || \'%\' AND ' +
+            '"category" LIKE \'%\' || ? || \'%\';',
             id,
-            until_stamp
+            until_stamp,
+            filters.reference,
+            filters.category
         );
 
         const sum: Money = result.reduce((previousValue, currentValue) => {
@@ -190,12 +202,18 @@ const databaseGetAccounts = async (): Promise<AccountData[]> => {
     }
 };
 
-const databaseGetBalance = async (_: any, id: number) => {
+const databaseGetBalance = async (_: any, id: number, filters: Filters) => {
     try {
         const db = await openDB();
         // DO NOT USE SQLITE'S SUM HERE; IT SUFFERS FROM FLOATING POINT PRECISION PROBLEMS; USE MONEYDEW INSTEAD
         const currency = (await db.get('SELECT "currency" from "account" WHERE id = ?', id)).currency;
-        const result = await db.all('SELECT "sum" FROM "transaction" WHERE "account" = ?;', id);
+        const result = await db.all(
+            'SELECT "sum" ' +
+            'FROM "transaction" ' +
+            'WHERE "account" = ? AND ' +
+            '"title" LIKE \'%\' || ? || \'%\' AND ' +
+            '"category" LIKE \'%\' || ? || \'%\';',
+            id, filters.reference, filters.category);
         const sum: Money = result.reduce((previousValue, currentValue) => {
             return MoneyCalculator.add(new Money(previousValue.value), new Money(currentValue.sum));
         }, new Money(getZeroValue(getDecimalPlaces(currency))));
@@ -208,16 +226,21 @@ const databaseGetBalance = async (_: any, id: number) => {
 export default function registerDatabase() {
     ipcMain.handle('getAccounts', databaseGetAccounts);
     ipcMain.handle('getBalance', databaseGetBalance);
-    ipcMain.handle('getTransactions', async (_, id, from, until) => {
+    ipcMain.handle('getTransactions', async (_, id, from, until, filters) => {
         const from_stamp = from + " 00:00:00";
         const until_stamp = until + " 23:59:59";
         try {
             const db = await openDB();
             const result = await db.all(
-                'SELECT "id", "title", "sum", "timestamp", "category" ' +
-                'FROM "transaction"' +
-                'WHERE "account" = ? AND "timestamp" >= ? AND "timestamp" <= ? ORDER BY "timestamp" DESC;',
-                id, from_stamp, until_stamp);
+                `SELECT "id", "title", "sum", "timestamp", "category"
+                    FROM "transaction"
+                    WHERE "account" = ?
+                      AND "timestamp" >= ?
+                      AND "timestamp" <= ?
+                      AND "title" LIKE '%' || ? || '%'
+                      AND "category" LIKE '%' || ? || '%'
+                    ORDER BY "timestamp" DESC;`,
+                id, from_stamp, until_stamp, filters?.reference ?? "", filters?.category ?? "");
             await db.close();
             return result;
         } catch (_) {

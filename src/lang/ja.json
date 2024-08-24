@@ -60,5 +60,8 @@
   "confirm_transaction_delete_": "この取引を削除してもよろしいですか？",
   "first_execution_": "初回実行",
   "category_": "カテゴリー",
-  "not_set_": "未設定"
+  "not_set_": "未設定",
+  "filter_transactions_": "振替のフィルタリング",
+  "search_by_reference_": "説明欄で検索",
+  "search_by_category_": "カテゴリー欄で検索"
 }

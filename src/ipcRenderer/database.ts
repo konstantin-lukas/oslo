@@ -1,14 +1,15 @@
 import {ipcRenderer} from "electron";
+import {Filters} from "../components/TransactionFilter";
 
 const database = {
     getAccounts: async () => {
         return await ipcRenderer.invoke('getAccounts');
     },
-    getBalance: async (id: number) => {
-        return await ipcRenderer.invoke('getBalance', id);
+    getBalance: async (id: number, filters: Filters) => {
+        return await ipcRenderer.invoke('getBalance', id, filters);
     },
-    getTransactions: async (id: number, from: string, until: string) => {
-        return await ipcRenderer.invoke('getTransactions', id, from, until);
+    getTransactions: async (id: number, from: string, until: string, filters: {reference: string, category: string}) => {
+        return await ipcRenderer.invoke('getTransactions', id, from, until, filters);
     },
     deleteTransaction: async (id: number) => {
         return await ipcRenderer.invoke('deleteTransaction', id);
@@ -38,8 +39,8 @@ const database = {
             last_interest
         );
     },
-    getBalanceUntilExcluding: async (id: number, date: string) => {
-        return await ipcRenderer.invoke('getBalanceUntilExcluding', id, date);
+    getBalanceUntilExcluding: async (id: number, date: string, filters: Filters) => {
+        return await ipcRenderer.invoke('getBalanceUntilExcluding', id, date, filters);
     },
     patchAccount: async (id: number, name: string, color: string, allow_overdrawing: boolean, interest_rate: number) => {
         return await ipcRenderer.invoke('patchAccount', id, name, color, allow_overdrawing, interest_rate);
