@@ -5,7 +5,7 @@ declare type Transaction = {
     title: string,
     sum: string,
     timestamp: string,
-    category: null | string,
+    category: string,
 }
 
 declare type StandingOrder = {

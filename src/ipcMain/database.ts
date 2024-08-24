@@ -144,6 +144,19 @@ const databasePostTransaction = async (_: any, title: string, sum: string, id: n
         return;
     }
 }
+
+const databasePatchTransaction = async (_: any, title: string, sum: string, id: number, category: null | string) => {
+    try {
+        const db = await openDB();
+        await db.run(
+            'UPDATE "transaction" SET ("title", "sum", "category") = (?, ?, ?) WHERE id = ?;',
+            title, sum, category, id
+        );
+        await db.close();
+    } catch (_) {
+        return;
+    }
+}
 const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string) => {
     try {
         const db = await openDB();
@@ -222,6 +235,7 @@ export default function registerDatabase() {
         }
     });
     ipcMain.handle('postTransaction', databasePostTransaction);
+    ipcMain.handle('patchTransaction', databasePatchTransaction);
     ipcMain.handle('deleteAccount', async (_, id) => {
         try {
             const db = await openDB();

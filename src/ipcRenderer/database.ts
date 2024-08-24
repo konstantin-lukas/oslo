@@ -16,6 +16,9 @@ const database = {
     postTransaction: async (title: string, sum: string, id: number, category: null | string) => {
         return await ipcRenderer.invoke('postTransaction', title, sum, id, category);
     },
+    patchTransaction: async (title: string, sum: string, id: number, category: null | string) => {
+        return await ipcRenderer.invoke('patchTransaction', title, sum, id, category);
+    },
     deleteAccount: async (id: number) => {
         return await ipcRenderer.invoke('deleteAccount', id);
     },

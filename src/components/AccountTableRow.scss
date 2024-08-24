@@ -42,3 +42,24 @@ tr.headingRow td {
 tr:last-of-type td {
   border-bottom: none;
 }
+
+td input {
+  padding: 0;
+  background: transparent !important;
+  border-radius: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.changes-saved-modal {
+  pointer-events: none;
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 3rem;
+  span {
+    font-family: "Barlow Condensed", "Noto Sans JP", sans-serif;
+    font-size: 1.5rem;
+  }
+}
