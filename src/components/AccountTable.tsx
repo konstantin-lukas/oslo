@@ -41,9 +41,8 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         api.db.getBalance(openAccount?.id).then(sum => {
             setBalance(sum || getZeroValue(currency.decimalPlaces));
         });
-
         const timeSpanNetChange: Money = transactions.reduce((previousValue, currentValue) => {
-            return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
+            return MoneyCalculator.add(new Money(previousValue.value), new Money(currentValue.sum));
         }, new Money(getZeroValue(currency.decimalPlaces)));
         setTimeSpanBalance(timeSpanNetChange.value);
     }, [transactions]);
@@ -52,7 +51,7 @@ export default function AccountTable({ transactions, openAccount, fetchTransacti
         ? (
             <tr className="balanceChange">
                 <td
-                    colSpan={21}
+                    colSpan={24}
                     style={{whiteSpace: 'normal'}}
                 >{text.no_transactions_}</td>
             </tr>

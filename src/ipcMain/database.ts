@@ -158,7 +158,7 @@ const databaseGetBalanceUntilExcluding = async (_: any, id: number, date: string
         );
 
         const sum: Money = result.reduce((previousValue, currentValue) => {
-            return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
+            return MoneyCalculator.add(new Money(previousValue.value), new Money(currentValue.sum));
         }, new Money(getZeroValue(getDecimalPlaces(currency))));
         await db.close();
         return sum.value;
@@ -184,7 +184,7 @@ const databaseGetBalance = async (_: any, id: number) => {
         const currency = (await db.get('SELECT "currency" from "account" WHERE id = ?', id)).currency;
         const result = await db.all('SELECT "sum" FROM "transaction" WHERE "account" = ?;', id);
         const sum: Money = result.reduce((previousValue, currentValue) => {
-            return MoneyCalculator.add(previousValue, new Money(currentValue.sum));
+            return MoneyCalculator.add(new Money(previousValue.value), new Money(currentValue.sum));
         }, new Money(getZeroValue(getDecimalPlaces(currency))));
         await db.close();
         return sum.value;

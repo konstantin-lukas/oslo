@@ -19,15 +19,17 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([]);
     const [color, setColor] = useState('#ffffff');
-    const [initialBalance, setInitialBalance] = useState(0);
     const language = useContext(LanguageContext);
     const currency = useContext(CurrencyContext);
+    const [initialBalance, setInitialBalance] = useState(
+        new Money(getZeroValue(currency.decimalPlaces))
+    );
     const text = useContext(TextContext);
     const lightMode = useContext(LightModeContext);
 
     useEffect(() => {
         api.db.getBalanceUntilExcluding(openAccountId, from.toISOString().split('T')[0]).then(sum => {
-            setInitialBalance(parseInt(sum));
+            setInitialBalance(new Money(sum));
         });
     }, [from, openAccountId]);
 
@@ -39,7 +41,7 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
         let indexDate = structuredClone(from);
         const labelArray: string[] = [];
         const dataArray: number[] = [];
-        let sum = initialBalance;
+        const sum = new Money(initialBalance.value);
         let today = indexDate.toISOString().split('T')[0];
         const until_string = until.toISOString().split('T')[0];
         while(today <= until_string) {
@@ -52,11 +54,11 @@ export default function BalanceChart({transactions, from, until, openAccountId}:
                 .filter(transaction => transaction.timestamp.startsWith(today))
                 .map(transaction => transaction.sum)
                 .reduce((previousValue, currentValue) => {
-                    return MoneyCalculator.add(previousValue, new Money(currentValue))
+                    return MoneyCalculator.add(new Money(previousValue.value), new Money(currentValue))
                 }, new Money(getZeroValue(currency.decimalPlaces)))
                 .value;
-            sum += parseInt(balanceChange);
-            dataArray.push(sum);
+            MoneyCalculator.add(sum, new Money(balanceChange));
+            dataArray.push(parseFloat(sum.value));
             indexDate = add(indexDate, {
                 days: 1
             });
