@@ -64,7 +64,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            windows-exe/**/*.exe
-            linux-packages/**/*.deb
-            linux-packages/**/*.rpm
+            /home/runner/work/oslo/oslo/*.exe
+            /home/runner/work/oslo/oslo/*.deb
+            /home/runner/work/oslo/oslo/*.rpm
           makeLatest: true
