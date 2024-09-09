@@ -23,7 +23,7 @@ const config: ForgeConfig = {
       iconUrl: 'file:///' + __dirname + '/src/img/favicon.ico',
       description: "Oslo is a personal finance app for keeping track of your savings. You can set up standing orders, manage multiple accounts and view your expenses over different time spans.",
       name: "oslo",
-      version: "3.1.0"
+      version: "3.2.0"
     }, ['win32']),
     new MakerRpm({
       options: {
@@ -35,7 +35,7 @@ const config: ForgeConfig = {
         license: "MIT",
         name: "oslo",
         productName: "Oslo",
-        version: "3.1.0"
+        version: "3.2.0"
       }
     }, ['linux']),
     new MakerDeb({
@@ -47,7 +47,7 @@ const config: ForgeConfig = {
         homepage: "https://github.com/konstantin-lukas/oslo",
         name: "oslo",
         productName: "Oslo",
-        version: "3.1.0"
+        version: "3.2.0"
       }
     }, ['linux'])
   ],

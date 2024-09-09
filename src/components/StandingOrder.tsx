@@ -23,6 +23,7 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
     const text = useContext(TextContext);
     const [amount, setAmount] = useState(data.sum);
     const [name, setName] = useState(data.title);
+    const [category, setCategory] = useState(data.category);
     const [execOn, setExecOn] = useState(data.exec_on);
     const [execInterval, setExecInterval] = useState(data.exec_interval);
 
@@ -45,6 +46,15 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
             <label><span className="label_name">{text.amount_} ({currency})</span>
                 <CurrencyInput value={amount} setValue={setAmount}/>
             </label>
+            <label className="label_name">
+                <span className="label_name">{text.category_}</span>
+                <Input
+                    value={category}
+                    onInput={e => {
+                        setCategory((e.target as HTMLInputElement).value);
+                    }}
+                />
+            </label>
             <label className="dot">
                 <span className="label_name">{text.day_of_execution_}</span>
                 <Dropdown
@@ -65,10 +75,11 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
             </label>
             <div className="contain_two">
                 <Button altColors={theme.neutral_color === '#ffffff'} onClick={() => {
-                    api.db.patchStandingOrder(data.id, name, amount, execInterval, execOn).then(() => {
+                    api.db.patchStandingOrder(data.id, name, category, amount, execInterval, execOn).then(() => {
                         alertCtx(
                             text.changes_saved_,
-                            () => {}
+                            () => {
+                            }
                         );
                     });
                 }}>{text.save_}</Button>
@@ -82,7 +93,8 @@ export default function StandingOrder({data, currency, intervalLabels, intervalV
                                 });
                             })
                         },
-                        () => {}
+                        () => {
+                        }
                     );
                 }}>{text.delete_}</Button>
             </div>

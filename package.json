@@ -1,7 +1,7 @@
 {
   "name": "oslo",
   "productName": "Open Source Ledger Oslo",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Oslo is a personal finance app for keeping track of your savings. You can set up standing orders, manage multiple accounts and view your expenses over different time spans.",
   "main": ".webpack/main",
   "scripts": {
@@ -10,7 +10,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "build": "npm run package && npm run make",
-    "lint": "eslint  --ext .ts,.tsx .",
+    "lint": "eslint --ext .ts,.tsx .",
     "test": "jest"
   },
   "keywords": [],

@@ -91,7 +91,6 @@ export async function executeStandingOrders() {
     } catch (e) {
         json = null;
     }
-    const category = json?.category_ || 'Category';
     // EXECUTE STANDING ORDERS
     const db = await openDB();
     try {
@@ -115,7 +114,7 @@ export async function executeStandingOrders() {
                         order.sum,
                         order.account,
                         formatISO(nextExecution, {representation: 'date'}) + ' 00:00:00',
-                        category
+                        order.category
                     );
                 } else {
                     break;
@@ -317,13 +316,14 @@ export default function registerDatabase() {
             return;
         }
     });
-    ipcMain.handle('postStandingOrder', async (_, account, title, sum, exec_interval, exec_on, last_exec) => {
+    ipcMain.handle('postStandingOrder', async (_, account, title, category, sum, exec_interval, exec_on, last_exec) => {
         try {
             const db = await openDB();
             await db.run(
-                'INSERT INTO "standing_order" ("account", "title", "sum", "exec_interval", "exec_on", "last_exec") VALUES (?, ?, ?, ?, ?, ?);',
+                'INSERT INTO "standing_order" ("account", "title", "category", "sum", "exec_interval", "exec_on", "last_exec") VALUES (?, ?, ?, ?, ?, ?, ?);',
                 account,
                 title,
+                category,
                 sum,
                 exec_interval,
                 exec_on,
@@ -342,6 +342,7 @@ export default function registerDatabase() {
                 'SELECT ' +
                 '"id", ' +
                 '"title", ' +
+                '"category", ' +
                 '"sum", ' +
                 '"exec_interval", ' +
                 '"exec_on", ' +
@@ -364,17 +365,18 @@ export default function registerDatabase() {
             return;
         }
     });
-    ipcMain.handle('patchStandingOrder', async (_, id, title, sum, exec_interval, exec_on) => {
+    ipcMain.handle('patchStandingOrder', async (_, id, title, category, sum, exec_interval, exec_on) => {
         try {
             const db = await openDB();
             await db.run(
                 'UPDATE "standing_order" ' +
                 'SET "title" = ?, ' +
+                '"category" = ?, ' +
                 '"sum" = ?, ' +
                 '"exec_interval" = ?, ' +
                 '"exec_on" = ? ' +
                 'WHERE "id" = ?;',
-                title, sum, exec_interval, exec_on, id
+                title, category, sum, exec_interval, exec_on, id
             );
             await db.close();
             return

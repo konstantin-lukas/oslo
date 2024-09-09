@@ -55,6 +55,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     const [addOrderState, setAddOrderState] = useReducer(addOrderReducer, {
         name: text.new_standing_order_,
         amount: getZeroValue(currency.decimalPlaces),
+        category: text.new_standing_order_,
         first_execution: new Date().toISOString().split('T')[0],
         exec_interval: 1,
         exec_on_last_of_month: false
@@ -133,13 +134,22 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                                 setIsUsingDefaultName(false);
                             }
                         }}
-                        value={addOrderState.name}/>
+                               value={addOrderState.name}/>
                     </label>
                     <label className="export_label" id="amount_label">
                         <span className="label_name">{text.amount_}</span>
                         <CurrencyInput
                             setValue={(val: string) => setAddOrderState({type: 'amount', payload: val})}
                             value={addOrderState.amount}
+                        />
+                    </label>
+                    <label className="export_label" id="category_label">
+                        <span className="label_name">{text.category_}</span>
+                        <Input
+                            onInput={e => {
+                                setAddOrderState({type: 'category', payload: (e.target as HTMLInputElement).value});
+                            }}
+                            value={addOrderState.category}
                         />
                     </label>
                     <label className="export_label" id="exec_date_label">
@@ -162,7 +172,10 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                     </label>
                     <label className="export_label" id="exec_on_last">
                         <Checkbox
-                            onChange={() => setAddOrderState({type: 'exec_on_last_of_month', payload: !addOrderState.exec_on_last_of_month})}
+                            onChange={() => setAddOrderState({
+                                type: 'exec_on_last_of_month',
+                                payload: !addOrderState.exec_on_last_of_month
+                            })}
                             checked={addOrderState.exec_on_last_of_month}
                             label={text.exec_on_last_day_of_month_}
                         />
@@ -170,38 +183,40 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                     <Button
                         altColors={theme.neutral_color === '#ffffff'}
                         onClick={() => {
-                        const first_exec = addOrderState.first_execution;
-                        const exec_on = addOrderState.exec_on_last_of_month
-                            ? 31
-                            : parseInt(first_exec.substring(8));
-                        let first_exec_date = new Date(first_exec);
-                        if (addOrderState.exec_on_last_of_month)
-                            first_exec_date = setDate(first_exec_date, lastDayOfMonth(first_exec_date).getDate());
-                        let last_exec = sub(first_exec_date, {
-                            months: addOrderState.exec_interval
-                        });
-                        if (addOrderState.exec_on_last_of_month) {
-                            last_exec = lastDayOfMonth(last_exec);
-                        }
-                            api.db.postStandingOrder(
-                            openAccount.id,
-                            addOrderState.name,
-                            addOrderState.amount,
-                            addOrderState.exec_interval,
-                            exec_on,
-                            formatISO(last_exec, {representation: 'date'})
-                        ).then(() => {
-                            api.db.executeStandingOrders().then(() => {
-                                api.db.getStandingOrders(openAccount.id).then(res => {
-                                    setStandingOrders(res);
-                                    alertCtx(
-                                        text.changes_saved_,
-                                        () => {}
-                                    );
-                                });
-                                fetchCtx();
+                            const first_exec = addOrderState.first_execution;
+                            const exec_on = addOrderState.exec_on_last_of_month
+                                ? 31
+                                : parseInt(first_exec.substring(8));
+                            let first_exec_date = new Date(first_exec);
+                            if (addOrderState.exec_on_last_of_month)
+                                first_exec_date = setDate(first_exec_date, lastDayOfMonth(first_exec_date).getDate());
+                            let last_exec = sub(first_exec_date, {
+                                months: addOrderState.exec_interval
                             });
-                        });
+                            if (addOrderState.exec_on_last_of_month) {
+                                last_exec = lastDayOfMonth(last_exec);
+                            }
+                            api.db.postStandingOrder(
+                                openAccount.id,
+                                addOrderState.name,
+                                addOrderState.category,
+                                addOrderState.amount,
+                                addOrderState.exec_interval,
+                                exec_on,
+                                formatISO(last_exec, {representation: 'date'})
+                            ).then(() => {
+                                api.db.executeStandingOrders().then(() => {
+                                    api.db.getStandingOrders(openAccount.id).then(res => {
+                                        setStandingOrders(res);
+                                        alertCtx(
+                                            text.changes_saved_,
+                                            () => {
+                                            }
+                                        );
+                                    });
+                                    fetchCtx();
+                                });
+                            });
                         }}>{text.create_}</Button>
                 </div>
                 <div id="manage_orders" className="theme_background">
@@ -211,12 +226,15 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
             </div>
             <div className={(datePickerOpen ? 'left_open' : '') + " dateTimePickerContainer"}>
                 <DatePicker
-                    onChange={() => {}}
+                    onChange={() => {
+                    }}
                     onSelect={(pickedDate) => {
                         setAddOrderState({type: 'first_execution', payload: pickedDate});
                         setDatePickerOpen(false);
                     }}
-                    onClickOutside={() => {setDatePickerOpen(false)}}
+                    onClickOutside={() => {
+                        setDatePickerOpen(false)
+                    }}
                     minDate={new Date()}
                     locale={lang.code}
                     selected={new Date(addOrderState.first_execution)}

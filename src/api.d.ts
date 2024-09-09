@@ -11,6 +11,7 @@ declare type Transaction = {
 declare type StandingOrder = {
     id: number,
     title: string,
+    category: string,
     sum: string,
     exec_interval: number,
     exec_on: number,

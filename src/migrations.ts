@@ -28,6 +28,11 @@ const migrations: {
         await db.exec('drop table "transaction";');
         await db.exec('alter table transaction_dg_tmp rename to "transaction";');
     }
+}, {
+    version: "3.2.0",
+    exec: async (db) => {
+        await db.exec('ALTER TABLE standing_order ADD category TEXT default \'\' NOT NULL;');
+    }
 }];
 
 export default async function createDatabase() {
