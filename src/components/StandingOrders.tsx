@@ -62,6 +62,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     });
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [isUsingDefaultName, setIsUsingDefaultName] = useState(true);
+    const [isUsingDefaultCategory, setIsUsingDefaultCategory] = useState(true);
     const [standingOrders, setStandingOrders] = useState([]);
     const standingOrderElements = useMemo(() => {
         if (standingOrders.length === 0) {
@@ -92,6 +93,8 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
     useEffect(() => {
         if (isUsingDefaultName)
             setAddOrderState({type: 'name', payload: text.new_standing_order_})
+        if (isUsingDefaultCategory)
+            setAddOrderState({type: 'category', payload: text.new_standing_order_})
     }, [text]);
 
     const backAnim = useCallback((path: string, target: string) => {
@@ -148,6 +151,7 @@ export default function StandingOrders({closeStandingOrders, openAccount}: {
                         <Input
                             onInput={e => {
                                 setAddOrderState({type: 'category', payload: (e.target as HTMLInputElement).value});
+                                setIsUsingDefaultCategory(false);
                             }}
                             value={addOrderState.category}
                         />
