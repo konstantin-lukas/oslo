@@ -1,0 +1,51 @@
+Privacy Policy for Oslo
+
+Effective Date: 09/09/2024
+
+1. Introduction
+
+Welcome to Oslo (“we,” “our,” “us”). Oslo is an open-source desktop application designed to help you manage your personal finances. We are committed to protecting your privacy and ensuring that your personal information is handled securely. This Privacy Policy explains how we collect, use, and protect your data when you use our Windows desktop application. By using Oslo, you agree to the terms outlined in this Privacy Policy.
+
+2. Information We Collect
+
+Oslo collects and processes the following types of information:
+
+    Personal Finance Data: Oslo allows you to track your expenses, budgets, and other financial information. This data is stored locally on your device and is not transmitted over the internet or shared with us.
+
+    Local Database: All financial data you input is saved in a local database on your device. This database is used solely for providing you with the app’s functionality and is not sent to our servers.
+
+3. Data Usage
+
+    Local Storage: Your financial data is stored in a local database on your computer. This data is only accessible to you and is used exclusively to provide and enhance the features of Oslo.
+
+    No Data Transmission: We do not transmit or collect your personal financial data from your device. Your data remains private and is not shared with us or any third parties.
+
+4. Data Security
+
+    Local Protection: We implement security measures to ensure the local database where your data is stored is protected. However, as the data is stored on your device, we recommend using up-to-date antivirus software and securing your device with a strong password.
+
+    No External Access: Since your data is not transmitted or stored on our servers, we do not have access to it. We do not monitor or track your financial activities.
+
+5. Third-Party Services
+
+Oslo does not integrate with third-party services or platforms that collect or transmit your data. If you choose to use other applications or services alongside Oslo, please review their privacy policies to understand how they handle your data.
+
+6. User Rights
+
+    Access and Control: You have full control over your data stored in Oslo. You can access, modify, or delete your financial data directly within the application.
+
+    Data Deletion: If you choose to uninstall Oslo, all data stored locally on your device will be removed, subject to your system’s data retention policies.
+
+7. Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Any changes will be posted here with an updated effective date. We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.
+
+8. Contact Us
+
+If you have any questions or concerns about this Privacy Policy or the privacy practices of Oslo, please contact us at:
+
+Email: kontakt@konstantinlukas.de
+Address: Am Grünen Anger 16, 12487 Berlin
+Phone: +4915209452942
+
+Thank you for using Oslo. Your privacy is important to us.
