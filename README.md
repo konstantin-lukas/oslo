@@ -9,8 +9,11 @@ Oslo is currently available in these 5 languages:
 - German
 - Japanese
 - Spanish
-<br><br>
-## Installation
+## 🎉 Download From the Microsoft Store 🎉
+Version 3.2.0 is available for download from the microsoft store on Windows 10/11 desktop devices.
+You can find it under the name [Oslo Finance](https://www.microsoft.com/store/productId/9N26D41H49GF?ocid=pdpshare).
+
+## Manual Installation
 ### Linux (RPM)
 If you are using a redhat distro like Fedora, download the .rpm and run:
 ```
